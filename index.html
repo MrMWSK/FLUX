@@ -1,823 +1,120 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="MrMWSK.PagePulse — HTML quality and accessibility checker">
-  <title>MrMWSK.PagePulse</title>
+  <meta name="description" content="FLUX by MrMWSK — a free, local HTML quality and accessibility checker.">
+  <title>MrMWSK · FLUX</title>
   <style>
-    :root {
-      --bg: #f4f7f5;
-      --panel: #ffffff;
-      --ink: #15231d;
-      --muted: #68766f;
-      --line: #d9e4dd;
-      --accent: #315e50;
-      --soft: #eaf3ee;
-      --error: #b54845;
-      --warn: #a96b18;
-      --good: #2b7a4d;
-      --shadow: 0 18px 40px rgba(19, 47, 39, 0.08);
-    }
-
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
-    body {
-      font: 15px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-    }
-
-    header {
-      background: #163f34;
-      color: #fff;
-      padding: 26px 18px 22px;
-    }
-
-    .wrap, main, footer {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .brand {
-      font-size: 12px;
-      letter-spacing: 0.18em;
-      font-weight: 800;
-      color: #c4dbcd;
-      text-transform: uppercase;
-    }
-
-    .hero {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 18px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(30px, 5vw, 48px);
-      line-height: 1.07;
-      letter-spacing: -0.04em;
-    }
-
-    .tag {
-      margin: 8px 0 0;
-      color: #dfeee5;
-      font-size: 14px;
-    }
-
-    main {
-      padding: 20px 16px 36px;
-    }
-
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: var(--shadow);
-      margin-bottom: 18px;
-    }
-
-    h2 {
-      margin: 0 0 8px;
-      font-size: 22px;
-      line-height: 1.2;
-    }
-
-    .sub {
-      margin: 0 0 14px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 260px;
-      resize: vertical;
-      border: 1px solid #c7d0ca;
-      border-radius: 12px;
-      padding: 14px 12px;
-      background: #fbfdfb;
-      color: #1a2d26;
-      font: 13px/1.55 "SFMono-Regular", Consolas, monospace;
-    }
-
-    textarea:focus,
-    button:focus-visible,
-    input:focus-visible,
-    label:focus-within {
-      outline: 3px solid rgba(49, 94, 80, 0.25);
-      outline-offset: 2px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 9px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-      align-items: center;
-    }
-
-    button, .filebtn {
-      border: 0;
-      border-radius: 10px;
-      padding: 11px 16px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 14px;
-      transition: 0.18s ease;
-    }
-
-    .primary {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    .secondary, .filebtn {
-      background: var(--soft);
-      color: var(--accent);
-    }
-
-    .filebtn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 42px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .filebtn input[type="file"] {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer;
-    }
-
-    .small {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .hidden { display: none !important; }
-
-    #results { display: none; }
-
-    .scoreline {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    .score {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: var(--soft);
-      border: 5px solid #d7e9dd;
-      color: var(--accent);
-      font-size: 28px;
-      font-weight: 800;
-    }
-
-    .stats {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 16px;
-    }
-
-    .stat {
-      min-width: 100px;
-      background: #f5f9f6;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 10px 12px;
-    }
-
-    .stat b {
-      display: block;
-      font-size: 20px;
-      line-height: 1.2;
-    }
-
-    .stat span {
-      display: block;
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .toolbar {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin: 14px 0 0;
-    }
-
-    .issue {
-      border: 1px solid var(--line);
-      border-left: 4px solid var(--warn);
-      border-radius: 12px;
-      padding: 12px 13px;
-      margin: 10px 0;
-      background: #fff;
-    }
-
-    .issue.error { border-left-color: var(--error); }
-    .issue.good { border-left-color: var(--good); }
-
-    .issue strong {
-      display: block;
-      margin-bottom: 5px;
-      font-size: 15px;
-    }
-
-    .issue p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .pill {
-      display: inline-block;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-weight: 800;
-      margin-bottom: 6px;
-      color: var(--warn);
-    }
-
-    .error .pill { color: var(--error); }
-    .good .pill { color: var(--good); }
-
-    .fix-tip {
-      margin-top: 10px;
-      background: #f3f8f4;
-      border: 1px solid #dceee1;
-      border-radius: 9px;
-      padding: 10px 12px;
-    }
-
-    .fix-tip b {
-      display: block;
-      margin-bottom: 5px;
-      font-size: 11px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-
-    .fix-tip p {
-      margin: 0;
-      font-size: 12px;
-      color: var(--ink);
-    }
-
-    .filter-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin: 12px 0 4px;
-    }
-
-    .filter-btn {
-      background: #f5f8f6;
-      color: var(--ink);
-      border: 1px solid var(--line);
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .filter-btn.active {
-      background: var(--soft);
-      color: var(--accent);
-      border-color: #b5d0c1;
-    }
-
-    footer {
-      text-align: center;
-      padding: 18px 16px 28px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .progress {
-      display: none;
-      align-items: center;
-      gap: 10px;
-      color: var(--muted);
-      font-size: 12px;
-      margin: 10px 0 0;
-    }
-
-    .progress-bar {
-      width: 180px;
-      height: 8px;
-      background: #edf2ef;
-      border-radius: 999px;
-      overflow: hidden;
-      border: 1px solid var(--line);
-    }
-
-    .progress-fill {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent), #4e8170);
-      transition: width 0.2s ease;
-    }
-
-    @media (max-width: 600px) {
-      header { padding: 20px 16px 18px; }
-      main { padding: 14px 11px 32px; }
-      .panel { padding: 14px; border-radius: 14px; }
-      .actions button, .actions .filebtn { flex: 1 1 100%; }
-      textarea { min-height: 220px; }
-      .scoreline { align-items: flex-start; }
-      .toolbar { display: grid; grid-template-columns: 1fr; }
-    }
+    :root{--bg:#f4f7f5;--panel:#fff;--ink:#17231e;--muted:#66736c;--line:#dce5df;--accent:#28634d;--soft:#e8f2ec;--bad:#a43b36;--warn:#95620b;--good:#247247;--shadow:0 12px 32px #193d3012}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    header{background:#173c30;color:#fff;padding:25px 18px 23px}.wrap,main,.foot{max-width:1080px;margin:auto}.brand{font-size:12px;letter-spacing:.17em;font-weight:800;color:#b9d7c7;text-transform:uppercase}.hero{display:flex;align-items:end;justify-content:space-between;gap:18px;flex-wrap:wrap}h1{font-size:clamp(30px,5vw,46px);line-height:1.05;margin:8px 0}.tag{color:#d5e7dc;margin:0}main{padding:22px 16px 40px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:var(--shadow)}h2{font-size:19px;margin:0 0 7px}.sub{color:var(--muted);margin:0 0 14px;font-size:13px}
+    textarea{width:100%;min-height:245px;resize:vertical;border:1px solid #cbd8d0;border-radius:11px;padding:13px;background:#fbfdfb;color:#1c2a23;font:13px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace}button,.filebtn{border:0;border-radius:10px;padding:11px 16px;font-weight:700;cursor:pointer;font-size:14px}button:focus-visible,.filebtn:focus-within,textarea:focus-visible,input:focus-visible{outline:3px solid #8bbca1;outline-offset:2px}.primary{background:var(--accent);color:white}.secondary,.filebtn{background:var(--soft);color:var(--accent)}.actions,.toolbar,.filters{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px;align-items:center}.filebtn{position:relative;overflow:hidden}.filebtn input{position:absolute;inset:0;opacity:0;width:100%;cursor:pointer}.small{font-size:12px;color:var(--muted)}#results{display:none}.summary{display:flex;align-items:center;gap:18px;flex-wrap:wrap}.score{width:88px;height:88px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--accent);font-size:28px;font-weight:800;border:5px solid #c7dfd0}.stats{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.stat{background:#f5f8f6;border:1px solid var(--line);padding:9px 12px;border-radius:10px;min-width:90px}.stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--muted)}.filter{background:#f5f8f6;color:var(--ink);border:1px solid var(--line);padding:8px 12px;border-radius:999px;font-size:12px}.filter.active{background:var(--soft);color:var(--accent);border-color:#b5d0c1}.issue{border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:10px;padding:12px;margin:9px 0;background:white}.issue.error{border-left-color:var(--bad)}.issue.good{border-left-color:var(--good)}.issue strong{display:block;margin:3px 0}.issue p{margin:0;color:var(--muted);font-size:13px}.pill{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:var(--warn)}.error .pill{color:var(--bad)}.good .pill{color:var(--good)}.tip{margin-top:9px;padding:9px 10px;background:#f3f8f4;border-radius:8px}.tip b{font-size:11px;color:var(--accent)}.tip p{margin-top:3px;color:var(--ink)}.progress{height:8px;background:#e8efea;border-radius:8px;overflow:hidden;margin-top:12px}.progress span{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}.privacy{margin-top:12px;padding:10px;background:#f5f8f6;border-radius:8px}
+    @media(max-width:600px){header{padding:22px 16px}main{padding:14px 11px 30px}.panel{padding:14px;border-radius:13px}.actions button,.actions .filebtn{flex:1 1 100%}textarea{min-height:210px}.toolbar{display:grid;grid-template-columns:1fr}.summary{align-items:flex-start}}
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <div class="brand">MrMWSK • Free Web Tool</div>
-      <div class="hero">
-        <div>
-          <h1>MrMWSK.PagePulse</h1>
-          <p class="tag">A clearer, more accessible web starts here.</p>
-        </div>
-        <div class="small" style="color:#dfeee5;">No account · Runs locally in-browser</div>
-      </div>
+<header><div class="wrap"><div class="brand">MrMWSK · FLUX</div><div class="hero"><div><h1>FLUX</h1><p class="tag">A clearer, more accessible web starts here.</p></div><div class="small" style="color:#d5e7dc">Free · No account · Runs locally</div></div></div></header>
+<main>
+  <section class="panel">
+    <h2>Check your HTML</h2><p class="sub">Paste HTML below or choose an .html or .htm file. Your source is analyzed in this browser and never sent to a server.</p>
+    <label class="small" for="source">HTML source</label><textarea id="source" spellcheck="false" placeholder="Paste HTML here…"></textarea>
+    <div class="actions"><button class="primary" id="analyze" type="button">Analyze HTML</button><label class="filebtn">Choose HTML file<input id="file" type="file" accept=".html,.htm,text/html" aria-label="Choose an HTML file"></label><button class="secondary" id="sample" type="button">Load sample</button><button class="secondary" id="clear" type="button">Clear</button></div>
+    <p class="small" id="fileinfo" role="status" aria-live="polite">Tip: paste source or choose a local HTML file. FLUX checks source-level signals; it does not crawl live websites.</p>
+    <div id="progress" class="progress" role="progressbar" aria-label="Analysis progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><span></span></div>
+    <p class="small privacy">Privacy: files are processed locally. Uploaded scripts are parsed as text only—never executed or displayed as a webpage. Upload limit: 5 MB.</p>
+  </section>
+  <section id="results" aria-live="polite">
+    <div class="panel"><div class="summary"><div class="score" id="score">—</div><div><h2 id="grade">Your report</h2><p class="sub" id="summaryText" style="margin:0"></p></div></div>
+      <div class="stats"><div class="stat"><b id="errors">0</b><span>Errors</span></div><div class="stat"><b id="warnings">0</b><span>Suggestions</span></div><div class="stat"><b id="passed">0</b><span>Passed</span></div></div>
+      <div class="filters" aria-label="Filter findings"><button type="button" class="filter active" data-filter="all">All</button><button type="button" class="filter" data-filter="error">Errors</button><button type="button" class="filter" data-filter="warning">Suggestions</button><button type="button" class="filter" data-filter="good">Passed</button></div>
+      <div class="toolbar"><button class="primary" id="fix" type="button">Apply safe fixes &amp; download HTML</button><button class="secondary" id="download" type="button">Download report</button><button class="secondary" id="copy" type="button">Copy report</button></div><p class="small" id="status" role="status" aria-live="polite">Only missing UTF-8 charset and viewport metadata are added automatically. Content-dependent fixes are left for your judgment.</p>
     </div>
-  </header>
-
-  <main>
-    <section class="panel">
-      <h2>Check your HTML</h2>
-      <p class="sub">Paste HTML below or choose an .html file. The source is inspected locally in your browser and is not sent anywhere.</p>
-
-      <textarea id="source" spellcheck="false" aria-label="HTML source code" placeholder="Paste HTML here…"></textarea>
-
-      <div class="actions">
-        <button class="primary" id="analyze">Analyze HTML</button>
-
-        <label class="filebtn">
-          Choose HTML file
-          <input id="file" type="file" accept=".html,.htm,text/html">
-        </label>
-
-        <button class="secondary" id="sample">Load sample</button>
-        <button class="secondary" id="clear">Clear</button>
-      </div>
-
-      <div class="progress" id="progress" aria-live="polite">
-        <span>Analyzing…</span>
-        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-      </div>
-
-      <p class="small" id="fileinfo" aria-live="polite">
-        Tip: use “View page source” to copy a page’s HTML. This tool checks source-level signals rather than live URLs.
-      </p>
-    </section>
-
-    <section id="results" aria-live="polite">
-      <div class="panel">
-        <div class="scoreline">
-          <div class="score" id="score">—</div>
-          <div>
-            <h2 id="grade">Your page report</h2>
-            <p class="sub" id="summary" style="margin:0"></p>
-          </div>
-        </div>
-
-        <div class="stats" style="margin-top:16px">
-          <div class="stat">
-            <b id="errors">0</b>
-            <span>Needs attention</span>
-          </div>
-          <div class="stat">
-            <b id="warnings">0</b>
-            <span>Suggestions</span>
-          </div>
-          <div class="stat">
-            <b id="passed">0</b>
-            <span>Checks passed</span>
-          </div>
-        </div>
-
-        <div class="filter-row" id="filters" aria-label="Result filters">
-          <button class="filter-btn active" data-filter="all" type="button">All</button>
-          <button class="filter-btn" data-filter="error" type="button">Errors</button>
-          <button class="filter-btn" data-filter="warning" type="button">Suggestions</button>
-          <button class="filter-btn" data-filter="good" type="button">Passed</button>
-        </div>
-
-        <div class="toolbar">
-          <button class="primary" id="safeFix">Apply safe fixes &amp; download HTML</button>
-          <button class="secondary" id="downloadReport">Download report</button>
-          <button class="secondary" id="copyReport">Copy report</button>
-        </div>
-
-        <p class="small" id="fixStatus" aria-live="polite">
-          MrMWSK.PagePulse can safely add missing charset and viewport metadata. Content-dependent fixes are explained below so it doesn’t guess your meaning.
-        </p>
-      </div>
-
-      <div class="panel">
-        <h2>Findings</h2>
-        <p class="sub">Prioritize errors first, then review suggestions. A clean report does not guarantee full WCAG compliance.</p>
-        <div id="findings"></div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    Made for the web by <strong>MrMWSK</strong> · Free to use · Runs locally in your browser
-  </footer>
-
-  <script>
-    const $ = (id) => document.getElementById(id);
-
-    const sample = `<!doctype html>
-<html lang="en">
-  <head>
-    <title>My Sample Page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head>
-  <body>
-    <header>
-      <h1>Welcome</h1>
-    </header>
-    <main>
-      <h2>About this page</h2>
-      <img src="photo.jpg">
-      <p>Welcome to my website.</p>
-      <a href="#">Click here</a>
-      <button></button>
-      <h4>More information</h4>
-      <input type="text" placeholder="Your name">
-    </main>
-  </body>
-</html>`;
-
-    let latestReport = "";
-    let lastIssues = [];
-    let activeFilter = "all";
-
-    function escapeHTML(value) {
-      return String(value).replace(/[&<>"']/g, (ch) => {
-        return {
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;"
-        }[ch];
-      });
-    }
-
-    function setProgress(show, value = 0) {
-      const progress = $("progress");
-      const fill = $("progressFill");
-      progress.style.display = show ? "flex" : "none";
-      fill.style.width = `${value}%`;
-    }
-
-    function addIssue(list, level, title, detail) {
-      list.push({ level, title, detail });
-    }
-
-    function getFixAdvice(title) {
-      const tips = {
-        "Page language is declared": "Add a lang attribute that matches the primary language of the page. Example: <html lang=\"en\"> or <html lang=\"ur\">.",
-        "Page has a descriptive title": "Add a concise, unique title inside <head>, for example: <title>About Our Services | Your Site</title>.",
-        "Mobile viewport is configured": "Add <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> inside <head>.",
-        "Meta description is present": "Add a short, accurate description: <meta name=\"description\" content=\"A clear summary of this page.\">",
-        "Images have alt attributes": "Use alt text for meaningful images. For decorative images, use alt=\"\".",
-        "One main H1 heading": "Use one main <h1> that describes the page. Turn extra H1s into lower-level headings if needed.",
-        "Heading levels follow a logical order": "Avoid skipping heading levels. Example: <h1> -> <h2> -> <h3>.",
-        "Links have understandable names": "Use descriptive link text instead of vague phrases such as 'click here' or 'learn more'.",
-        "Buttons have accessible names": "Add visible text or an aria-label to explain the action.",
-        "Form controls have labels": "Associate controls with visible labels or aria-labels. Placeholder text alone is not a label.",
-        "IDs are unique": "Ensure each element ID is unique and update references to match any renamed IDs.",
-        "A main content landmark exists": "Wrap the page's main content in one <main> element.",
-        "In-page link targets exist": "Create a matching target element with the same id, for example href=\"#contact\" -> <section id=\"contact\">.",
-        "Data tables use header cells": "Use <th> elements with scope=\"col\" or scope=\"row\" for data tables.",
-        "Character encoding is declared": "Add <meta charset=\"utf-8\"> near the start of the head section."
-      };
-
-      return tips[title] || "Review this issue manually and make a fix that matches the actual page content and purpose.";
-    }
-
-    function renderFilters() {
-      document.querySelectorAll(".filter-btn").forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.filter === activeFilter);
-      });
-
-      if (!lastIssues.length) {
-        $("findings").innerHTML = "";
-        return;
-      }
-
-      const filtered = lastIssues.filter((issue) => {
-        if (activeFilter === "all") return true;
-        return issue.level === activeFilter;
-      });
-
-      $("findings").innerHTML = filtered.map((item) => {
-        const tip = item.level === "good" ? "" : getFixAdvice(item.title);
-        return `
-          <article class="issue ${item.level}">
-            <span class="pill">${item.level === "good" ? "Passed" : item.level === "error" ? "Needs attention" : "Suggestion"}</span>
-            <strong>${escapeHTML(item.title)}</strong>
-            <p>${escapeHTML(item.detail)}</p>
-            ${tip ? `
-              <div class="fix-tip">
-                <b>Suggested fix</b>
-                <p>${escapeHTML(tip)}</p>
-              </div>
-            ` : ""}
-          </article>
-        `;
-      }).join("");
-    }
-
-    function analyze() {
-      const raw = $("source").value.trim();
-      if (!raw) {
-        $("fileinfo").textContent = "Please paste HTML or choose a file first.";
-        return;
-      }
-
-      setProgress(true, 5);
-      setTimeout(() => setProgress(true, 45), 120);
-
-      try {
-        const doc = new DOMParser().parseFromString(raw, "text/html");
-        const issues = [];
-
-        const check = (condition, level, title, detail) => {
-          if (condition) {
-            addIssue(issues, "good", title, `Passed: ${detail}`);
-          } else {
-            addIssue(issues, level, title, detail);
-          }
-        };
-
-        const htmlLang = (doc.documentElement.getAttribute("lang") || "").trim();
-        check(Boolean(htmlLang), "error", "Page language is declared", "Add a lang attribute to the <html> element, for example lang=\"en\" or lang=\"ur\".");
-
-        const titleNode = doc.querySelector("title");
-        const titleText = (titleNode && titleNode.textContent || "").trim();
-        check(Boolean(titleText), "error", "Page has a descriptive title", "Add a meaningful, non-empty <title> inside <head>.");
-
-        const viewportMeta = doc.querySelector('meta[name="viewport"]');
-        check(Boolean(viewportMeta), "warning", "Mobile viewport is configured", "Add <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">.");
-
-        const descriptionMeta = doc.querySelector('meta[name="description"]');
-        check(Boolean(descriptionMeta), "warning", "Meta description is present", "Consider adding a short description for search and social previews.");
-
-        const imgs = [...doc.querySelectorAll("img")];
-        const missingAlt = imgs.filter((img) => !img.hasAttribute("alt"));
-        check(missingAlt.length === 0, "error", "Images have alt attributes", `${missingAlt.length} of ${imgs.length} image(s) are missing alt text.`);
-
-        const headings = [...doc.querySelectorAll("h1,h2,h3,h4,h5,h6")];
-        const h1s = headings.filter((h) => h.tagName === "H1");
-        check(h1s.length === 1, "warning", "One main H1 heading", `Found ${h1s.length} H1 heading(s).`);
-
-        const skipped = [];
-        for (let i = 1; i < headings.length; i++) {
-          const prev = Number(headings[i - 1].tagName.replace("H", ""));
-          const next = Number(headings[i].tagName.replace("H", ""));
-          if (next > prev + 1) skipped.push(`${headings[i - 1].tagName} → ${headings[i].tagName}`);
-        }
-        check(skipped.length === 0, "warning", "Heading levels follow a logical order", skipped.length ? `Possible skipped heading order: ${skipped.join(", ")}.` : "No skipped heading levels detected.");
-
-        const links = [...doc.querySelectorAll("a")];
-        const emptyLinks = links.filter((a) => {
-          const visibleText = (a.textContent || "").trim();
-          const ariaText = a.getAttribute("aria-label");
-          const imgWithAlt = a.querySelector('img[alt]');
-          return !visibleText && !ariaText && !imgWithAlt;
-        });
-        check(emptyLinks.length === 0, "error", "Links have understandable names", `${emptyLinks.length} link(s) appear to have no accessible name.`);
-
-        const buttons = [...doc.querySelectorAll("button,input[type='button'],input[type='submit'],input[type='reset']")];
-        const unnamedButtons = buttons.filter((el) => {
-          const text = (el.textContent || "").trim();
-          const value = (el.value || "").trim();
-          const aria = el.getAttribute("aria-label");
-          const labelledby = el.getAttribute("aria-labelledby");
-          return !text && !value && !aria && !labelledby;
-        });
-        check(unnamedButtons.length === 0, "error", "Buttons have accessible names", `${unnamedButtons.length} button-like control(s) appear unnamed.`);
-
-        const controls = [...doc.querySelectorAll("input:not([type='hidden']),select,textarea")];
-        const unlabeled = controls.filter((el) => {
-          if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) return false;
-          if (el.id && doc.querySelector(`label[for="${CSS.escape(el.id)}"]`)) return false;
-          if (el.closest("label")) return false;
-          return true;
-        });
-        check(unlabeled.length === 0, "error", "Form controls have labels", `${unlabeled.length} form control(s) have no associated label or ARIA name.`);
-
-        const ids = [...doc.querySelectorAll("[id]")].map((el) => el.id);
-        const dupIds = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
-        check(dupIds.length === 0, "warning", "IDs are unique", dupIds.length ? `Duplicate IDs detected: ${dupIds.join(', ')}.` : "No duplicate IDs detected.");
-
-        check(Boolean(doc.querySelector("main")), "warning", "A main content landmark exists", "Consider wrapping the main content in a single <main> element.");
-
-        const inPageLinks = [...doc.querySelectorAll('a[href^="#"]')];
-        const brokenHashLinks = inPageLinks.filter((link) => {
-          const fragment = (link.getAttribute("href") || "").slice(1).trim();
-          if (!fragment) return false;
-          try {
-            return !doc.getElementById(decodeURIComponent(fragment));
-          } catch {
-            return true;
-          }
-        });
-
-        const inPageLinkCount = inPageLinks.filter((a) => (a.getAttribute("href") || "").length > 1).length;
-        const hashMessage = inPageLinkCount === 0
-          ? "No in-page links to check."
-          : brokenHashLinks.length === 0
-            ? `All ${inPageLinkCount} in-page link target(s) exist.`
-            : `${brokenHashLinks.length} in-page link target(s) do not exist: ${brokenHashLinks.map((a) => a.getAttribute("href")).join(", ")}.`;
-
-        check(brokenHashLinks.length === 0, "error", "In-page link targets exist", hashMessage);
-
-        const tables = [...doc.querySelectorAll("table")];
-        const noHeaderTables = tables.filter((table) => !table.querySelector("th"));
-        check(noHeaderTables.length === 0, "warning", "Data tables use header cells", `${noHeaderTables.length} table(s) have no <th> header cells.`);
-
-        const charsetMeta = doc.querySelector("meta[charset]");
-        check(Boolean(charsetMeta), "warning", "Character encoding is declared", "Add <meta charset=\"utf-8\"> near the start of <head>.");
-
-        const errorCount = issues.filter((x) => x.level === "error").length;
-        const warningCount = issues.filter((x) => x.level === "warning").length;
-        const passedCount = issues.filter((x) => x.level === "good").length;
-        const score = Math.max(0, Math.min(100, 100 - (errorCount * 9) - (warningCount * 4)));
-
-        $("score").textContent = score;
-        $("grade").textContent = score >= 90 ? "Strong starting point" : score >= 70 ? "Some improvements needed" : "Several improvements recommended";
-        $("summary").textContent = `${issues.length} checks · ${errorCount} issue(s) · ${warningCount} suggestion(s)`;
-        $("errors").textContent = errorCount;
-        $("warnings").textContent = warningCount;
-        $("passed").textContent = passedCount;
-
-        lastIssues = issues;
-        renderFilters();
-
-        latestReport = "MRMWSK.PAGEPULSE — HTML QUALITY REPORT\n" +
-          `Score: ${score}/100\n` +
-          `Errors: ${errorCount} | Suggestions: ${warningCount} | Passed: ${passedCount}\n\n` +
-          issues.map((item) => `[${item.level.toUpperCase()}] ${item.title}\n${item.detail}`).join("\n\n");
-
-        $("results").style.display = "block";
-        $("results").scrollIntoView({ behavior: "smooth", block: "start" });
-        $("fixStatus").textContent = "PagePulse can safely add missing charset and viewport metadata. Content-dependent fixes are explained below so it doesn’t guess your meaning.";
-        setProgress(true, 100);
-        setTimeout(() => setProgress(false), 250);
-      } catch (error) {
-        $("fixStatus").textContent = "This HTML could not be parsed cleanly. Please check that the file is valid HTML.";
-        setProgress(false);
-      }
-    }
-
-    function applySafeFixes() {
-      const raw = $("source").value.trim();
-      if (!raw) {
-        $("fixStatus").textContent = "Paste or upload HTML before applying fixes.";
-        return;
-      }
-
-      try {
-        const doc = new DOMParser().parseFromString(raw, "text/html");
-        const changes = [];
-
-        if (!doc.querySelector("meta[charset]")) {
-          const meta = doc.createElement("meta");
-          meta.setAttribute("charset", "utf-8");
-          doc.head.prepend(meta);
-          changes.push("Added UTF-8 character encoding");
-        }
-
-        if (!doc.querySelector('meta[name="viewport"]')) {
-          const meta = doc.createElement("meta");
-          meta.setAttribute("name", "viewport");
-          meta.setAttribute("content", "width=device-width, initial-scale=1");
-          doc.head.appendChild(meta);
-          changes.push("Added mobile viewport settings");
-        }
-
-        if (changes.length === 0) {
-          $("fixStatus").textContent = "No safe automatic metadata fixes were needed. Review the findings below for content-dependent issues.";
-          return;
-        }
-
-        const output = "<!doctype html>\n" + doc.documentElement.outerHTML;
-        const blob = new Blob([output], { type: "text/html;charset=utf-8" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "mrmwsk-pagepulse-safe-fixed.html";
-        a.click();
-        URL.revokeObjectURL(url);
-
-        $("fixStatus").textContent = `Downloaded updated HTML. ${changes.join("; ")}. Content was not guessed or rewritten beyond safe metadata fixes.`;
-      } catch (error) {
-        $("fixStatus").textContent = "The HTML could not be safely fixed automatically. Please review the findings and correct the source manually.";
-      }
-    }
-
-    function applyFilter(filter) {
-      activeFilter = filter;
-      renderFilters();
-    }
-
-    $("analyze").addEventListener("click", analyze);
-    $("safeFix").addEventListener("click", applySafeFixes);
-
-    $("sample").addEventListener("click", () => {
-      $("source").value = sample;
-      $("fileinfo").textContent = "Sample loaded — select Analyze HTML to run the checks.";
+    <div class="panel"><h2>Findings and fix assistant</h2><p class="sub">Review each finding and its recommended fix. A clean report does not guarantee full WCAG conformance.</p><div id="findings"></div></div>
+  </section>
+</main>
+<footer class="foot">Made for the web by <strong>MrMWSK</strong> · Free to use · Runs locally in your browser</footer>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const MAX_SIZE = 5 * 1024 * 1024;
+  const sample = `<!doctype html>\n<html lang="en"><head><title>Sample page</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><main><h1>Welcome</h1><img src="photo.jpg"><p>Sample content</p><a href="#missing">Read more</a><button></button><input type="text" placeholder="Your name"></main></body></html>`;
+  let issues = [], report = "", filter = "all";
+  const advice = {
+    "Page language is declared":"Set html lang to the page's actual primary language, for example lang=\"en\" or lang=\"ur\".",
+    "Page has a descriptive title":"Add a concise title that accurately describes this page. FLUX will not invent one.",
+    "Mobile viewport is configured":"Add <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> inside head.",
+    "Meta description is present":"Write an accurate summary of the actual page, then add it as a description meta tag.",
+    "Images have alt attributes":"Describe meaningful images accurately; for decorative images, use alt=\"\". Do not use filenames as descriptions.",
+    "One main H1 heading":"Use one descriptive page-level h1; adjust extras only if they are section headings.",
+    "Heading levels follow a logical order":"Avoid skipping levels when introducing a subsection, while preserving the document's intended structure.",
+    "Links have understandable names":"Use descriptive link text or a concise accessible name that explains the destination or action.",
+    "Buttons have accessible names":"Add visible button text or an accurate aria-label describing the action.",
+    "Form controls have labels":"Associate a visible label with each control, or add an accurate accessible name. Placeholder alone is not a label.",
+    "IDs are unique":"Rename duplicate IDs and update any references to the renamed IDs.",
+    "A main content landmark exists":"Place the primary page content in a main element.",
+    "In-page link targets exist":"Create an element with the exact missing ID shown, or update the link to the intended existing ID.",
+    "Data tables use header cells":"For data tables, add appropriate th cells with scope. Layout tables may not need headers.",
+    "Character encoding is declared":"Add <meta charset=\"utf-8\"> near the beginning of head."
+  };
+  function escapeHTML(value) { return String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+  function check(list, ok, level, title, detail) { list.push({level:ok?"good":level,title,detail:ok?"Passed: "+detail:detail}); }
+  function render() {
+    document.querySelectorAll(".filter").forEach(b => b.classList.toggle("active", b.dataset.filter === filter));
+    const shown = issues.filter(i => filter === "all" || i.level === filter);
+    const host = $("findings"); host.replaceChildren();
+    shown.forEach(item => {
+      const article = document.createElement("article"); article.className = `issue ${item.level}`;
+      const badge = document.createElement("span"); badge.className = "pill"; badge.textContent = item.level === "good" ? "Passed" : item.level === "error" ? "Needs attention" : "Suggestion";
+      const title = document.createElement("strong"); title.textContent = item.title;
+      const detail = document.createElement("p"); detail.textContent = item.detail;
+      article.append(badge,title,detail);
+      if(item.level !== "good") { const box=document.createElement("div"); box.className="tip"; const label=document.createElement("b"); label.textContent="Suggested fix"; const text=document.createElement("p"); text.textContent=advice[item.title]||"Review this finding and choose a correction that preserves the page's intended meaning."; box.append(label,text); article.append(box); }
+      host.append(article);
     });
-
-    $("clear").addEventListener("click", () => {
-      $("source").value = "";
-      $("results").style.display = "none";
-      $("fileinfo").textContent = "Editor cleared.";
-      latestReport = "";
-      lastIssues = [];
-      activeFilter = "all";
-      renderFilters();
-    });
-
-    $("file").addEventListener("change", async (event) => {
-      const file = event.target.files && event.target.files[0];
-      if (!file) return;
-
-      if (!/\.html?$/i.test(file.name)) {
-        $("fileinfo").textContent = "Only .html and .htm files are supported.";
-        event.target.value = "";
-        return;
-      }
-
-      if (file.size > 5 * 1024 * 1024) {
-        $("fileinfo").textContent = "File is larger than 5 MB. Please choose a smaller HTML file.";
-        event.target.value = "";
-        return;
-      }
-
-      $("source").value = await file.text();
-      $("fileinfo").textContent = `Loaded ${file.name} (${Math.round(file.size / 1024)} KB).`;
-    });
-
-    $("downloadReport").addEventListener("click", () => {
-      if (!latestReport) {
-        $("fixStatus").textContent = "Run an analysis before downloading the report.";
-        return;
-      }
-
-      const blob = new Blob([latestReport], { type: "text/plain;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "mrmwsk-pagepulse-report.txt";
-      a.click();
-      URL.revokeObjectURL(url);
-    });
-
-    $("copyReport").addEventListener("click", async () => {
-      if (!latestReport) {
-        $("fixStatus").textContent = "Run an analysis before copying the report.";
-        return;
-      }
-
-      try {
-        await navigator.clipboard.writeText(latestReport);
-        $("copyReport").textContent = "Copied!";
-        setTimeout(() => $("copyReport").textContent = "Copy report", 1400);
-      } catch (error) {
-        $("copyReport").textContent = "Copy unavailable";
-      }
-    });
-
-    document.querySelectorAll(".filter-btn").forEach((button) => {
-      button.addEventListener("click", () => applyFilter(button.dataset.filter));
-    });
-  </script>
+  }
+  function analyzeDocument(doc) {
+    const list=[];
+    check(list,!!doc.documentElement.getAttribute("lang")?.trim(),"error","Page language is declared","Declare the primary language on the html element.");
+    check(list,!!doc.querySelector("title")?.textContent.trim(),"error","Page has a descriptive title","Add a meaningful, non-empty title in head.");
+    check(list,!!doc.querySelector('meta[name="viewport"]'),"warning","Mobile viewport is configured","A responsive viewport meta tag is recommended.");
+    check(list,!!doc.querySelector('meta[name="description"]'),"warning","Meta description is present","Consider an accurate page summary for search previews.");
+    const imgs=[...doc.querySelectorAll("img")],missing=imgs.filter(x=>!x.hasAttribute("alt")); check(list,missing.length===0,"error","Images have alt attributes",`${missing.length} of ${imgs.length} image(s) are missing alt attributes.`);
+    const headings=[...doc.querySelectorAll("h1,h2,h3,h4,h5,h6")],h1=headings.filter(x=>x.tagName==="H1"); check(list,h1.length===1,"warning","One main H1 heading",`Found ${h1.length} H1 heading(s).`);
+    const jumps=[]; for(let i=1;i<headings.length;i++){const a=Number(headings[i-1].tagName[1]),b=Number(headings[i].tagName[1]);if(b>a+1)jumps.push(`${headings[i-1].tagName} to ${headings[i].tagName}`);} check(list,!jumps.length,"warning","Heading levels follow a logical order",jumps.length?`Possible skipped levels: ${jumps.join(", ")}.`:"No skipped heading levels detected.");
+    const links=[...doc.querySelectorAll("a")],empty=links.filter(a=>!a.textContent.trim()&&!a.getAttribute("aria-label")&&!a.querySelector("img[alt]:not([alt=''])"));check(list,!empty.length,"error","Links have understandable names",`${empty.length} link(s) appear to have no accessible name.`);
+    const buttons=[...doc.querySelectorAll("button,input[type=button],input[type=submit],input[type=reset]")],unnamed=buttons.filter(b=>!b.textContent.trim()&&!b.value?.trim()&&!b.getAttribute("aria-label")&&!b.getAttribute("aria-labelledby"));check(list,!unnamed.length,"error","Buttons have accessible names",`${unnamed.length} button(s) appear unnamed.`);
+    const controls=[...doc.querySelectorAll("input:not([type=hidden]),select,textarea")],unlabeled=controls.filter(el=>{if(el.getAttribute("aria-label")||el.getAttribute("aria-labelledby")||el.closest("label"))return false;return !el.id||![...doc.querySelectorAll("label[for]")].some(l=>l.htmlFor===el.id);});check(list,!unlabeled.length,"error","Form controls have labels",`${unlabeled.length} of ${controls.length} control(s) lack an associated label or accessible name.`);
+    const ids=[...doc.querySelectorAll("[id]")].map(x=>x.id),dups=[...new Set(ids.filter((id,i)=>ids.indexOf(id)!==i))];check(list,!dups.length,"warning","IDs are unique",dups.length?`Duplicate ID(s): ${dups.join(", ")}.`:"No duplicate IDs detected.");
+    check(list,!!doc.querySelector("main"),"warning","A main content landmark exists","Consider one main element for the primary page content.");
+    const hashLinks=[...doc.querySelectorAll('a[href^="#"]')].filter(a=>a.getAttribute("href").length>1),broken=[];
+    hashLinks.forEach(a=>{const href=a.getAttribute("href"),encoded=href.slice(1);let id;try{id=decodeURIComponent(encoded);}catch{id=encoded;}if(!doc.getElementById(id))broken.push({href,id});});
+    if(!hashLinks.length)check(list,true,"error","In-page link targets exist","Not applicable: no in-page links were found.");else check(list,!broken.length,"error","In-page link targets exist",broken.length?broken.map(x=>`href="${x.href}" points to missing target id="${x.id}".`).join(" "):`All ${hashLinks.length} in-page link target(s) exist.`);
+    const tables=[...doc.querySelectorAll("table")],bad=tables.filter(t=>!t.querySelector("th"));check(list,!bad.length,"warning","Data tables use header cells",`${bad.length} table(s) have no header cells; layout tables are not distinguished automatically.`);
+    check(list,!!doc.querySelector("meta[charset]"),"warning","Character encoding is declared","Add a UTF-8 charset declaration near the beginning of head.");
+    return list;
+  }
+  async function analyze() {
+    const raw=$("source").value; if(!raw.trim()){$("fileinfo").textContent="Paste HTML or choose a file first.";return;}
+    const progress=$("progress"),bar=progress.querySelector("span");progress.hidden=false;progress.setAttribute("aria-valuenow","10");bar.style.width="10%";$("analyze").disabled=true;
+    await new Promise(resolve=>setTimeout(resolve,30));
+    try {
+      const doc=new DOMParser().parseFromString(raw,"text/html");issues=analyzeDocument(doc);
+      const errors=issues.filter(x=>x.level==="error").length,warnings=issues.filter(x=>x.level==="warning").length,passed=issues.filter(x=>x.level==="good").length,score=Math.max(0,100-errors*9-warnings*4);
+      $("score").textContent=score;$("grade").textContent=score>=90?"Strong starting point":score>=70?"Some improvements needed":"Several improvements recommended";$("summaryText").textContent=`${issues.length} checks · ${errors} error(s) · ${warnings} suggestion(s)`;$("errors").textContent=errors;$("warnings").textContent=warnings;$("passed").textContent=passed;
+      report=`MRMWSK FLUX — HTML QUALITY REPORT\nScore: ${score}/100\nErrors: ${errors} | Suggestions: ${warnings} | Passed: ${passed}\n\n`+issues.map(i=>`[${i.level.toUpperCase()}] ${i.title}\n${i.detail}`).join("\n\n");filter="all";render();$("results").style.display="block";$("status").textContent="Analysis complete. Content-dependent fixes are explained below; FLUX does not guess your meaning.";
+    } catch { $("status").textContent="Analysis could not be completed. Check the source and try again."; }
+    progress.setAttribute("aria-valuenow","100");bar.style.width="100%";$("analyze").disabled=false;setTimeout(()=>{progress.hidden=true;bar.style.width="0%";},350);
+  }
+  function download(content,type,name){const url=URL.createObjectURL(new Blob([content],{type})),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  function applyFixes(){const raw=$("source").value;if(!raw.trim()){$("status").textContent="Paste or upload HTML before applying fixes.";return;}const doc=new DOMParser().parseFromString(raw,"text/html"),changes=[];if(!doc.querySelector("meta[charset]")){const m=doc.createElement("meta");m.setAttribute("charset","utf-8");doc.head.prepend(m);changes.push("Added UTF-8 charset");}if(!doc.querySelector('meta[name="viewport"]')){const m=doc.createElement("meta");m.name="viewport";m.content="width=device-width, initial-scale=1";doc.head.append(m);changes.push("Added viewport metadata");}if(!changes.length){$("status").textContent="No safe metadata fixes were needed.";return;}download("<!doctype html>\n"+doc.documentElement.outerHTML,"text/html;charset=utf-8","flux-safe-fixed.html");$("status").textContent=`Downloaded a separate corrected copy: ${changes.join("; ")}. Re-analyze by choosing that file or pasting its contents.`;}
+  $("analyze").addEventListener("click",analyze);$("fix").addEventListener("click",applyFixes);$("sample").addEventListener("click",()=>{$("source").value=sample;$("fileinfo").textContent="Sample loaded. Select Analyze HTML to run checks.";});
+  $("clear").addEventListener("click",()=>{$("source").value="";$("results").style.display="none";$("fileinfo").textContent="Editor cleared.";issues=[];report="";});
+  $("file").addEventListener("change",async e=>{const f=e.target.files?.[0];if(!f)return;if(!/\.html?$/i.test(f.name)){ $("fileinfo").textContent="Unsupported file type. Choose an .html or .htm file.";e.target.value="";return;}if(f.size>MAX_SIZE){$("fileinfo").textContent="File exceeds the 5 MB limit.";e.target.value="";return;}try{$("source").value=await f.text();$("fileinfo").textContent=`Loaded ${f.name} (${Math.ceil(f.size/1024)} KB). File stays on your device.`;}catch{$("fileinfo").textContent="Could not read that file.";}});
+  $("download").addEventListener("click",()=>report?download(report,"text/plain;charset=utf-8","mrmwsk-flux-report.txt"):( $("status").textContent="Analyze HTML before downloading a report."));
+  $("copy").addEventListener("click",async()=>{if(!report){$("status").textContent="Analyze HTML before copying a report.";return;}try{await navigator.clipboard.writeText(report);$("copy").textContent="Copied!";setTimeout(()=>$("copy").textContent="Copy report",1300);}catch{$("status").textContent="Copy unavailable in this browser context.";}});
+  document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.filter;render();}));
+})();
+</script>
 </body>
 </html>
