@@ -1,34 +1,18 @@
-# MrMWSK.PagePulse
+# MrMWSK FLUX
 
-A free, local-first HTML quality and accessibility checker built for browser use.
+FLUX is a free, local-first HTML quality and accessibility checker by MrMWSK.
 
-## Overview
+## Checks
 
-PagePulse analyzes the structure of an HTML document and highlights common quality issues such as:
-
-- missing page title or language
-- missing viewport metadata
-- missing image alt text
-- heading structure issues
-- broken in-page links
-- unlabeled form controls
-- duplicate IDs
-- missing table headers
-- missing character encoding
+FLUX reviews common page structure and accessibility signals, including document title and language, viewport metadata, image alt attributes, heading order, link and button names, form labels, duplicate IDs, main landmark, in-page link targets, table headers, and character encoding.
 
 ## Privacy
 
-- No source is uploaded to any server.
-- All checks run locally in the browser.
-- Uploaded files are validated for type and size before analysis.
-- Scripts are never executed from uploaded HTML.
+- HTML is analyzed locally in the browser and is not uploaded.
+- Uploaded scripts are parsed as text and are never executed or rendered.
+- File uploads are limited to `.html` and `.htm` files up to 5 MB.
+- Automatic fixes are limited to missing UTF-8 charset and viewport metadata; the original is never overwritten.
 
 ## Run locally
 
-Open `index.html` in a modern browser.
-
-## Notes
-
-- Accepts `.html` and `.htm` uploads.
-- Allows safe metadata-only auto-fixes.
-- Keeps the app lightweight and dependency-free.
+Open `index.html` in a modern browser. No installation, account, payment, or external dependency is required.
