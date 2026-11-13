@@ -3,118 +3,338 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="FLUX by MrMWSK — a free, local HTML quality and accessibility checker.">
-  <title>MrMWSK · FLUX</title>
+  <meta name="theme-color" content="#10251d">
+  <meta name="description" content="FLUX by MrMWSK — a private, browser-based HTML quality, accessibility, SEO and performance checker.">
+  <title>MrMWSK FLUX — HTML Audit Studio</title>
   <style>
-    :root{--bg:#f4f7f5;--panel:#fff;--ink:#17231e;--muted:#66736c;--line:#dce5df;--accent:#28634d;--soft:#e8f2ec;--bad:#a43b36;--warn:#95620b;--good:#247247;--shadow:0 12px 32px #193d3012}
-    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-    header{background:#173c30;color:#fff;padding:25px 18px 23px}.wrap,main,.foot{max-width:1080px;margin:auto}.brand{font-size:12px;letter-spacing:.17em;font-weight:800;color:#b9d7c7;text-transform:uppercase}.hero{display:flex;align-items:end;justify-content:space-between;gap:18px;flex-wrap:wrap}h1{font-size:clamp(30px,5vw,46px);line-height:1.05;margin:8px 0}.tag{color:#d5e7dc;margin:0}main{padding:22px 16px 40px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:var(--shadow)}h2{font-size:19px;margin:0 0 7px}.sub{color:var(--muted);margin:0 0 14px;font-size:13px}
-    textarea{width:100%;min-height:245px;resize:vertical;border:1px solid #cbd8d0;border-radius:11px;padding:13px;background:#fbfdfb;color:#1c2a23;font:13px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace}button,.filebtn{border:0;border-radius:10px;padding:11px 16px;font-weight:700;cursor:pointer;font-size:14px}button:focus-visible,.filebtn:focus-within,textarea:focus-visible,input:focus-visible{outline:3px solid #8bbca1;outline-offset:2px}.primary{background:var(--accent);color:white}.secondary,.filebtn{background:var(--soft);color:var(--accent)}.actions,.toolbar,.filters{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px;align-items:center}.filebtn{position:relative;overflow:hidden}.filebtn input{position:absolute;inset:0;opacity:0;width:100%;cursor:pointer}.small{font-size:12px;color:var(--muted)}#results{display:none}.summary{display:flex;align-items:center;gap:18px;flex-wrap:wrap}.score{width:88px;height:88px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--accent);font-size:28px;font-weight:800;border:5px solid #c7dfd0}.stats{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.stat{background:#f5f8f6;border:1px solid var(--line);padding:9px 12px;border-radius:10px;min-width:90px}.stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--muted)}.filter{background:#f5f8f6;color:var(--ink);border:1px solid var(--line);padding:8px 12px;border-radius:999px;font-size:12px}.filter.active{background:var(--soft);color:var(--accent);border-color:#b5d0c1}.issue{border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:10px;padding:12px;margin:9px 0;background:white}.issue.error{border-left-color:var(--bad)}.issue.good{border-left-color:var(--good)}.issue strong{display:block;margin:3px 0}.issue p{margin:0;color:var(--muted);font-size:13px}.pill{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:var(--warn)}.error .pill{color:var(--bad)}.good .pill{color:var(--good)}.tip{margin-top:9px;padding:9px 10px;background:#f3f8f4;border-radius:8px}.tip b{font-size:11px;color:var(--accent)}.tip p{margin-top:3px;color:var(--ink)}.progress{height:8px;background:#e8efea;border-radius:8px;overflow:hidden;margin-top:12px}.progress span{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}.privacy{margin-top:12px;padding:10px;background:#f5f8f6;border-radius:8px}
-    @media(max-width:600px){header{padding:22px 16px}main{padding:14px 11px 30px}.panel{padding:14px;border-radius:13px}.actions button,.actions .filebtn{flex:1 1 100%}textarea{min-height:210px}.toolbar{display:grid;grid-template-columns:1fr}.summary{align-items:flex-start}}
+    :root{color-scheme:light;--bg:#edf3f7;--panel:rgba(255,255,255,.74);--solid:#fff;--soft:#f3f8fb;--ink:#172630;--muted:#607482;--line:rgba(107,137,156,.22);--accent:#16865c;--accent2:#2785d8;--good:#16865c;--good-bg:#e7f7ee;--warn:#a96d08;--warn-bg:#fff4dc;--bad:#bd403d;--bad-bg:#fff0ef;--shadow:0 18px 48px rgba(37,66,84,.10);--glass:blur(20px);--radius:18px}
+    body[data-theme="dark"]{color-scheme:dark;--bg:#0d1720;--panel:rgba(20,33,44,.78);--solid:#14212c;--soft:#1a2a36;--ink:#eaf3f7;--muted:#a1b5c2;--line:rgba(154,187,207,.17);--accent:#62d59b;--accent2:#79b9ff;--good:#62d59b;--good-bg:#153426;--warn:#ffd06b;--warn-bg:#352a14;--bad:#ff9288;--bad-bg:#391f21;--shadow:0 20px 55px rgba(0,0,0,.3)}
+    body[data-theme="forest"]{--bg:#eaf4ed;--panel:rgba(250,255,251,.78);--solid:#fbfffc;--soft:#eff8f1;--ink:#193126;--muted:#5e7568;--line:rgba(82,133,101,.2);--accent:#20734b;--accent2:#367b9d;--good:#20734b;--good-bg:#e5f5e9;--warn:#93610b;--warn-bg:#fff2d6;--bad:#b74640;--bad-bg:#fff0ed}
+    body[data-theme="midnight"]{color-scheme:dark;--bg:#111425;--panel:rgba(27,30,49,.8);--solid:#1c2033;--soft:#252a42;--ink:#f0f1ff;--muted:#b3bad5;--line:rgba(168,175,229,.18);--accent:#79dbaa;--accent2:#9bbaff;--good:#79dbaa;--good-bg:#17342e;--warn:#f5cf70;--warn-bg:#342b17;--bad:#ff9288;--bad-bg:#392226;--shadow:0 20px 55px rgba(0,0,0,.34)}
+    @media(prefers-color-scheme:dark){body[data-theme="system"]{color-scheme:dark;--bg:#0d1720;--panel:rgba(20,33,44,.78);--solid:#14212c;--soft:#1a2a36;--ink:#eaf3f7;--muted:#a1b5c2;--line:rgba(154,187,207,.17);--accent:#62d59b;--accent2:#79b9ff;--good:#62d59b;--good-bg:#153426;--warn:#ffd06b;--warn-bg:#352a14;--bad:#ff9288;--bad-bg:#391f21;--shadow:0 20px 55px rgba(0,0,0,.3)}}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 5% 0, color-mix(in srgb,var(--accent2) 12%,transparent),transparent 30%),radial-gradient(ellipse at 100% 100%,color-mix(in srgb,var(--accent) 10%,transparent),transparent 34%),var(--bg);color:var(--ink);font:14px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;transition:background .2s,color .2s}button,input,textarea,select{font:inherit}button{color:inherit;cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid color-mix(in srgb,var(--accent2) 45%,transparent);outline-offset:2px}.app{max-width:1600px;min-height:100vh;margin:auto;display:flex}.sidebar{width:252px;flex:0 0 252px;padding:22px 14px;background:var(--panel);border-right:1px solid var(--line);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);transition:width .2s,flex-basis .2s,padding .2s;z-index:5}.sidebar.collapsed{width:76px;flex-basis:76px;padding-inline:10px}.brand{display:flex;align-items:center;gap:11px;padding:4px 8px 24px;font-weight:900;font-size:20px;white-space:nowrap}.brand-mark{width:36px;height:36px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:900;box-shadow:0 8px 20px color-mix(in srgb,var(--accent) 25%,transparent)}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.13em;text-transform:uppercase}.nav-label{padding:10px 12px 6px;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}.nav{display:grid;gap:5px}.nav button,.collapse-btn{display:flex;align-items:center;gap:12px;width:100%;border:1px solid transparent;border-radius:12px;background:transparent;padding:10px 12px;text-align:left;font-weight:720;color:var(--muted);white-space:nowrap}.nav button:hover,.collapse-btn:hover{background:var(--soft);color:var(--ink)}.nav button.active{background:color-mix(in srgb,var(--accent) 11%,var(--panel));border-color:color-mix(in srgb,var(--accent) 20%,var(--line));color:var(--accent)}.nav-icon{width:24px;text-align:center;font-size:16px;flex:0 0 24px}.sidebar.collapsed .brand-text,.sidebar.collapsed .nav-label,.sidebar.collapsed .nav-text,.sidebar.collapsed .side-info{display:none}.sidebar.collapsed .brand{justify-content:center;padding-inline:0}.sidebar.collapsed .nav button,.sidebar.collapsed .collapse-btn{justify-content:center;padding-inline:8px}.sidebar.collapsed .nav-icon{font-size:17px}.collapse-btn{margin-top:20px;border-color:var(--line);justify-content:flex-start}.side-info{margin-top:22px;border:1px solid var(--line);background:var(--soft);padding:12px;border-radius:14px;color:var(--muted);font-size:11px}.main{min-width:0;flex:1;padding:20px 24px 40px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px}.page-title h1{margin:0;font-size:clamp(22px,3vw,30px);letter-spacing:-.7px}.page-title p{margin:3px 0 0;color:var(--muted)}.top-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.select,.btn{border:1px solid var(--line);border-radius:11px;background:var(--panel);padding:9px 12px;color:var(--ink);font-weight:700}.btn{transition:transform .12s,background .15s}.btn:hover:not(:disabled){transform:translateY(-1px)}.btn:disabled{opacity:.5;cursor:not-allowed}.btn.primary{border:0;background:linear-gradient(120deg,var(--accent),color-mix(in srgb,var(--accent2) 65%,var(--accent)));color:#fff}.btn.small{padding:7px 10px;font-size:12px}.glass{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass)}.dashboard{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}.card{padding:17px;min-width:0}.span-12{grid-column:span 12}.span-8{grid-column:span 8}.span-7{grid-column:span 7}.span-6{grid-column:span 6}.span-5{grid-column:span 5}.span-4{grid-column:span 4}.card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.card-head h2,.card-head h3{margin:0;font-size:15px;letter-spacing:-.2px}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:850}.input-layout{display:grid;grid-template-columns:1fr;gap:11px}textarea#source{width:100%;min-height:230px;resize:vertical;border:1px solid var(--line);border-radius:13px;background:color-mix(in srgb,var(--solid) 50%,transparent);color:var(--ink);padding:13px;font:12px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace}.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.file-input{max-width:100%;color:var(--muted);font-size:12px}.privacy{margin:0;color:var(--muted);font-size:11px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:12px}.stat strong{display:block;font-size:24px;line-height:1.2}.stat span{font-size:10px;color:var(--muted);font-weight:800;letter-spacing:.09em;text-transform:uppercase}.stat.error strong{color:var(--bad)}.stat.warning strong{color:var(--warn)}.stat.pass strong{color:var(--good)}.score-line{display:flex;align-items:center;gap:13px;margin-top:12px;padding:11px;border:1px solid var(--line);background:var(--soft);border-radius:14px}.score-ring{--score:0;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;flex:none;background:radial-gradient(closest-side,var(--solid) 78%,transparent 80%),conic-gradient(var(--accent) calc(var(--score)*1%),color-mix(in srgb,var(--line) 75%,transparent) 0)}.score-ring b{font-size:17px}.score-copy strong{display:block}.score-copy span{color:var(--muted);font-size:12px}.chart{width:100%;height:160px;display:block}.chart-legend{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:11px}.legend-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:5px}.bars{display:grid;gap:11px}.bar-row{display:grid;grid-template-columns:105px 1fr 36px;gap:9px;align-items:center;font-size:11px}.bar-track{height:9px;border-radius:99px;background:var(--soft);overflow:hidden}.bar-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0;transition:width .3s}.bar-value{text-align:right;font-weight:800;color:var(--muted)}.findings-wrap{display:grid;gap:9px}.finding{padding:12px;border:1px solid var(--line);border-left:4px solid var(--good);border-radius:12px;background:color-mix(in srgb,var(--panel) 90%,transparent)}.finding.warning{border-left-color:var(--warn)}.finding.error{border-left-color:var(--bad)}.finding-head{display:flex;justify-content:space-between;gap:9px}.finding h3{font-size:13px;margin:0}.finding p{margin:5px 0 0;color:var(--muted);font-size:12px}.badge{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:900}.filter-row{display:flex;gap:7px;flex-wrap:wrap}.filter{border:1px solid var(--line);border-radius:999px;background:var(--soft);padding:6px 9px;font-size:11px;font-weight:800}.filter[aria-pressed=true]{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}.empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.hidden{display:none!important}.report-note{font-size:11px;color:var(--muted);line-height:1.5}.export-grid{display:flex;gap:8px;flex-wrap:wrap}.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px}.metric{padding:11px;border:1px solid var(--line);border-radius:12px;background:var(--soft)}.metric b{display:block;margin-bottom:4px;font-size:12px}.metric span{color:var(--muted);font-size:11px}.section-title{margin:18px 0 9px;font-size:13px}.toast{position:fixed;right:20px;bottom:20px;z-index:20;background:var(--solid);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:12px;padding:11px 15px;max-width:min(360px,calc(100vw - 40px));color:var(--ink)}
+    @media(max-width:1100px){.main{padding:18px}.span-8,.span-7,.span-6,.span-5,.span-4{grid-column:span 12}.stats{grid-template-columns:repeat(4,1fr)}}
+    @media(max-width:760px){.app{display:block}.sidebar{position:sticky;top:0;width:100%;padding:8px 10px;border-right:0;border-bottom:1px solid var(--line)}.sidebar.collapsed{width:100%;flex-basis:auto;padding:8px 10px}.brand,.side-info,.nav-label,.collapse-btn{display:none!important}.nav{display:flex;overflow-x:auto;gap:5px}.nav button,.sidebar.collapsed .nav button{width:auto;flex:none;padding:8px 10px}.nav-text,.sidebar.collapsed .nav-text{display:inline!important;font-size:11px}.nav-icon{width:20px;flex-basis:20px}.main{padding:15px 12px 30px}.topbar{align-items:flex-start;flex-direction:column}.stats{grid-template-columns:repeat(2,1fr)}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
   </style>
 </head>
+<body data-theme="system">
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><span class="brand-mark">F</span><span class="brand-text">FLUX<small>Audit studio</small></span></div>
+      <div class="nav-label">Workspace</div>
+      <nav class="nav" aria-label="Audit sections">
+        <button class="active" type="button" data-view="overview" title="Overview"><span class="nav-icon">◫</span><span class="nav-text">Overview</span></button>
+        <button type="button" data-view="accessibility" title="Accessibility"><span class="nav-icon">◎</span><span class="nav-text">Accessibility</span></button>
+        <button type="button" data-view="seo" title="SEO audit"><span class="nav-icon">⌕</span><span class="nav-text">SEO audit</span></button>
+        <button type="button" data-view="performance" title="Performance"><span class="nav-icon">ϟ</span><span class="nav-text">Performance</span></button>
+        <button type="button" data-view="export" title="Export dashboard"><span class="nav-icon">⇩</span><span class="nav-text">Export report</span></button>
+      </nav>
+      <button class="collapse-btn" id="collapseBtn" type="button" aria-expanded="true" aria-label="Collapse sidebar"><span class="nav-icon">⇤</span><span class="nav-text">Collapse sidebar</span></button>
+      <div class="side-info">Source is parsed locally in your browser. FLUX does not render the uploaded page or fetch its external resources.</div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="page-title"><h1 id="viewTitle">Audit overview</h1><p id="viewSubtitle">Inspect HTML quality, accessibility, SEO and static performance signals.</p></div>
+        <div class="top-actions">
+          <label class="eyebrow" for="themeSelect">Appearance</label>
+          <select class="select" id="themeSelect" aria-label="Color theme">
+            <option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option><option value="forest">Forest</option><option value="midnight">Midnight</option>
+          </select>
+          <button class="btn" id="themeToggle" type="button" aria-label="Toggle light and dark theme">☼ / ☾</button>
+        </div>
+      </div>
+
+      <section class="dashboard">
+        <article class="glass card span-7">
+          <div class="card-head"><h2>HTML source</h2><span class="eyebrow">Local analysis · 5 MB max</span></div>
+          <div class="input-layout">
+            <textarea id="source" spellcheck="false" aria-label="HTML source" placeholder="Paste HTML here, or choose an .html/.htm file below…"></textarea>
+            <div class="actions">
+              <button class="btn primary" id="analyzeBtn" type="button">Analyze HTML</button>
+              <button class="btn" id="sampleBtn" type="button">Load sample</button>
+              <button class="btn" id="clearBtn" type="button">Clear</button>
+              <input class="file-input" id="fileInput" type="file" accept=".html,.htm,text/html" aria-label="Choose HTML file">
+            </div>
+            <div class="actions"><button class="btn" id="fixBtn" type="button" disabled>Apply conservative fixes</button><button class="btn" id="downloadHtmlBtn" type="button" disabled>Download HTML</button></div>
+            <p class="privacy" id="status" role="status" aria-live="polite">No source is sent to a server. Checks are static heuristics, not a live crawl or formal WCAG certification.</p>
+          </div>
+        </article>
+
+        <article class="glass card span-5">
+          <div class="card-head"><h2>Audit summary</h2><span class="eyebrow" id="auditState">Awaiting source</span></div>
+          <div class="stats">
+            <div class="stat error"><strong id="errorCount">—</strong><span>Errors</span></div>
+            <div class="stat warning"><strong id="warningCount">—</strong><span>Suggestions</span></div>
+            <div class="stat pass"><strong id="passCount">—</strong><span>Passed</span></div>
+            <div class="stat"><strong id="sizeCount">—</strong><span>Source size</span></div>
+          </div>
+          <div class="score-line"><div class="score-ring" id="overallRing"><b id="overallScore">—</b></div><div class="score-copy"><strong id="scoreLabel">Ready to audit</strong><span id="scoreCaption">Run an audit to calculate category scores.</span></div></div>
+        </article>
+
+        <article class="glass card span-6 chart-card">
+          <div class="card-head"><h2>Category score chart</h2><span class="eyebrow">Heuristic scores</span></div>
+          <div class="bars" id="scoreBars"><div class="empty">Run an audit to see category scores.</div></div>
+        </article>
+
+        <article class="glass card span-6 chart-card">
+          <div class="card-head"><h2>Findings distribution</h2><span class="eyebrow">Current report</span></div>
+          <canvas class="chart" id="distributionChart" role="img" aria-label="Audit findings distribution chart"></canvas>
+          <div class="chart-legend"><span><i class="legend-dot" style="background:var(--bad)"></i>Errors</span><span><i class="legend-dot" style="background:var(--warn)"></i>Suggestions</span><span><i class="legend-dot" style="background:var(--good)"></i>Passed</span></div>
+        </article>
+
+        <article class="glass card span-12" id="findingsCard">
+          <div class="card-head"><h2 id="findingsHeading">Audit findings</h2><span class="eyebrow" id="findingsCount">No report yet</span></div>
+          <div class="filter-row" id="filterRow" aria-label="Filter findings"><button type="button" class="filter" data-filter="all" aria-pressed="true">All</button><button type="button" class="filter" data-filter="error" aria-pressed="false">Errors</button><button type="button" class="filter" data-filter="warning" aria-pressed="false">Suggestions</button><button type="button" class="filter" data-filter="pass" aria-pressed="false">Passed</button></div>
+          <div class="findings-wrap" id="findings"><div class="empty">Paste or choose HTML and run an audit to see results.</div></div>
+          <div class="report-note" style="margin-top:12px">Performance checks inspect the submitted source only. They cannot measure network timing, Core Web Vitals, server behavior, or actual browser rendering.</div>
+        </article>
+
+        <article class="glass card span-12 hidden" id="exportCard">
+          <div class="card-head"><h2>Export dashboard</h2><span class="eyebrow">Private, local downloads</span></div>
+          <p class="report-note">Export your latest audit findings and category scores. The exported report contains findings, not the submitted HTML source.</p>
+          <div class="export-grid"><button class="btn primary" id="jsonBtn" type="button" disabled>Export JSON</button><button class="btn" id="csvBtn" type="button" disabled>Export CSV</button><button class="btn" id="copyBtn" type="button" disabled>Copy summary</button></div>
+          <h3 class="section-title">Category metrics</h3><div class="metric-grid" id="metricsGrid"><div class="empty">Run an audit to populate export metrics.</div></div>
+        </article>
+      </section>
+    </main>
+  </div>
+  <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (() => {
+    "use strict";
+    const $ = id => document.getElementById(id);
+    const MAX_SIZE = 5 * 1024 * 1024;
+    const sourceEl = $("source"), findingsEl = $("findings"), themeSelect = $("themeSelect");
+    const navButtons = [...document.querySelectorAll(".nav button[data-view]")];
+    let reportData = null, activeFilter = "all", activeView = "overview", toastTimer;
+
+    const sample = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accessible sample page for FLUX</title>
+  <meta name="description" content="A practical sample page to demonstrate HTML accessibility, SEO and static performance checks in FLUX.">
+  <link rel="canonical" href="https://example.com/sample">
+  <meta property="og:title" content="Accessible sample page">
+  <meta property="og:description" content="Example metadata for social sharing previews.">
+</head>
 <body>
-<header><div class="wrap"><div class="brand">MrMWSK · FLUX</div><div class="hero"><div><h1>FLUX</h1><p class="tag">A clearer, more accessible web starts here.</p></div><div class="small" style="color:#d5e7dc">Free · No account · Runs locally</div></div></div></header>
-<main>
-  <section class="panel">
-    <h2>Check your HTML</h2><p class="sub">Paste HTML below or choose an .html or .htm file. Your source is analyzed in this browser and never sent to a server.</p>
-    <label class="small" for="source">HTML source</label><textarea id="source" spellcheck="false" placeholder="Paste HTML here…"></textarea>
-    <div class="actions"><button class="primary" id="analyze" type="button">Analyze HTML</button><label class="filebtn">Choose HTML file<input id="file" type="file" accept=".html,.htm,text/html" aria-label="Choose an HTML file"></label><button class="secondary" id="sample" type="button">Load sample</button><button class="secondary" id="clear" type="button">Clear</button></div>
-    <p class="small" id="fileinfo" role="status" aria-live="polite">Tip: paste source or choose a local HTML file. FLUX checks source-level signals; it does not crawl live websites.</p>
-    <div id="progress" class="progress" role="progressbar" aria-label="Analysis progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><span></span></div>
-    <p class="small privacy">Privacy: files are processed locally. Uploaded scripts are parsed as text only—never executed or displayed as a webpage. Upload limit: 5 MB.</p>
-  </section>
-  <section id="results" aria-live="polite">
-    <div class="panel"><div class="summary"><div class="score" id="score">—</div><div><h2 id="grade">Your report</h2><p class="sub" id="summaryText" style="margin:0"></p></div></div>
-      <div class="stats"><div class="stat"><b id="errors">0</b><span>Errors</span></div><div class="stat"><b id="warnings">0</b><span>Suggestions</span></div><div class="stat"><b id="passed">0</b><span>Passed</span></div></div>
-      <div class="filters" aria-label="Filter findings"><button type="button" class="filter active" data-filter="all">All</button><button type="button" class="filter" data-filter="error">Errors</button><button type="button" class="filter" data-filter="warning">Suggestions</button><button type="button" class="filter" data-filter="good">Passed</button></div>
-      <div class="toolbar"><button class="primary" id="fix" type="button">Apply safe fixes &amp; download HTML</button><button class="secondary" id="download" type="button">Download report</button><button class="secondary" id="copy" type="button">Copy report</button></div><p class="small" id="status" role="status" aria-live="polite">Only missing UTF-8 charset and viewport metadata are added automatically. Content-dependent fixes are left for your judgment.</p>
-    </div>
-    <div class="panel"><h2>Findings and fix assistant</h2><p class="sub">Review each finding and its recommended fix. A clean report does not guarantee full WCAG conformance.</p><div id="findings"></div></div>
-  </section>
-</main>
-<footer class="foot">Made for the web by <strong>MrMWSK</strong> · Free to use · Runs locally in your browser</footer>
-<script>
-(() => {
-  const $ = (id) => document.getElementById(id);
-  const MAX_SIZE = 5 * 1024 * 1024;
-  const sample = `<!doctype html>\n<html lang="en"><head><title>Sample page</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><main><h1>Welcome</h1><img src="photo.jpg"><p>Sample content</p><a href="#missing">Read more</a><button></button><input type="text" placeholder="Your name"></main></body></html>`;
-  let issues = [], report = "", filter = "all";
-  const advice = {
-    "Page language is declared":"Set html lang to the page's actual primary language, for example lang=\"en\" or lang=\"ur\".",
-    "Page has a descriptive title":"Add a concise title that accurately describes this page. FLUX will not invent one.",
-    "Mobile viewport is configured":"Add <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> inside head.",
-    "Meta description is present":"Write an accurate summary of the actual page, then add it as a description meta tag.",
-    "Images have alt attributes":"Describe meaningful images accurately; for decorative images, use alt=\"\". Do not use filenames as descriptions.",
-    "One main H1 heading":"Use one descriptive page-level h1; adjust extras only if they are section headings.",
-    "Heading levels follow a logical order":"Avoid skipping levels when introducing a subsection, while preserving the document's intended structure.",
-    "Links have understandable names":"Use descriptive link text or a concise accessible name that explains the destination or action.",
-    "Buttons have accessible names":"Add visible button text or an accurate aria-label describing the action.",
-    "Form controls have labels":"Associate a visible label with each control, or add an accurate accessible name. Placeholder alone is not a label.",
-    "IDs are unique":"Rename duplicate IDs and update any references to the renamed IDs.",
-    "A main content landmark exists":"Place the primary page content in a main element.",
-    "In-page link targets exist":"Create an element with the exact missing ID shown, or update the link to the intended existing ID.",
-    "Data tables use header cells":"For data tables, add appropriate th cells with scope. Layout tables may not need headers.",
-    "Character encoding is declared":"Add <meta charset=\"utf-8\"> near the beginning of head."
-  };
-  function escapeHTML(value) { return String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-  function check(list, ok, level, title, detail) { list.push({level:ok?"good":level,title,detail:ok?"Passed: "+detail:detail}); }
-  function render() {
-    document.querySelectorAll(".filter").forEach(b => b.classList.toggle("active", b.dataset.filter === filter));
-    const shown = issues.filter(i => filter === "all" || i.level === filter);
-    const host = $("findings"); host.replaceChildren();
-    shown.forEach(item => {
-      const article = document.createElement("article"); article.className = `issue ${item.level}`;
-      const badge = document.createElement("span"); badge.className = "pill"; badge.textContent = item.level === "good" ? "Passed" : item.level === "error" ? "Needs attention" : "Suggestion";
-      const title = document.createElement("strong"); title.textContent = item.title;
-      const detail = document.createElement("p"); detail.textContent = item.detail;
-      article.append(badge,title,detail);
-      if(item.level !== "good") { const box=document.createElement("div"); box.className="tip"; const label=document.createElement("b"); label.textContent="Suggested fix"; const text=document.createElement("p"); text.textContent=advice[item.title]||"Review this finding and choose a correction that preserves the page's intended meaning."; box.append(label,text); article.append(box); }
-      host.append(article);
-    });
-  }
-  function analyzeDocument(doc) {
-    const list=[];
-    check(list,!!doc.documentElement.getAttribute("lang")?.trim(),"error","Page language is declared","Declare the primary language on the html element.");
-    check(list,!!doc.querySelector("title")?.textContent.trim(),"error","Page has a descriptive title","Add a meaningful, non-empty title in head.");
-    check(list,!!doc.querySelector('meta[name="viewport"]'),"warning","Mobile viewport is configured","A responsive viewport meta tag is recommended.");
-    check(list,!!doc.querySelector('meta[name="description"]'),"warning","Meta description is present","Consider an accurate page summary for search previews.");
-    const imgs=[...doc.querySelectorAll("img")],missing=imgs.filter(x=>!x.hasAttribute("alt")); check(list,missing.length===0,"error","Images have alt attributes",`${missing.length} of ${imgs.length} image(s) are missing alt attributes.`);
-    const headings=[...doc.querySelectorAll("h1,h2,h3,h4,h5,h6")],h1=headings.filter(x=>x.tagName==="H1"); check(list,h1.length===1,"warning","One main H1 heading",`Found ${h1.length} H1 heading(s).`);
-    const jumps=[]; for(let i=1;i<headings.length;i++){const a=Number(headings[i-1].tagName[1]),b=Number(headings[i].tagName[1]);if(b>a+1)jumps.push(`${headings[i-1].tagName} to ${headings[i].tagName}`);} check(list,!jumps.length,"warning","Heading levels follow a logical order",jumps.length?`Possible skipped levels: ${jumps.join(", ")}.`:"No skipped heading levels detected.");
-    const links=[...doc.querySelectorAll("a")],empty=links.filter(a=>!a.textContent.trim()&&!a.getAttribute("aria-label")&&!a.querySelector("img[alt]:not([alt=''])"));check(list,!empty.length,"error","Links have understandable names",`${empty.length} link(s) appear to have no accessible name.`);
-    const buttons=[...doc.querySelectorAll("button,input[type=button],input[type=submit],input[type=reset]")],unnamed=buttons.filter(b=>!b.textContent.trim()&&!b.value?.trim()&&!b.getAttribute("aria-label")&&!b.getAttribute("aria-labelledby"));check(list,!unnamed.length,"error","Buttons have accessible names",`${unnamed.length} button(s) appear unnamed.`);
-    const controls=[...doc.querySelectorAll("input:not([type=hidden]),select,textarea")],unlabeled=controls.filter(el=>{if(el.getAttribute("aria-label")||el.getAttribute("aria-labelledby")||el.closest("label"))return false;return !el.id||![...doc.querySelectorAll("label[for]")].some(l=>l.htmlFor===el.id);});check(list,!unlabeled.length,"error","Form controls have labels",`${unlabeled.length} of ${controls.length} control(s) lack an associated label or accessible name.`);
-    const ids=[...doc.querySelectorAll("[id]")].map(x=>x.id),dups=[...new Set(ids.filter((id,i)=>ids.indexOf(id)!==i))];check(list,!dups.length,"warning","IDs are unique",dups.length?`Duplicate ID(s): ${dups.join(", ")}.`:"No duplicate IDs detected.");
-    check(list,!!doc.querySelector("main"),"warning","A main content landmark exists","Consider one main element for the primary page content.");
-    const hashLinks=[...doc.querySelectorAll('a[href^="#"]')].filter(a=>a.getAttribute("href").length>1),broken=[];
-    hashLinks.forEach(a=>{const href=a.getAttribute("href"),encoded=href.slice(1);let id;try{id=decodeURIComponent(encoded);}catch{id=encoded;}if(!doc.getElementById(id))broken.push({href,id});});
-    if(!hashLinks.length)check(list,true,"error","In-page link targets exist","Not applicable: no in-page links were found.");else check(list,!broken.length,"error","In-page link targets exist",broken.length?broken.map(x=>`href="${x.href}" points to missing target id="${x.id}".`).join(" "):`All ${hashLinks.length} in-page link target(s) exist.`);
-    const tables=[...doc.querySelectorAll("table")],bad=tables.filter(t=>!t.querySelector("th"));check(list,!bad.length,"warning","Data tables use header cells",`${bad.length} table(s) have no header cells; layout tables are not distinguished automatically.`);
-    check(list,!!doc.querySelector("meta[charset]"),"warning","Character encoding is declared","Add a UTF-8 charset declaration near the beginning of head.");
-    return list;
-  }
-  async function analyze() {
-    const raw=$("source").value; if(!raw.trim()){$("fileinfo").textContent="Paste HTML or choose a file first.";return;}
-    const progress=$("progress"),bar=progress.querySelector("span");progress.hidden=false;progress.setAttribute("aria-valuenow","10");bar.style.width="10%";$("analyze").disabled=true;
-    await new Promise(resolve=>setTimeout(resolve,30));
-    try {
-      const doc=new DOMParser().parseFromString(raw,"text/html");issues=analyzeDocument(doc);
-      const errors=issues.filter(x=>x.level==="error").length,warnings=issues.filter(x=>x.level==="warning").length,passed=issues.filter(x=>x.level==="good").length,score=Math.max(0,100-errors*9-warnings*4);
-      $("score").textContent=score;$("grade").textContent=score>=90?"Strong starting point":score>=70?"Some improvements needed":"Several improvements recommended";$("summaryText").textContent=`${issues.length} checks · ${errors} error(s) · ${warnings} suggestion(s)`;$("errors").textContent=errors;$("warnings").textContent=warnings;$("passed").textContent=passed;
-      report=`MRMWSK FLUX — HTML QUALITY REPORT\nScore: ${score}/100\nErrors: ${errors} | Suggestions: ${warnings} | Passed: ${passed}\n\n`+issues.map(i=>`[${i.level.toUpperCase()}] ${i.title}\n${i.detail}`).join("\n\n");filter="all";render();$("results").style.display="block";$("status").textContent="Analysis complete. Content-dependent fixes are explained below; FLUX does not guess your meaning.";
-    } catch { $("status").textContent="Analysis could not be completed. Check the source and try again."; }
-    progress.setAttribute("aria-valuenow","100");bar.style.width="100%";$("analyze").disabled=false;setTimeout(()=>{progress.hidden=true;bar.style.width="0%";},350);
-  }
-  function download(content,type,name){const url=URL.createObjectURL(new Blob([content],{type})),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-  function applyFixes(){const raw=$("source").value;if(!raw.trim()){$("status").textContent="Paste or upload HTML before applying fixes.";return;}const doc=new DOMParser().parseFromString(raw,"text/html"),changes=[];if(!doc.querySelector("meta[charset]")){const m=doc.createElement("meta");m.setAttribute("charset","utf-8");doc.head.prepend(m);changes.push("Added UTF-8 charset");}if(!doc.querySelector('meta[name="viewport"]')){const m=doc.createElement("meta");m.name="viewport";m.content="width=device-width, initial-scale=1";doc.head.append(m);changes.push("Added viewport metadata");}if(!changes.length){$("status").textContent="No safe metadata fixes were needed.";return;}download("<!doctype html>\n"+doc.documentElement.outerHTML,"text/html;charset=utf-8","flux-safe-fixed.html");$("status").textContent=`Downloaded a separate corrected copy: ${changes.join("; ")}. Re-analyze by choosing that file or pasting its contents.`;}
-  $("analyze").addEventListener("click",analyze);$("fix").addEventListener("click",applyFixes);$("sample").addEventListener("click",()=>{$("source").value=sample;$("fileinfo").textContent="Sample loaded. Select Analyze HTML to run checks.";});
-  $("clear").addEventListener("click",()=>{$("source").value="";$("results").style.display="none";$("fileinfo").textContent="Editor cleared.";issues=[];report="";});
-  $("file").addEventListener("change",async e=>{const f=e.target.files?.[0];if(!f)return;if(!/\.html?$/i.test(f.name)){ $("fileinfo").textContent="Unsupported file type. Choose an .html or .htm file.";e.target.value="";return;}if(f.size>MAX_SIZE){$("fileinfo").textContent="File exceeds the 5 MB limit.";e.target.value="";return;}try{$("source").value=await f.text();$("fileinfo").textContent=`Loaded ${f.name} (${Math.ceil(f.size/1024)} KB). File stays on your device.`;}catch{$("fileinfo").textContent="Could not read that file.";}});
-  $("download").addEventListener("click",()=>report?download(report,"text/plain;charset=utf-8","mrmwsk-flux-report.txt"):( $("status").textContent="Analyze HTML before downloading a report."));
-  $("copy").addEventListener("click",async()=>{if(!report){$("status").textContent="Analyze HTML before copying a report.";return;}try{await navigator.clipboard.writeText(report);$("copy").textContent="Copied!";setTimeout(()=>$("copy").textContent="Copy report",1300);}catch{$("status").textContent="Copy unavailable in this browser context.";}});
-  document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.filter;render();}));
-})();
-</script>
+  <header><h1>Welcome to the sample</h1></header>
+  <main>
+    <p>A concise example to try the local HTML audit.</p>
+    <a href="#details">Read more</a>
+    <h2 id="details">Details</h2>
+    <img src="landscape.jpg" alt="A green hillside below a blue sky" width="800" height="500" loading="lazy">
+    <button type="button">Continue</button>
+  </main>
+</body>
+</html>`;
+
+    const esc = value => String(value).replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]));
+    const textOf = node => (node?.textContent || "").replace(/\s+/g," ").trim();
+    const add = (list, category, severity, title, detail, fix="") => list.push({category,severity,title,detail,fix});
+
+    function notify(message) {
+      const toast = $("toast"); toast.textContent = message; toast.classList.remove("hidden");
+      clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.add("hidden"), 2800);
+    }
+
+    function setTheme(theme) {
+      document.body.dataset.theme = theme;
+      try { localStorage.setItem("flux-theme", theme); } catch {}
+      themeSelect.value = theme;
+      requestAnimationFrame(drawChart);
+    }
+    function initTheme() {
+      let saved = "system";
+      try { saved = localStorage.getItem("flux-theme") || "system"; } catch {}
+      setTheme(["system","light","dark","forest","midnight"].includes(saved) ? saved : "system");
+      const media = window.matchMedia?.("(prefers-color-scheme: dark)");
+      media?.addEventListener?.("change", () => { if (themeSelect.value === "system") requestAnimationFrame(drawChart); });
+    }
+
+    function hasName(el, doc) {
+      if ((el.getAttribute("aria-label") || "").trim()) return true;
+      const refs = (el.getAttribute("aria-labelledby") || "").trim().split(/\s+/).filter(Boolean);
+      if (refs.length && refs.every(id => textOf(doc.getElementById(id)))) return true;
+      if (el.tagName === "INPUT" && ["button","submit","reset"].includes((el.type || "").toLowerCase())) return !!el.value.trim();
+      return !!textOf(el) || !!el.querySelector('img[alt]:not([alt=""])');
+    }
+
+    function analyze(html) {
+      const doc = new DOMParser().parseFromString(html,"text/html"), findings = [];
+      const title = textOf(doc.querySelector("title"));
+      const desc = doc.querySelector('meta[name="description" i]')?.getAttribute("content")?.trim() || "";
+      const h1s = [...doc.querySelectorAll("h1")];
+      const imgs = [...doc.querySelectorAll("img")];
+      const links = [...doc.querySelectorAll("a[href]")];
+      const controls = [...doc.querySelectorAll("button,input[type=button],input[type=submit],input[type=reset]")];
+      const fields = [...doc.querySelectorAll("input:not([type=hidden]):not([type=button]):not([type=submit]):not([type=reset]),select,textarea")];
+      const cats = {Accessibility:[],SEO:[],Performance:[],Structure:[]};
+      const check = (cat, ok, titleText, detail, fix, severity="warning") => add(cats[cat],cat,ok?"pass":severity,titleText,ok?`Passed: ${detail}`:detail,ok?"":fix);
+
+      // Accessibility and document structure
+      check("Accessibility",!!doc.documentElement.getAttribute("lang")?.trim(),"Page language is declared","Declare the primary language on the html element.",'Set an accurate lang value, such as lang="en".','error');
+      check("Accessibility",imgs.every(img=>img.hasAttribute("alt")),"Images have alt attributes",`${imgs.filter(img=>!img.hasAttribute("alt")).length} image(s) are missing alt attributes.`,"Add an accurate description, or alt=\"\" for decorative images.","error");
+      check("Accessibility",links.every(a=>hasName(a,doc)),"Links have accessible names",`${links.filter(a=>!hasName(a,doc)).length} link(s) have no discernible name.`,"Add descriptive link text or a valid accessible name.","error");
+      check("Accessibility",controls.every(el=>hasName(el,doc)),"Buttons have accessible names",`${controls.filter(el=>!hasName(el,doc)).length} button control(s) need a name.`,"Add visible text or a meaningful aria-label.","error");
+      const unlabeled = fields.filter(el => {const explicit=el.id&&[...doc.querySelectorAll("label[for]")].some(l=>l.htmlFor===el.id&&textOf(l));return !explicit&&!el.closest("label")&&!el.getAttribute("aria-label")&&!el.getAttribute("aria-labelledby");});
+      check("Accessibility",!unlabeled.length,"Form controls have labels",`${unlabeled.length} control(s) may lack labels.`,"Associate a visible label or a valid accessible name.","error");
+      const ids=[...doc.querySelectorAll("[id]")].map(el=>el.id), uniqueIds=new Set(ids);
+      check("Accessibility",ids.length===uniqueIds.size,"IDs are unique",`${ids.length-uniqueIds.size} duplicate ID occurrence(s) found.`,"Give each element a unique ID and update its references.","error");
+      check("Structure",!!doc.querySelector("main,[role=main]"),"Main landmark exists","A main content landmark was not found.","Wrap primary content in a main element.");
+      const heads=[...doc.querySelectorAll("h1,h2,h3,h4,h5,h6")]; let jumps=0, previous=0;
+      for(const h of heads){const n=Number(h.tagName[1]);if(previous&&n>previous+1)jumps++;previous=n;}
+      check("Structure",jumps===0,"Heading hierarchy is sequential",`${jumps} heading level jump(s) found.`,"Use heading levels to reflect nested sections without skipping levels.");
+      check("Structure",h1s.length===1,"One primary H1 is present",`Found ${h1s.length} H1 heading(s).`,"Use a clear main heading; multiple H1s may be valid but should be intentional.");
+      const hashBroken=links.filter(a=>{const href=a.getAttribute("href")||"";if(!href.startsWith("#")||href==="#")return false;let id=href.slice(1);try{id=decodeURIComponent(id)}catch{}return !doc.getElementById(id)});
+      check("Structure",hashBroken.length===0,"In-page links resolve",`${hashBroken.length} fragment link(s) have missing targets.`,"Correct the fragment or add the referenced ID.");
+      const tables=[...doc.querySelectorAll("table")];
+      check("Structure",tables.every(t=>!t.querySelector("tr")||t.querySelector("th")),"Tables have header cells",`${tables.filter(t=>!t.querySelector("th")).length} table(s) lack header cells.`,"For data tables, add appropriate th cells and scope.");
+
+      // SEO source-level signals
+      const titleLength=title.length, descLength=desc.length;
+      check("SEO",!!title,"Descriptive title exists","A non-empty title was not found.","Add an accurate, unique title in the document head.","error");
+      check("SEO",titleLength>=20&&titleLength<=60,"Title length is in a useful range",`Title has ${titleLength} characters.`,"Review for a concise title (often around 20–60 characters).");
+      check("SEO",!!desc,"Meta description exists","A description meta tag is missing or empty.","Write an accurate summary; do not use placeholder text.");
+      check("SEO",descLength>=50&&descLength<=160,"Description length is in a useful range",`Description has ${descLength} characters.`,"Review the description length (often around 50–160 characters).");
+      check("SEO",!!doc.querySelector('link[rel~="canonical" i]'),"Canonical URL is declared","No canonical link was detected.","Add the preferred absolute URL when appropriate.");
+      check("SEO",!!doc.querySelector('meta[property="og:title" i]')&&!!doc.querySelector('meta[property="og:description" i]'),"Open Graph basics are present","og:title and/or og:description are missing.","Add accurate og:title and og:description metadata.");
+      check("SEO",!!doc.querySelector('meta[name="robots" i]'),"Robots directives are explicit","No robots meta directive found (this is not necessarily a problem).","Set robots directives only if you need to control indexing.");
+      check("SEO",!!doc.querySelector('meta[name="viewport" i]'),"Mobile viewport is configured","Viewport metadata is missing.","Add width=device-width, initial-scale=1.");
+      const lang=doc.documentElement.getAttribute("lang")||"";
+      check("SEO",!!lang,"Document language can be identified","The root html lang attribute is missing.","Set the page's actual primary language.");
+      const canonical=doc.querySelector('link[rel~="canonical" i]')?.getAttribute("href")||"";
+      if(canonical){let valid=false;try{valid=new URL(canonical).protocol.startsWith("http")}catch{}check("SEO",valid,"Canonical URL is absolute and valid","Canonical URL does not parse as an absolute HTTP(S) URL.","Use an absolute https:// URL.");}
+      const jsonLd=[...doc.querySelectorAll('script[type="application/ld+json" i]')];
+      let validJsonLd=0; for(const node of jsonLd){try{JSON.parse(node.textContent);validJsonLd++}catch{}}
+      check("SEO",!jsonLd.length||validJsonLd===jsonLd.length,"Structured data parses as JSON-LD",`${jsonLd.length-validJsonLd} JSON-LD block(s) contain invalid JSON.`,"Validate and correct JSON syntax; this check does not validate schema semantics.");
+      const linksWithText=links.filter(a=>hasName(a,doc)).length;
+      check("SEO",links.length===0||linksWithText/links.length>=.9,"Link text is descriptive at source level",`${links.length-linksWithText} of ${links.length} links lack an accessible name.`,"Use descriptive anchor text that makes destinations clear.");
+
+      // Static performance heuristics only: no network or rendered timing.
+      const bytes=new TextEncoder().encode(html).length;
+      const inlineCss=[...html.matchAll(/<style\\b[^>]*>([\\s\\S]*?)<\\/style\\s*>/gi)].reduce((n,m)=>n+m[1].length,0);
+      const inlineJs=[...html.matchAll(/<script(?![^>]*\\bsrc\\s*=)[^>]*>([\\s\\S]*?)<\\/script\\s*>/gi)].reduce((n,m)=>n+m[1].length,0);
+      const scripts=[...doc.querySelectorAll("script[src]")], styles=[...doc.querySelectorAll('link[rel~="stylesheet" i]')];
+      const renderBlocking=[...doc.querySelectorAll("script[src]:not([defer]):not([async])")].length;
+      const noDimensions=imgs.filter(img=>!img.hasAttribute("width")||!img.hasAttribute("height")).length;
+      const noLazy=imgs.filter(img=>!img.hasAttribute("loading")&&img.getAttribute("fetchpriority")!=="high").length;
+      const eagerBelowFold=[...doc.querySelectorAll("img")].filter(img=>!img.hasAttribute("loading")&&img.getAttribute("fetchpriority")!=="high").length;
+      const lazyCount=imgs.filter(img=>img.getAttribute("loading")==="lazy").length;
+      check("Performance",bytes<500000,"HTML source size is modest",`Source is ${(bytes/1024).toFixed(1)} KB.`,"Reduce unnecessary markup and embedded data if the document is large.");
+      check("Performance",inlineCss<20000,"Inline CSS size is modest",`Inline style content is ${(inlineCss/1024).toFixed(1)} KB.`,"Consider external or minified CSS for large stylesheets.");
+      check("Performance",inlineJs<30000,"Inline JavaScript size is modest",`Inline script content is ${(inlineJs/1024).toFixed(1)} KB.`,"Consider splitting or deferring non-critical scripts.");
+      check("Performance",renderBlocking===0,"External scripts are async or deferred",`${renderBlocking} external script(s) have neither async nor defer.`,"Add defer or async where execution order permits.");
+      check("Performance",scripts.length+styles.length<=6,"External resource count is limited",`${scripts.length} external scripts and ${styles.length} stylesheets found.`,"Review dependencies; this static check cannot measure their transfer or cost.");
+      check("Performance",noDimensions===0,"Images reserve layout dimensions",`${noDimensions} image(s) have no explicit width or height.`,"Set intrinsic width and height to reduce layout shifts.");
+      check("Performance",noLazy===0,"Images declare loading priority",`${noLazy} image(s) have no loading hint.`,"Use loading=\"lazy\" for below-the-fold images; keep key hero imagery eager.");
+      const oversizedData=(html.match(/data:image\\/[^;]+;base64,[a-z0-9+/=]{50000,}/gi)||[]).length;
+      check("Performance",oversizedData===0,"No very large embedded image data detected",`${oversizedData} large base64 image payload(s) detected.`,"Use optimized image files instead of large inline data URIs.");
+
+      const all=[...cats.Accessibility,...cats.SEO,...cats.Performance,...cats.Structure];
+      const counts={error:all.filter(f=>f.severity==="error").length,warning:all.filter(f=>f.severity==="warning").length,pass:all.filter(f=>f.severity==="pass").length};
+      const categoryScores={};
+      for(const [name,list] of Object.entries(cats)){const e=list.filter(f=>f.severity==="error").length,w=list.filter(f=>f.severity==="warning").length;categoryScores[name]=Math.max(0,Math.round(100-(e*14)-(w*6)));}
+      const overall=Math.round(Object.values(categoryScores).reduce((a,b)=>a+b,0)/Object.keys(categoryScores).length);
+      return {generatedAt:new Date().toISOString(),sourceBytes:bytes,counts,overallScore:overall,categoryScores,findings:all,seoMetrics:{titleLength,descriptionLength:descLength,canonicalPresent:!!canonical,openGraphPresent:!!doc.querySelector('meta[property="og:title" i]'),structuredDataBlocks:jsonLd.length,validStructuredDataBlocks:validJsonLd,headingOneCount:h1s.length,linkCount:links.length},performanceMetrics:{sourceBytes:bytes,inlineCssBytes:inlineCss,inlineJsBytes:inlineJs,imageCount:imgs.length,imagesMissingDimensions:noDimensions,imagesWithoutLoadingHint:noLazy,lazyImages:lazyCount,externalScripts:scripts.length,stylesheets:styles.length,renderBlockingScripts:renderBlocking,largeDataUriImages:oversizedData,measurement:"Static source heuristics only; no network, browser timing or Core Web Vitals measured."}};
+    }
+
+    function currentFindings() {
+      if(!reportData)return [];
+      const list=reportData.findings;
+      return activeView==="accessibility"?list.filter(f=>f.category==="Accessibility"||f.category==="Structure"):
+        activeView==="seo"?list.filter(f=>f.category==="SEO"):
+        activeView==="performance"?list.filter(f=>f.category==="Performance"):list;
+    }
+
+    function renderFindings() {
+      if(!reportData){findingsEl.innerHTML='<div class="empty">Paste or choose HTML and run an audit to see results.</div>';return}
+      const viewList=currentFindings();
+      const list=viewList.filter(f=>activeFilter==="all"||f.severity===activeFilter);
+      $("findingsHeading").textContent=activeView==="seo"?"SEO findings":activeView==="performance"?"Performance findings":activeView==="accessibility"?"Accessibility findings":"Audit findings";
+      $("findingsCount").textContent=`${viewList.length} checks · ${list.length} shown`;
+      findingsEl.innerHTML=list.length?list.map(f=>`<article class="finding ${f.severity}"><div class="finding-head"><h3>${esc(f.title)}</h3><span class="badge">${esc(f.category)} · ${esc(f.severity)}</span></div><p>${esc(f.detail)}</p>${f.fix?`<p><strong>Suggested action:</strong> ${esc(f.fix)}</p>`:""}</article>`).join(""):'<div class="empty">No findings match this filter.</div>';
+      document.querySelectorAll("[data-filter]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.filter===activeFilter)));
+    }
+
+    function drawChart() {
+      const canvas=$("distributionChart"), ctx=canvas.getContext("2d");
+      const rect=canvas.getBoundingClientRect(); if(!rect.width)return;
+      const dpr=window.devicePixelRatio||1;canvas.width=rect.width*dpr;canvas.height=rect.height*dpr;ctx.scale(dpr,dpr);
+      const w=rect.width,h=rect.height, centerX=w/2,centerY=h/2,r=Math.min(62,h*.38),inner=r*.62;
+      ctx.clearRect(0,0,w,h);
+      const vals=reportData?[reportData.counts.error,reportData.counts.warning,reportData.counts.pass]:[0,0,0];
+      const total=vals.reduce((a,b)=>a+b,0), css=getComputedStyle(document.body);
+      const colors=[css.getPropertyValue("--bad").trim(),css.getPropertyValue("--warn").trim(),css.getPropertyValue("--good").trim()];
+      if(!total){ctx.beginPath();ctx.arc(centerX,centerY,r,0,Math.PI*2);ctx.strokeStyle=css.getPropertyValue("--line");ctx.lineWidth=r-inner;ctx.stroke();}
+      else{let angle=-Math.PI/2;vals.forEach((v,i)=>{if(!v)return;const next=angle+(v/total)*Math.PI*2;ctx.beginPath();ctx.arc(centerX,centerY,r,angle,next);ctx.strokeStyle=colors[i];ctx.lineWidth=r-inner;ctx.lineCap="butt";ctx.stroke();angle=next;});}
+      ctx.fillStyle=css.getPropertyValue("--ink").trim();ctx.font="700 20px system-ui";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(String(total),centerX,centerY-4);
+      ctx.fillStyle=css.getPropertyValue("--muted").trim();ctx.font="11px system-ui";ctx.fillText("checks",centerX,centerY+14);
+    }
+
+    function renderSummary() {
+      if(!reportData)return;
+      const {counts,overallScore,categoryScores,sourceBytes}=reportData;
+      $("errorCount").textContent=counts.error;$("warningCount").textContent=counts.warning;$("passCount").textContent=counts.pass;$("sizeCount").textContent=sourceBytes>=1024?`${(sourceBytes/1024).toFixed(1)} KB`:`${sourceBytes} B`;
+      $("overallScore").textContent=overallScore;$("overallRing").style.setProperty("--score",overallScore);$("auditState").textContent="Audit complete";
+      $("scoreLabel").textContent=overallScore>=90?"Strong source signals":overallScore>=70?"Some improvements recommended":"Review key issues";
+      $("scoreCaption").textContent=`Combined heuristic score across ${Object.keys(categoryScores).length} categories; not a certification.`;
+      const bars=$("scoreBars");bars.innerHTML=Object.entries(categoryScores).map(([name,value])=>`<div class="bar-row"><span>${esc(name)}</span><div class="bar-track"><div class="bar-fill" style="width:${value}%"></div></div><span class="bar-value">${value}</span></div>`).join("");
+      $("jsonBtn").disabled=false;$("csvBtn").disabled=false;$("copyBtn").disabled=false;$("downloadHtmlBtn").disabled=false;$("fixBtn").disabled=false;
+      const metrics=$("metricsGrid");metrics.innerHTML=Object.entries(reportData.categoryScores).map(([name,value])=>`<div class="metric"><b>${esc(name)} score</b><span>${value}/100 heuristic</span></div>`).join("")+`<div class="metric"><b>HTML source</b><span>${(sourceBytes/1024).toFixed(1)} KB</span></div><div class="metric"><b>SEO title length</b><span>${reportData.seoMetrics.titleLength} characters</span></div><div class="metric"><b>Images</b><span>${reportData.performanceMetrics.imageCount} found</span></div>`;
+      drawChart();
+    }
+
+    function showView(view) {
+      activeView=view;activeFilter="all";
+      navButtons.forEach(b=>b.classList.toggle("active",b.dataset.view===view));
+      const map={overview:["Audit overview","Inspect HTML quality, accessibility, SEO and static performance signals."],accessibility:["Accessibility audit","Review source-level checks for names, labels, language and document structure."],seo:["SEO audit","Inspect metadata and page structure; search ranking is not evaluated."],performance:["Performance audit","Review static source indicators; no live performance timings are collected."],export:["Export dashboard","Download a structured JSON or CSV report from this browser."]};
+      $("viewTitle").textContent=map[view][0];$("viewSubtitle").textContent=map[view][1];
+      $("exportCard").classList.toggle("hidden",view!=="export");$("findingsCard").classList.toggle("hidden",view==="export");
+      renderFindings();
+    }
+
+    function download(name,data,type) {const blob=new Blob([data],{type}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1200)}
+    function exportJson(){if(!reportData)return;download("flux-audit-report.json",JSON.stringify(reportData,null,2),"application/json;charset=utf-8")}
+    function exportCsv(){if(!reportData)return;const rows=[["category","severity","title","detail","suggested_action"],...reportData.findings.map(f=>[f.category,f.severity,f.title,f.detail,f.fix])];const csv=rows.map(row=>row.map(cell=>`"${String(cell??"").replace(/"/g,'""')}"`).join(",")).join("\r\n");download("flux-audit-findings.csv",csv,"text/csv;charset=utf-8")}
+    function copySummary(){if(!reportData)return;const text=`FLUX audit — ${reportData.generatedAt}\nOverall score: ${reportData.overallScore}/100 (heuristic)\nErrors: ${reportData.counts.error} · Suggestions: ${reportData.counts.warning} · Passed: ${reportData.counts.pass}\nCategory scores: ${Object.entries(reportData.categoryScores).map(([k,v])=>`${k} ${v}`).join(" | ")}\nStatic performance only; no live timings or Core Web Vitals measured.`;navigator.clipboard?.writeText(text).then(()=>notify("Audit summary copied.")).catch(()=>notify("Clipboard unavailable in this browser."))}
+
+    function conservativeFix(html) {
+      const doc=new DOMParser().parseFromString(html,"text/html"),head=doc.head||doc.querySelector("head");
+      if(head&&!doc.querySelector("meta[charset]")){const m=doc.createElement("meta");m.setAttribute("charset","utf-8");head.prepend(m)}
+      if(head&&!doc.querySelector('meta[name="viewport" i]')){const m=doc.createElement("meta");m.name="viewport";m.content="width=device-width, initial-scale=1";head.append(m)}
+      return "<!doctype html>\n"+doc.documentElement.outerHTML;
+    }
+
+    async function runAudit(html=sourceEl.value) {
+      if(!html.trim()){notify("Paste HTML or select a file first.");return}
+      $("analyzeBtn").disabled=true;$("analyzeBtn").textContent="Analyzing…";$("status").textContent="Analyzing locally…";
+      await new Promise(resolve=>setTimeout(resolve,25));
+      try{reportData=analyze(html);renderSummary();renderFindings();$("status").textContent="Analysis complete. Source was processed locally and not uploaded.";}
+      catch(error){notify(`Could not analyze HTML: ${error.message}`);$("status").textContent="Analysis failed; check the input and try again."}
+      finally{$("analyzeBtn").disabled=false;$("analyzeBtn").textContent="Analyze HTML"}
+    }
+
+    $("analyzeBtn").addEventListener("click",()=>runAudit());
+    $("sampleBtn").addEventListener("click",()=>{sourceEl.value=sample;runAudit()});
+    $("clearBtn").addEventListener("click",()=>{sourceEl.value="";reportData=null;activeFilter="all";$("findings").innerHTML='<div class="empty">Paste or choose HTML and run an audit to see results.</div>';$("scoreBars").innerHTML='<div class="empty">Run an audit to see category scores.</div>';["errorCount","warningCount","passCount","sizeCount","overallScore"].forEach(id=>$(id).textContent="—");$("auditState").textContent="Awaiting source";$("scoreLabel").textContent="Ready to audit";$("scoreCaption").textContent="Run an audit to calculate category scores.";$("metricsGrid").innerHTML='<div class="empty">Run an audit to populate export metrics.</div>';$("jsonBtn").disabled=$("csvBtn").disabled=$("copyBtn").disabled=$("downloadHtmlBtn").disabled=$("fixBtn").disabled=true;$("status").textContent="Cleared. Nothing is stored or uploaded.";drawChart()});
+    $("fileInput").addEventListener("change",async e=>{const file=e.target.files?.[0];if(!file)return;if(!/\.html?$/i.test(file.name)){notify("Choose an .html or .htm file.");e.target.value="";return}if(file.size>MAX_SIZE){notify("File is larger than 5 MB.");e.target.value="";return}try{sourceEl.value=await file.text();$("status").textContent=`Loaded ${file.name}; source remains local.`;runAudit()}catch{notify("Could not read that file.")}});
+    $("fixBtn").addEventListener("click",()=>{if(!sourceEl.value.trim())return;sourceEl.value=conservativeFix(sourceEl.value);runAudit()});
+    $("downloadHtmlBtn").addEventListener("click",()=>{if(sourceEl.value.trim())download("flux-checked.html",sourceEl.value,"text/html;charset=utf-8")});
+    $("jsonBtn").addEventListener("click",exportJson);$("csvBtn").addEventListener("click",exportCsv);$("copyBtn").addEventListener("click",copySummary);
+    $("themeSelect").addEventListener("change",e=>setTheme(e.target.value));
+    $("themeToggle").addEventListener("click",()=>{const current=themeSelect.value;const dark=current==="dark"||current==="midnight"||(current==="system"&&matchMedia("(prefers-color-scheme: dark)").matches);setTheme(dark?"light":"dark")});
+    $("collapseBtn").addEventListener("click",()=>{const sidebar=$("sidebar"),collapsed=sidebar.classList.toggle("collapsed");$("collapseBtn").setAttribute("aria-expanded",String(!collapsed));$("collapseBtn").setAttribute("aria-label",collapsed?"Expand sidebar":"Collapse sidebar");$("collapseBtn").querySelector(".nav-text").textContent=collapsed?"Expand sidebar":"Collapse sidebar"});
+    navButtons.forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
+    document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{activeFilter=b.dataset.filter;renderFindings()}));
+    window.addEventListener("resize",()=>requestAnimationFrame(drawChart));
+    initTheme();
+  })();
+  </script>
 </body>
 </html>
