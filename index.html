@@ -3,118 +3,1449 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="FLUX by MrMWSK — a free, local HTML quality and accessibility checker.">
-  <title>MrMWSK · FLUX</title>
+  <meta name="theme-color" content="#10251d">
+  <meta name="description" content="FLUX by MrMWSK — browser-based HTML quality, accessibility, SEO and performance audit tool.">
+  <title>MrMWSK FLUX — HTML Audit Studio</title>
   <style>
-    :root{--bg:#f4f7f5;--panel:#fff;--ink:#17231e;--muted:#66736c;--line:#dce5df;--accent:#28634d;--soft:#e8f2ec;--bad:#a43b36;--warn:#95620b;--good:#247247;--shadow:0 12px 32px #193d3012}
-    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-    header{background:#173c30;color:#fff;padding:25px 18px 23px}.wrap,main,.foot{max-width:1080px;margin:auto}.brand{font-size:12px;letter-spacing:.17em;font-weight:800;color:#b9d7c7;text-transform:uppercase}.hero{display:flex;align-items:end;justify-content:space-between;gap:18px;flex-wrap:wrap}h1{font-size:clamp(30px,5vw,46px);line-height:1.05;margin:8px 0}.tag{color:#d5e7dc;margin:0}main{padding:22px 16px 40px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:var(--shadow)}h2{font-size:19px;margin:0 0 7px}.sub{color:var(--muted);margin:0 0 14px;font-size:13px}
-    textarea{width:100%;min-height:245px;resize:vertical;border:1px solid #cbd8d0;border-radius:11px;padding:13px;background:#fbfdfb;color:#1c2a23;font:13px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace}button,.filebtn{border:0;border-radius:10px;padding:11px 16px;font-weight:700;cursor:pointer;font-size:14px}button:focus-visible,.filebtn:focus-within,textarea:focus-visible,input:focus-visible{outline:3px solid #8bbca1;outline-offset:2px}.primary{background:var(--accent);color:white}.secondary,.filebtn{background:var(--soft);color:var(--accent)}.actions,.toolbar,.filters{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px;align-items:center}.filebtn{position:relative;overflow:hidden}.filebtn input{position:absolute;inset:0;opacity:0;width:100%;cursor:pointer}.small{font-size:12px;color:var(--muted)}#results{display:none}.summary{display:flex;align-items:center;gap:18px;flex-wrap:wrap}.score{width:88px;height:88px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--accent);font-size:28px;font-weight:800;border:5px solid #c7dfd0}.stats{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.stat{background:#f5f8f6;border:1px solid var(--line);padding:9px 12px;border-radius:10px;min-width:90px}.stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--muted)}.filter{background:#f5f8f6;color:var(--ink);border:1px solid var(--line);padding:8px 12px;border-radius:999px;font-size:12px}.filter.active{background:var(--soft);color:var(--accent);border-color:#b5d0c1}.issue{border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:10px;padding:12px;margin:9px 0;background:white}.issue.error{border-left-color:var(--bad)}.issue.good{border-left-color:var(--good)}.issue strong{display:block;margin:3px 0}.issue p{margin:0;color:var(--muted);font-size:13px}.pill{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:var(--warn)}.error .pill{color:var(--bad)}.good .pill{color:var(--good)}.tip{margin-top:9px;padding:9px 10px;background:#f3f8f4;border-radius:8px}.tip b{font-size:11px;color:var(--accent)}.tip p{margin-top:3px;color:var(--ink)}.progress{height:8px;background:#e8efea;border-radius:8px;overflow:hidden;margin-top:12px}.progress span{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}.privacy{margin-top:12px;padding:10px;background:#f5f8f6;border-radius:8px}
-    @media(max-width:600px){header{padding:22px 16px}main{padding:14px 11px 30px}.panel{padding:14px;border-radius:13px}.actions button,.actions .filebtn{flex:1 1 100%}textarea{min-height:210px}.toolbar{display:grid;grid-template-columns:1fr}.summary{align-items:flex-start}}
+    :root {
+      color-scheme: light;
+      --bg: #edf3f7;
+      --panel: rgba(255,255,255,0.78);
+      --solid: #ffffff;
+      --soft: #f5f9fb;
+      --ink: #172630;
+      --muted: #5f7280;
+      --line: rgba(104,131,149,0.22);
+      --accent: #16865c;
+      --accent-2: #2785d8;
+      --good: #16865c;
+      --good-bg: #e7f7ee;
+      --warn: #a96d08;
+      --warn-bg: #fff4dc;
+      --bad: #bd403d;
+      --bad-bg: #fff0ef;
+      --shadow: 0 18px 48px rgba(37,66,84,0.10);
+      --radius: 18px;
+    }
+    body[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0d1720;
+      --panel: rgba(20,33,44,0.82);
+      --solid: #14212c;
+      --soft: #1a2a36;
+      --ink: #eaf3f7;
+      --muted: #a1b5c2;
+      --line: rgba(154,187,207,0.17);
+      --accent: #62d59b;
+      --accent-2: #79b9ff;
+      --good: #62d59b;
+      --good-bg: #153426;
+      --warn: #ffd06b;
+      --warn-bg: #352a14;
+      --bad: #ff9288;
+      --bad-bg: #391f21;
+      --shadow: 0 20px 55px rgba(0,0,0,0.30);
+    }
+    body[data-theme="forest"] {
+      --bg: #eaf4ed;
+      --panel: rgba(250,255,251,0.82);
+      --solid: #fbfffc;
+      --soft: #eff8f1;
+      --ink: #193126;
+      --muted: #5e7568;
+      --line: rgba(82,133,101,0.20);
+      --accent: #20734b;
+      --accent-2: #367b9d;
+      --good: #20734b;
+      --good-bg: #e5f5e9;
+      --warn: #93610b;
+      --warn-bg: #fff2d6;
+      --bad: #b74640;
+      --bad-bg: #fff0ed;
+    }
+    body[data-theme="midnight"] {
+      color-scheme: dark;
+      --bg: #111425;
+      --panel: rgba(27,30,49,0.86);
+      --solid: #1c2033;
+      --soft: #252a42;
+      --ink: #f0f1ff;
+      --muted: #b3bad5;
+      --line: rgba(168,175,229,0.18);
+      --accent: #79dbaa;
+      --accent-2: #9bbaff;
+      --good: #79dbaa;
+      --good-bg: #17342e;
+      --warn: #f5cf70;
+      --warn-bg: #342b17;
+      --bad: #ff9288;
+      --bad-bg: #392226;
+      --shadow: 0 20px 55px rgba(0,0,0,0.34);
+    }
+    @media (prefers-color-scheme: dark) {
+      body[data-theme="system"] {
+        color-scheme: dark;
+        --bg: #0d1720;
+        --panel: rgba(20,33,44,0.82);
+        --solid: #14212c;
+        --soft: #1a2a36;
+        --ink: #eaf3f7;
+        --muted: #a1b5c2;
+        --line: rgba(154,187,207,0.17);
+        --accent: #62d59b;
+        --accent-2: #79b9ff;
+        --good: #62d59b;
+        --good-bg: #153426;
+        --warn: #ffd06b;
+        --warn-bg: #352a14;
+        --bad: #ff9288;
+        --bad-bg: #391f21;
+        --shadow: 0 20px 55px rgba(0,0,0,0.30);
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 4% 0, color-mix(in srgb, var(--accent-2) 12%, transparent), transparent 30%),
+        radial-gradient(ellipse at 100% 100%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 34%),
+        var(--bg);
+      color: var(--ink);
+      font: 14px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      transition: background 0.22s ease, color 0.22s ease;
+    }
+    button, input, textarea, select {
+      font: inherit;
+    }
+    button {
+      color: inherit;
+      cursor: pointer;
+    }
+    button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--accent-2) 45%, transparent);
+      outline-offset: 2px;
+    }
+    .app {
+      max-width: 1600px;
+      min-height: 100vh;
+      margin: auto;
+      display: flex;
+    }
+    .sidebar {
+      width: 250px;
+      flex: 0 0 250px;
+      padding: 20px 13px;
+      background: var(--panel);
+      border-right: 1px solid var(--line);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transition: width 0.2s ease, flex-basis 0.2s ease, padding 0.2s ease;
+      z-index: 5;
+    }
+    .sidebar.collapsed {
+      width: 72px;
+      flex-basis: 72px;
+      padding-inline: 9px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 3px 8px 22px;
+      font-weight: 900;
+      font-size: 19px;
+      white-space: nowrap;
+    }
+    .brand-mark {
+      width: 35px;
+      height: 35px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff;
+      font-weight: 900;
+    }
+    .brand small {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .brand-text { color: #fff; }
+    .brand-product { color: #62d59b; }
+    .nav-label {
+      padding: 9px 11px 6px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .nav {
+      display: grid;
+      gap: 5px;
+    }
+    .nav button, .collapse-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      background: transparent;
+      padding: 10px 11px;
+      text-align: left;
+      font-weight: 720;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .nav button:hover, .collapse-btn:hover {
+      background: var(--soft);
+      color: var(--ink);
+    }
+    .nav button.active {
+      background: color-mix(in srgb, var(--accent) 11%, var(--panel));
+      border-color: color-mix(in srgb, var(--accent) 20%, var(--line));
+      color: var(--accent);
+    }
+    .nav-icon {
+      width: 24px;
+      text-align: center;
+      font-size: 16px;
+      flex: 0 0 24px;
+    }
+    .sidebar.collapsed .brand-text,
+    .sidebar.collapsed .nav-label,
+    .sidebar.collapsed .nav-text,
+    .sidebar.collapsed .side-info {
+      display: none;
+    }
+    .sidebar.collapsed .brand {
+      justify-content: center;
+      padding-inline: 0;
+    }
+    .sidebar.collapsed .nav button,
+    .sidebar.collapsed .collapse-btn {
+      justify-content: center;
+      padding-inline: 7px;
+    }
+    .collapse-btn {
+      margin-top: 18px;
+      border-color: var(--line);
+    }
+    .side-info {
+      margin-top: 20px;
+      border: 1px solid var(--line);
+      background: var(--soft);
+      padding: 11px;
+      border-radius: 13px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .main {
+      min-width: 0;
+      flex: 1;
+      padding: 20px 23px 40px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 17px;
+    }
+    .page-title h1 {
+      margin: 0;
+      font-size: clamp(22px, 3vw, 29px);
+      letter-spacing: -.7px;
+    }
+    .page-title p {
+      margin: 3px 0 0;
+      color: var(--muted);
+    }
+    .top-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .select, .btn {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel);
+      padding: 8px 11px;
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .btn {
+      transition: transform 0.12s ease, background 0.15s ease;
+    }
+    .btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+    .btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+    .btn.primary {
+      border: 0;
+      background: linear-gradient(120deg, var(--accent), color-mix(in srgb, var(--accent-2) 65%, var(--accent)));
+      color: #fff;
+    }
+    .glass {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 13px;
+    }
+    .card {
+      padding: 16px;
+      min-width: 0;
+    }
+    .span-12 { grid-column: span 12; }
+    .span-7 { grid-column: span 7; }
+    .span-5 { grid-column: span 5; }
+    .span-6 { grid-column: span 6; }
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 11px;
+    }
+    .card-head h2, .card-head h3 {
+      margin: 0;
+      font-size: 15px;
+      letter-spacing: -.2px;
+    }
+    .eyebrow {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--muted);
+      font-weight: 850;
+    }
+    .input-layout {
+      display: grid;
+      gap: 10px;
+    }
+    textarea#source {
+      width: 100%;
+      min-height: 220px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--solid) 65%, transparent);
+      color: var(--ink);
+      padding: 12px;
+      font: 12px/1.55 ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .file-input {
+      max-width: 100%;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .privacy, .report-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .stat {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px;
+    }
+    .stat strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+    .stat span {
+      font-size: 9px;
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .stat.error strong { color: var(--bad); }
+    .stat.warning strong { color: var(--warn); }
+    .stat.pass strong { color: var(--good); }
+    .score-line {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      background: var(--soft);
+      border-radius: 12px;
+    }
+    .score-ring {
+      --score: 0;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex: none;
+      background: radial-gradient(closest-side, var(--solid) 78%, transparent 80%), conic-gradient(var(--accent) calc(var(--score) * 1%), var(--line) 0);
+    }
+    .score-ring b {
+      font-size: 16px;
+    }
+    .score-copy strong { display: block; }
+    .score-copy span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .bars {
+      display: grid;
+      gap: 10px;
+    }
+    .bar-row {
+      display: grid;
+      grid-template-columns: 100px 1fr 30px;
+      gap: 8px;
+      align-items: center;
+      font-size: 11px;
+    }
+    .bar-track {
+      height: 8px;
+      border-radius: 99px;
+      background: var(--soft);
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 0.3s ease;
+    }
+    .bar-value {
+      text-align: right;
+      font-weight: 800;
+      color: var(--muted);
+    }
+    .chart {
+      width: 100%;
+      height: 145px;
+      display: block;
+    }
+    .chart-legend {
+      display: flex;
+      gap: 11px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 10px;
+    }
+    .legend-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 4px;
+    }
+    .finding-list {
+      display: grid;
+      gap: 8px;
+    }
+    .finding {
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--good);
+      border-radius: 11px;
+      background: color-mix(in srgb, var(--panel) 90%, transparent);
+    }
+    .finding.warning { border-left-color: var(--warn); }
+    .finding.error { border-left-color: var(--bad); }
+    .finding-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 9px;
+    }
+    .finding h3 {
+      font-size: 12px;
+      margin: 0;
+    }
+    .finding p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .badge {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .filter-row, .export-grid {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+    .filter {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--soft);
+      padding: 6px 9px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .filter[aria-pressed="true"] {
+      color: var(--accent);
+      border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
+    }
+    .empty {
+      padding: 22px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      border-radius: 11px;
+    }
+    .hidden { display: none !important; }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+      gap: 8px;
+    }
+    .metric {
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--soft);
+    }
+    .metric b {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 11px;
+    }
+    .metric span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+    .section-title {
+      margin: 16px 0 8px;
+      font-size: 12px;
+    }
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 20;
+      background: var(--solid);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: 11px;
+      padding: 10px 14px;
+      max-width: min(360px, calc(100vw - 36px));
+      color: var(--ink);
+    }
+    @media (max-width: 1050px) {
+      .main { padding: 16px; }
+      .span-7, .span-5, .span-6 { grid-column: span 12; }
+    }
+    @media (max-width: 740px) {
+      .app { display: block; }
+      .sidebar, .sidebar.collapsed {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        padding: 7px 9px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .brand, .side-info, .nav-label, .collapse-btn { display: none !important; }
+      .nav {
+        display: flex;
+        overflow-x: auto;
+        gap: 4px;
+      }
+      .nav button, .sidebar.collapsed .nav button {
+        width: auto;
+        flex: none;
+        padding: 7px 9px;
+      }
+      .nav-text, .sidebar.collapsed .nav-text { display: inline !important; font-size: 10px; }
+      .nav-icon { width: 19px; flex-basis: 19px; }
+      .main { padding: 14px 10px 28px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
   </style>
 </head>
+<body data-theme="system">
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <span class="brand-text">MrMWSK <span class="brand-product">FLUX</span><small>Audit studio</small></span>
+      </div>
+      <div class="nav-label">Workspace</div>
+      <nav class="nav" aria-label="Audit sections">
+        <button class="active" type="button" data-view="overview" title="Overview"><span class="nav-icon">◫</span><span class="nav-text">Overview</span></button>
+        <button type="button" data-view="accessibility" title="Accessibility"><span class="nav-icon">◎</span><span class="nav-text">Accessibility</span></button>
+        <button type="button" data-view="seo" title="SEO"><span class="nav-icon">⌕</span><span class="nav-text">SEO</span></button>
+        <button type="button" data-view="performance" title="Performance"><span class="nav-icon">ϟ</span><span class="nav-text">Performance</span></button>
+        <button type="button" data-view="export" title="Exports"><span class="nav-icon">⇩</span><span class="nav-text">Exports</span></button>
+      </nav>
+      <button class="collapse-btn" id="collapseBtn" type="button" aria-expanded="true" aria-label="Collapse sidebar"><span class="nav-icon">⇤</span><span class="nav-text">Collapse sidebar</span></button>
+      <div class="side-info">HTML is parsed locally; FLUX never renders your uploaded page or fetches external resources.</div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="page-title">
+          <h1 id="viewTitle">Audit overview</h1>
+          <p id="viewSubtitle">Inspect HTML quality, accessibility, SEO and performance signals.</p>
+        </div>
+        <div class="top-actions">
+          <label class="eyebrow" for="themeSelect">Theme</label>
+          <select class="select" id="themeSelect" aria-label="Color theme">
+            <option value="system">System</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+            <option value="forest">Forest</option>
+            <option value="midnight">Midnight</option>
+          </select>
+          <button class="btn" id="themeToggle" type="button" aria-label="Toggle light and dark theme">☼ / ☾</button>
+        </div>
+      </div>
+
+      <section class="dashboard">
+        <article class="glass card span-7">
+          <div class="card-head">
+            <h2>HTML source</h2>
+            <span class="eyebrow">Local · 5 MB max</span>
+          </div>
+          <div class="input-layout">
+            <textarea id="source" spellcheck="false" aria-label="HTML source" placeholder="Paste HTML here, or choose a .html/.htm file…"></textarea>
+            <div class="actions">
+              <button class="btn primary" id="analyzeBtn" type="button">Analyze HTML</button>
+              <button class="btn" id="sampleBtn" type="button">Load sample</button>
+              <button class="btn" id="clearBtn" type="button">Clear</button>
+              <input class="file-input" id="fileInput" type="file" accept=".html,.htm,text/html" aria-label="Choose HTML file">
+            </div>
+            <div class="actions">
+              <button class="btn" id="fixBtn" type="button" disabled>Apply conservative fixes</button>
+              <button class="btn" id="downloadHtmlBtn" type="button" disabled>Download HTML</button>
+            </div>
+            <p class="privacy" id="status" role="status" aria-live="polite">Static heuristics only—not a live crawl, formal WCAG conformance test, or browser timing measurement.</p>
+          </div>
+        </article>
+
+        <article class="glass card span-5">
+          <div class="card-head">
+            <h2>Audit summary</h2>
+            <span class="eyebrow" id="auditState">Awaiting source</span>
+          </div>
+          <div class="stats">
+            <div class="stat error"><strong id="errorCount">—</strong><span>Errors</span></div>
+            <div class="stat warning"><strong id="warningCount">—</strong><span>Suggestions</span></div>
+            <div class="stat pass"><strong id="passCount">—</strong><span>Passed</span></div>
+            <div class="stat"><strong id="sizeCount">—</strong><span>Source size</span></div>
+          </div>
+          <div class="score-line">
+            <div class="score-ring" id="overallRing"><b id="overallScore">—</b></div>
+            <div class="score-copy">
+              <strong id="scoreLabel">Ready to audit</strong>
+              <span id="scoreCaption">Run an audit to calculate category scores.</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="glass card span-6">
+          <div class="card-head">
+            <h2>Category scores</h2>
+            <span class="eyebrow">Weighted heuristics</span>
+          </div>
+          <div class="bars" id="scoreBars">
+            <div class="empty">Run an audit to see category scores.</div>
+          </div>
+        </article>
+
+        <article class="glass card span-6">
+          <div class="card-head">
+            <h2>Finding distribution</h2>
+            <span class="eyebrow">Current report</span>
+          </div>
+          <canvas class="chart" id="distributionChart" role="img" aria-label="Pie chart of findings distribution"></canvas>
+          <div class="chart-legend">
+            <span><i class="legend-dot" style="background:var(--bad)"></i>Errors</span>
+            <span><i class="legend-dot" style="background:var(--warn)"></i>Suggestions</span>
+            <span><i class="legend-dot" style="background:var(--good)"></i>Passed</span>
+          </div>
+        </article>
+
+        <article class="glass card span-12" id="findingsCard">
+          <div class="card-head">
+            <h2 id="findingsHeading">Audit findings</h2>
+            <span class="eyebrow" id="findingsCount">No report yet</span>
+          </div>
+          <div class="filter-row" aria-label="Filter findings">
+            <button type="button" class="filter" data-filter="all" aria-pressed="true">All</button>
+            <button type="button" class="filter" data-filter="error" aria-pressed="false">Errors</button>
+            <button type="button" class="filter" data-filter="warning" aria-pressed="false">Suggestions</button>
+            <button type="button" class="filter" data-filter="pass" aria-pressed="false">Passed</button>
+          </div>
+          <div class="finding-list" id="findings" style="margin-top:9px">
+            <div class="empty">Paste or choose HTML and run an audit to see results.</div>
+          </div>
+          <p class="report-note" style="margin-top:10px">Performance checks inspect submitted source only; they cannot measure live network timing, Core Web Vitals, server behavior, or rendered layout.</p>
+        </article>
+
+        <article class="glass card span-12 hidden" id="exportCard">
+          <div class="card-head">
+            <h2>Export dashboard</h2>
+            <span class="eyebrow">Private local downloads</span>
+          </div>
+          <p class="report-note">Exports include findings and metrics, not the submitted HTML source.</p>
+          <div class="export-grid" style="margin-top:12px">
+            <button class="btn primary" id="jsonBtn" type="button" disabled>Export JSON</button>
+            <button class="btn" id="csvBtn" type="button" disabled>Export CSV</button>
+            <button class="btn" id="copyBtn" type="button" disabled>Copy summary</button>
+          </div>
+          <h3 class="section-title">Audit metrics</h3>
+          <div class="metric-grid" id="metricsGrid">
+            <div class="empty">Run an audit to populate metrics.</div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (() => {
+    'use strict';
+
+    const $ = (id) => document.getElementById(id);
+    const MAX_SIZE = 5 * 1024 * 1024;
+    const sourceEl = $('source');
+    const findingsEl = $('findings');
+    const themeSelect = $('themeSelect');
+    const navButtons = [...document.querySelectorAll('.nav button[data-view]')];
+
+    const state = {
+      report: null,
+      filter: 'all',
+      view: 'overview',
+      toastTimer: null
+    };
+
+    const sample = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accessible sample page for FLUX</title>
+  <meta name="description" content="A sample page used to test HTML accessibility, SEO and static performance checks in FLUX.">
+  <link rel="canonical" href="https://example.com/sample">
+  <meta property="og:title" content="Accessible sample page">
+  <meta property="og:description" content="Example metadata for sharing previews.">
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebPage","name":"Accessible sample page"}
+  <\/script>
+</head>
 <body>
-<header><div class="wrap"><div class="brand">MrMWSK · FLUX</div><div class="hero"><div><h1>FLUX</h1><p class="tag">A clearer, more accessible web starts here.</p></div><div class="small" style="color:#d5e7dc">Free · No account · Runs locally</div></div></div></header>
-<main>
-  <section class="panel">
-    <h2>Check your HTML</h2><p class="sub">Paste HTML below or choose an .html or .htm file. Your source is analyzed in this browser and never sent to a server.</p>
-    <label class="small" for="source">HTML source</label><textarea id="source" spellcheck="false" placeholder="Paste HTML here…"></textarea>
-    <div class="actions"><button class="primary" id="analyze" type="button">Analyze HTML</button><label class="filebtn">Choose HTML file<input id="file" type="file" accept=".html,.htm,text/html" aria-label="Choose an HTML file"></label><button class="secondary" id="sample" type="button">Load sample</button><button class="secondary" id="clear" type="button">Clear</button></div>
-    <p class="small" id="fileinfo" role="status" aria-live="polite">Tip: paste source or choose a local HTML file. FLUX checks source-level signals; it does not crawl live websites.</p>
-    <div id="progress" class="progress" role="progressbar" aria-label="Analysis progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden><span></span></div>
-    <p class="small privacy">Privacy: files are processed locally. Uploaded scripts are parsed as text only—never executed or displayed as a webpage. Upload limit: 5 MB.</p>
-  </section>
-  <section id="results" aria-live="polite">
-    <div class="panel"><div class="summary"><div class="score" id="score">—</div><div><h2 id="grade">Your report</h2><p class="sub" id="summaryText" style="margin:0"></p></div></div>
-      <div class="stats"><div class="stat"><b id="errors">0</b><span>Errors</span></div><div class="stat"><b id="warnings">0</b><span>Suggestions</span></div><div class="stat"><b id="passed">0</b><span>Passed</span></div></div>
-      <div class="filters" aria-label="Filter findings"><button type="button" class="filter active" data-filter="all">All</button><button type="button" class="filter" data-filter="error">Errors</button><button type="button" class="filter" data-filter="warning">Suggestions</button><button type="button" class="filter" data-filter="good">Passed</button></div>
-      <div class="toolbar"><button class="primary" id="fix" type="button">Apply safe fixes &amp; download HTML</button><button class="secondary" id="download" type="button">Download report</button><button class="secondary" id="copy" type="button">Copy report</button></div><p class="small" id="status" role="status" aria-live="polite">Only missing UTF-8 charset and viewport metadata are added automatically. Content-dependent fixes are left for your judgment.</p>
-    </div>
-    <div class="panel"><h2>Findings and fix assistant</h2><p class="sub">Review each finding and its recommended fix. A clean report does not guarantee full WCAG conformance.</p><div id="findings"></div></div>
-  </section>
-</main>
-<footer class="foot">Made for the web by <strong>MrMWSK</strong> · Free to use · Runs locally in your browser</footer>
-<script>
-(() => {
-  const $ = (id) => document.getElementById(id);
-  const MAX_SIZE = 5 * 1024 * 1024;
-  const sample = `<!doctype html>\n<html lang="en"><head><title>Sample page</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><main><h1>Welcome</h1><img src="photo.jpg"><p>Sample content</p><a href="#missing">Read more</a><button></button><input type="text" placeholder="Your name"></main></body></html>`;
-  let issues = [], report = "", filter = "all";
-  const advice = {
-    "Page language is declared":"Set html lang to the page's actual primary language, for example lang=\"en\" or lang=\"ur\".",
-    "Page has a descriptive title":"Add a concise title that accurately describes this page. FLUX will not invent one.",
-    "Mobile viewport is configured":"Add <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> inside head.",
-    "Meta description is present":"Write an accurate summary of the actual page, then add it as a description meta tag.",
-    "Images have alt attributes":"Describe meaningful images accurately; for decorative images, use alt=\"\". Do not use filenames as descriptions.",
-    "One main H1 heading":"Use one descriptive page-level h1; adjust extras only if they are section headings.",
-    "Heading levels follow a logical order":"Avoid skipping levels when introducing a subsection, while preserving the document's intended structure.",
-    "Links have understandable names":"Use descriptive link text or a concise accessible name that explains the destination or action.",
-    "Buttons have accessible names":"Add visible button text or an accurate aria-label describing the action.",
-    "Form controls have labels":"Associate a visible label with each control, or add an accurate accessible name. Placeholder alone is not a label.",
-    "IDs are unique":"Rename duplicate IDs and update any references to the renamed IDs.",
-    "A main content landmark exists":"Place the primary page content in a main element.",
-    "In-page link targets exist":"Create an element with the exact missing ID shown, or update the link to the intended existing ID.",
-    "Data tables use header cells":"For data tables, add appropriate th cells with scope. Layout tables may not need headers.",
-    "Character encoding is declared":"Add <meta charset=\"utf-8\"> near the beginning of head."
-  };
-  function escapeHTML(value) { return String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-  function check(list, ok, level, title, detail) { list.push({level:ok?"good":level,title,detail:ok?"Passed: "+detail:detail}); }
-  function render() {
-    document.querySelectorAll(".filter").forEach(b => b.classList.toggle("active", b.dataset.filter === filter));
-    const shown = issues.filter(i => filter === "all" || i.level === filter);
-    const host = $("findings"); host.replaceChildren();
-    shown.forEach(item => {
-      const article = document.createElement("article"); article.className = `issue ${item.level}`;
-      const badge = document.createElement("span"); badge.className = "pill"; badge.textContent = item.level === "good" ? "Passed" : item.level === "error" ? "Needs attention" : "Suggestion";
-      const title = document.createElement("strong"); title.textContent = item.title;
-      const detail = document.createElement("p"); detail.textContent = item.detail;
-      article.append(badge,title,detail);
-      if(item.level !== "good") { const box=document.createElement("div"); box.className="tip"; const label=document.createElement("b"); label.textContent="Suggested fix"; const text=document.createElement("p"); text.textContent=advice[item.title]||"Review this finding and choose a correction that preserves the page's intended meaning."; box.append(label,text); article.append(box); }
-      host.append(article);
+  <header><h1>Welcome</h1></header>
+  <main>
+    <p>Try the local HTML audit.</p>
+    <a href="#details">Read more</a>
+    <h2 id="details">Details</h2>
+    <img src="landscape.jpg" alt="A green hillside below a blue sky" width="800" height="500" loading="lazy">
+    <button type="button">Continue</button>
+  </main>
+</body>
+</html>`;
+
+    function clamp(v, min, max) {
+      return Math.min(Math.max(v, min), max);
+    }
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[char]));
+    }
+
+    function textContent(node) {
+      return (node && node.textContent || '').replace(/\s+/g, ' ').trim();
+    }
+
+    function hasAccessibleName(element, doc) {
+      const ariaLabel = (element.getAttribute('aria-label') || '').trim();
+      if (ariaLabel) return true;
+
+      const labelledBy = (element.getAttribute('aria-labelledby') || '').trim().split(/\s+/).filter(Boolean);
+      if (labelledBy.length && labelledBy.every((id) => !!textContent(doc.getElementById(id)))) {
+        return true;
+      }
+
+      if (element.tagName === 'INPUT' && ['button', 'submit', 'reset'].includes((element.type || '').toLowerCase())) {
+        return !!(element.value || '').trim();
+      }
+
+      if (element.tagName === 'IMG') {
+        return element.hasAttribute('alt') && !!element.getAttribute('alt').trim();
+      }
+
+      return !!textContent(element) || !!element.querySelector('img[alt]:not([alt=""])');
+    }
+
+    function addFinding(findings, category, severity, title, detail, fix = '') {
+      findings.push({ category, severity, title, detail, fix });
+    }
+
+    function notify(message) {
+      const toast = $('toast');
+      toast.textContent = message;
+      toast.classList.remove('hidden');
+      clearTimeout(state.toastTimer);
+      state.toastTimer = setTimeout(() => toast.classList.add('hidden'), 2600);
+    }
+
+    function setTheme(theme) {
+      document.body.dataset.theme = theme;
+      themeSelect.value = theme;
+      try {
+        localStorage.setItem('flux-theme', theme);
+      } catch (err) {
+        // Ignore storage failures.
+      }
+      requestAnimationFrame(drawChart);
+    }
+
+    function initTheme() {
+      let saved = 'system';
+      try {
+        saved = localStorage.getItem('flux-theme') || 'system';
+      } catch (err) {
+        // Ignore storage errors.
+      }
+      const allowed = ['system', 'light', 'dark', 'forest', 'midnight'];
+      setTheme(allowed.includes(saved) ? saved : 'system');
+
+      const media = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+      if (media && media.addEventListener) {
+        media.addEventListener('change', () => {
+          if (themeSelect.value === 'system') {
+            requestAnimationFrame(drawChart);
+          }
+        });
+      }
+    }
+
+    function parseHTML(html) {
+      return new DOMParser().parseFromString(html, 'text/html');
+    }
+
+    function audit(html) {
+      const doc = parseHTML(html);
+      const findings = [];
+      const group = (category, passed, severity, title, detail, fix = '') => {
+        addFinding(findings, category, passed ? 'pass' : severity, title, passed ? `Passed: ${detail}` : detail, passed ? '' : fix);
+      };
+
+      const titleEl = doc.querySelector('title');
+      const titleText = textContent(titleEl);
+      const metaDescEl = doc.querySelector('meta[name="description" i]');
+      const metaDesc = (metaDescEl && metaDescEl.getAttribute('content') || '').trim();
+      const lang = (doc.documentElement.getAttribute('lang') || '').trim();
+      const images = [...doc.querySelectorAll('img')];
+      const links = [...doc.querySelectorAll('a[href]')];
+      const buttons = [...doc.querySelectorAll('button,input[type="button"],input[type="submit"],input[type="reset"]')];
+      const formControls = [...doc.querySelectorAll('input:not([type="hidden"]):not([type="button"]):not([type="submit"]):not([type="reset"]), select, textarea')];
+      const headings = [...doc.querySelectorAll('h1,h2,h3,h4,h5,h6')];
+      const h1s = [...doc.querySelectorAll('h1')];
+
+      // Accessibility checks
+      const badImages = images.filter((img) => !img.hasAttribute('alt'));
+      group('Accessibility', badImages.length === 0, 'error', 'Images have alt attributes', `${badImages.length} image(s) are missing alt attributes.`, 'Add meaningful alt text or alt="" for decorative imagery.');
+
+      const badLinks = links.filter((link) => !hasAccessibleName(link, doc));
+      group('Accessibility', badLinks.length === 0, 'error', 'Links have accessible names', `${badLinks.length} link(s) do not have a clear accessible name.`, 'Add descriptive link text or a valid aria-label/aria-labelledby reference.');
+
+      const badButtons = buttons.filter((button) => !hasAccessibleName(button, doc));
+      group('Accessibility', badButtons.length === 0, 'error', 'Buttons have accessible names', `${badButtons.length} button control(s) are missing a discernible name.`, 'Add visible text or a meaningful aria-label.');
+
+      const unlabeledControls = formControls.filter((field) => {
+        const id = field.id;
+        const explicitLabel = id && [...doc.querySelectorAll('label[for]')].some((label) => label.htmlFor === id && !!textContent(label));
+        return !explicitLabel && !field.closest('label') && !field.getAttribute('aria-label') && !field.getAttribute('aria-labelledby');
+      });
+      group('Accessibility', unlabeledControls.length === 0, 'error', 'Form controls are labeled', `${unlabeledControls.length} control(s) may lack a label or accessible name.`, 'Associate a visible label, use a valid aria-label, or reference an accessible name.');
+
+      const duplicateIds = [];
+      const seenIds = new Set();
+      doc.querySelectorAll('[id]').forEach((el) => {
+        const id = el.id;
+        if (id) {
+          if (seenIds.has(id)) duplicateIds.push(id);
+          seenIds.add(id);
+        }
+      });
+      group('Accessibility', duplicateIds.length === 0, 'error', 'IDs are unique', `${duplicateIds.length} duplicate ID value(s) detected.`, 'Renumber duplicate IDs and update each reference.');
+
+      const brokenAriaRefs = [];
+      doc.querySelectorAll('[aria-labelledby], [aria-describedby]').forEach((el) => {
+        ['aria-labelledby', 'aria-describedby'].forEach((attr) => {
+          const value = (el.getAttribute(attr) || '').trim();
+          if (!value) return;
+          value.split(/\s+/).filter(Boolean).forEach((id) => {
+            if (!doc.getElementById(id)) brokenAriaRefs.push(id);
+          });
+        });
+      });
+      group('Accessibility', brokenAriaRefs.length === 0, 'error', 'ARIA references resolve', `${brokenAriaRefs.length} ARIA reference(s) point to missing IDs.`, 'Update aria-labelledby/aria-describedby to match real element IDs.');
+
+      const invalidAriaValues = [];
+      ['aria-hidden', 'aria-expanded', 'aria-checked', 'aria-selected', 'aria-pressed', 'aria-required', 'aria-disabled'].forEach((attr) => {
+        doc.querySelectorAll('[' + attr + ']').forEach((el) => {
+          const value = (el.getAttribute(attr) || '').trim();
+          if (value && !/^(true|false|mixed)$/i.test(value)) {
+            invalidAriaValues.push(`${attr}=${value}`);
+          }
+        });
+      });
+      group('Accessibility', invalidAriaValues.length === 0, 'warning', 'ARIA boolean values are valid', `${invalidAriaValues.length} ARIA boolean value(s) are not valid.`, 'Use true, false, or mixed only where supported.');
+
+      group('Accessibility', !!lang, 'error', 'Document language is declared', 'The root html element is missing a valid lang attribute.', 'Set an accurate language value, such as lang="en" or lang="ur".');
+
+      // Semantics
+      group('Semantics', !!doc.querySelector('main, [role="main"]'), 'warning', 'Main landmark exists', 'No main landmark was found.', 'Wrap the primary content in a main element.');
+
+      let headingJumpCount = 0;
+      let previousLevel = 0;
+      headings.forEach((heading) => {
+        const level = Number(heading.tagName[1]);
+        if (previousLevel && level > previousLevel + 1) {
+          headingJumpCount += 1;
+        }
+        previousLevel = level;
+      });
+      group('Semantics', headingJumpCount === 0, 'warning', 'Heading hierarchy is logical', `${headingJumpCount} heading jump(s) were detected.`, 'Avoid skipping heading levels when introducing subsections.');
+
+      group('Semantics', h1s.length === 1, 'warning', 'One primary H1 is present', `Found ${h1s.length} H1 heading(s).`, 'Use one clear page-level heading unless the structure is intentionally multi-H1.');
+
+      const semanticRoles = new Set('alert alertdialog application article banner complementary contentinfo dialog document feed figure form grid gridcell group heading img list listbox listitem log main marquee math menu menubar menuitem menuitemcheckbox menuitemradio navigation none note option presentation progressbar radio radiogroup region row rowgroup search separator slider spinbutton status switch tab table tablist tabpanel textbox timer toolbar tooltip tree treegrid treeitem'.split(' '));
+      const invalidRoles = [...doc.querySelectorAll('[role]')].filter((el) => {
+        const roleValue = (el.getAttribute('role') || '').trim();
+        return roleValue && !roleValue.split(/\s+/).every((token) => semanticRoles.has(token));
+      });
+      group('Semantics', invalidRoles.length === 0, 'warning', 'ARIA roles are recognized', `${invalidRoles.length} role token(s) are not recognized.`, 'Use valid WAI-ARIA roles from the supported set.');
+
+      const tables = [...doc.querySelectorAll('table')];
+      const tablesWithoutHeaders = tables.filter((table) => !table.querySelector('th'));
+      group('Semantics', tablesWithoutHeaders.length === 0, 'warning', 'Tables include header cells', `${tablesWithoutHeaders.length} table(s) do not include header cells.`, 'Use th elements for data-table headers and add scope where appropriate.');
+
+      const brokenFragments = links.filter((link) => {
+        const href = (link.getAttribute('href') || '').trim();
+        if (!href.startsWith('#') || href === '#') return false;
+        let id = href.slice(1);
+        try { id = decodeURIComponent(id); } catch (err) {}
+        return !doc.getElementById(id);
+      });
+      group('Semantics', brokenFragments.length === 0, 'warning', 'Fragment links resolve', `${brokenFragments.length} in-page link target(s) are missing.`, 'Correct the fragment or add the matching target ID.');
+
+      // SEO checks
+      const titleLength = titleText.length;
+      const descriptionLength = metaDesc.length;
+      const canonicalLink = doc.querySelector('link[rel~="canonical" i]')?.getAttribute('href')?.trim() || '';
+      const robotsTag = (doc.querySelector('meta[name="robots" i]')?.getAttribute('content') || '').trim();
+      const jsonLdScripts = [...doc.querySelectorAll('script[type="application/ld+json" i]')];
+      let validJsonLd = 0;
+      let shapeJsonLd = 0;
+      jsonLdScripts.forEach((node) => {
+        try {
+          const value = JSON.parse(node.textContent || '');
+          validJsonLd += 1;
+          const items = Array.isArray(value) ? value : [value];
+          if (items.every((item) => item && typeof item === 'object' && ('@type' in item || '@graph' in item))) {
+            shapeJsonLd += 1;
+          }
+        } catch (err) {
+          // Invalid JSON-LD: counted as invalid below.
+        }
+      });
+
+      group('SEO', !!titleText, 'error', 'Document title exists', 'No non-empty document title was found.', 'Add an accurate, unique title in the head.');
+      group('SEO', titleLength >= 20 && titleLength <= 70, 'warning', 'Title length is in a useful range', `Title length is ${titleLength} characters.`, 'Aim for a concise title typically between 20 and 70 characters.');
+      group('SEO', !!metaDesc, 'warning', 'Meta description exists', 'The page description is missing or empty.', 'Add a brief, accurate summary to the description meta tag.');
+      group('SEO', descriptionLength >= 50 && descriptionLength <= 160, 'warning', 'Description length is reasonable', `Description length is ${descriptionLength} characters.`, 'Keep the meta description brief and informative.');
+      group('SEO', !!doc.querySelector('meta[name="viewport" i]'), 'warning', 'Viewport metadata exists', 'The responsive viewport meta tag is missing.', 'Add <meta name="viewport" content="width=device-width, initial-scale=1">.');
+      group('SEO', !!doc.querySelector('meta[property="og:title" i]') && !!doc.querySelector('meta[property="og:description" i]'), 'warning', 'Open Graph basics are present', 'One or more Open Graph basic tags are missing.', 'Add og:title and og:description with page-accurate values.');
+      group('SEO', !!canonicalLink, 'warning', 'Canonical URL is declared', 'No canonical link was detected.', 'Add a canonical URL when the page has a preferred address.');
+
+      if (canonicalLink) {
+        let canonicalValid = false;
+        try {
+          const url = new URL(canonicalLink);
+          canonicalValid = ['http:', 'https:'].includes(url.protocol);
+        } catch (err) {
+          canonicalValid = false;
+        }
+        group('SEO', canonicalValid, 'warning', 'Canonical URL is valid', 'The canonical value does not resolve to a valid absolute HTTP(S) URL.', 'Use an absolute HTTP(S) URL for the canonical tag.');
+      }
+
+      group('SEO', !/noindex|nofollow/i.test(robotsTag), 'warning', 'Robots directives do not block indexing', 'A robots meta directive appears to restrict indexing or crawling.', 'Remove noindex/nofollow directives unless intentionally required.');
+
+      group('SEO', jsonLdScripts.length === 0 || validJsonLd === jsonLdScripts.length, 'warning', 'JSON-LD syntax parses', `${jsonLdScripts.length - validJsonLd} JSON-LD script(s) are invalid JSON.`, 'Fix JSON syntax within each JSON-LD block.');
+      group('SEO', jsonLdScripts.length === 0 || shapeJsonLd === jsonLdScripts.length, 'warning', 'JSON-LD shape is recognizable', `${jsonLdScripts.length - shapeJsonLd} valid JSON-LD block(s) do not look like a schema object.`, 'Use a top-level object that includes @type or @graph.');
+
+      // Performance heuristics (static source checks only)
+      const bytes = new TextEncoder().encode(html).length;
+      const inlineCss = [...html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style\s*>/gi)].reduce((total, match) => total + match[1].length, 0);
+      const inlineJs = [...html.matchAll(/<script(?![^>]*\bsrc\s*=)[^>]*>([\s\S]*?)<\/script\s*>/gi)].reduce((total, match) => total + match[1].length, 0);
+      const externalScripts = [...doc.querySelectorAll('script[src]')];
+      const stylesheets = [...doc.querySelectorAll('link[rel~="stylesheet" i]')];
+      const parserBlockingScripts = externalScripts.filter((script) => !script.hasAttribute('defer') && !script.hasAttribute('async') && script.getAttribute('type') !== 'module').length;
+      const noDimensions = images.filter((img) => !img.hasAttribute('width') || !img.hasAttribute('height')).length;
+      const noLoading = images.filter((img) => !img.hasAttribute('loading') && !img.hasAttribute('fetchpriority')).length;
+      const dataUriImages = (html.match(/data:image\/[^;]+;base64,[A-Za-z0-9+/=]{50000,}/gi) || []).length;
+
+      group('Performance', bytes < 500000, 'warning', 'Source payload is modest', `Source size is ${(bytes / 1024).toFixed(1)} KB.`, 'Reduce unnecessary markup or embedded assets if the document is large.');
+      group('Performance', inlineCss < 20000, 'warning', 'Inline CSS stays compact', `Inline CSS is ${(inlineCss / 1024).toFixed(1)} KB.`, 'Consider minifying or moving larger style blocks out of the HTML.');
+      group('Performance', inlineJs < 30000, 'warning', 'Inline JS stays compact', `Inline JS is ${(inlineJs / 1024).toFixed(1)} KB.`, 'Consider deferring or externalizing non-critical scripts.');
+      group('Performance', parserBlockingScripts === 0, 'warning', 'External scripts avoid parser blocking', `${parserBlockingScripts} external script(s) do not use async/defer/module.`, 'Use async or defer when execution order allows it.');
+      group('Performance', externalScripts.length + stylesheets.length <= 6, 'warning', 'Dependency count is moderate', `${externalScripts.length} scripts and ${stylesheets.length} stylesheets were found.`, 'Review third-party or standalone dependencies for unnecessary weight.');
+      group('Performance', noDimensions === 0, 'warning', 'Images specify dimensions', `${noDimensions} image(s) are missing width or height.`, 'Set explicit width and height attributes to reduce layout shift.');
+      group('Performance', noLoading === 0, 'warning', 'Images provide loading hints', `${noLoading} image(s) do not declare loading or fetchpriority.`, 'Add loading="lazy" for below-the-fold images and prioritize hero imagery.');
+      group('Performance', dataUriImages === 0, 'warning', 'No large embedded data URIs were detected', `${dataUriImages} large embedded data URI image(s) were detected.`, 'Prefer optimized local image assets instead of large base64 payloads.');
+
+      const categoryScores = {};
+      const categoryWeight = { Accessibility: 0.30, Semantics: 0.20, SEO: 0.30, Performance: 0.20 };
+      ['Accessibility', 'Semantics', 'SEO', 'Performance'].forEach((cat) => {
+        const arr = findings.filter((item) => item.category === cat);
+        if (!arr.length) {
+          categoryScores[cat] = 100;
+          return;
+        }
+        const errors = arr.filter((item) => item.severity === 'error').length;
+        const warnings = arr.filter((item) => item.severity === 'warning').length;
+        const score = clamp(100 - (errors * 18) - (warnings * 8), 0, 100);
+        categoryScores[cat] = score;
+      });
+
+      const weightedTotal = Object.entries(categoryScores).reduce((sum, [cat, num]) => sum + (num * categoryWeight[cat]), 0);
+      const weightSum = Object.values(categoryWeight).reduce((sum, value) => sum + value, 0);
+      const overallScore = Math.round(weightedTotal / weightSum);
+
+      const counts = {
+        error: findings.filter((item) => item.severity === 'error').length,
+        warning: findings.filter((item) => item.severity === 'warning').length,
+        pass: findings.filter((item) => item.severity === 'pass').length
+      };
+
+      return {
+        generatedAt: new Date().toISOString(),
+        counts,
+        overallScore,
+        categoryScores,
+        findings,
+        metrics: {
+          sourceBytes: bytes,
+          titleLength,
+          descriptionLength,
+          canonicalPresent: !!canonicalLink,
+          openGraphTitle: !!doc.querySelector('meta[property="og:title" i]'),
+          openGraphDescription: !!doc.querySelector('meta[property="og:description" i]'),
+          openGraphImage: !!doc.querySelector('meta[property="og:image" i]'),
+          jsonLdBlocks: jsonLdScripts.length,
+          validJsonLdBlocks: validJsonLd,
+          recognizedJsonLdBlocks: shapeJsonLd,
+          headingCount: h1s.length,
+          imageCount: images.length,
+          missingAlt: badImages.length,
+          imagesMissingDimensions: noDimensions,
+          imagesWithoutLoadingHint: noLoading,
+          externalScripts: externalScripts.length,
+          stylesheets: stylesheets.length,
+          parserBlockingScripts,
+          largeDataUriImages: dataUriImages,
+          robotsDirective: robotsTag || 'not specified'
+        }
+      };
+    }
+
+    function renderFindings() {
+      if (!state.report) {
+        findingsEl.innerHTML = '<div class="empty">Paste or choose HTML and run an audit to see results.</div>';
+        return;
+      }
+
+      const categoryMatch = {
+        overview: () => true,
+        accessibility: (item) => item.category === 'Accessibility' || item.category === 'Semantics',
+        seo: (item) => item.category === 'SEO',
+        performance: (item) => item.category === 'Performance'
+      };
+
+      const visibleItems = state.report.findings.filter((item) => categoryMatch[state.view](item));
+      const filteredItems = visibleItems.filter((item) => state.filter === 'all' || item.severity === state.filter);
+
+      const headings = {
+        overview: 'Audit findings',
+        accessibility: 'Accessibility and semantics',
+        seo: 'SEO findings',
+        performance: 'Performance findings'
+      };
+      $('findingsHeading').textContent = headings[state.view] || 'Audit findings';
+      $('findingsCount').textContent = `${visibleItems.length} checks · ${filteredItems.length} shown`;
+
+      findingsEl.innerHTML = filteredItems.length
+        ? filteredItems.map((item) => `
+            <article class="finding ${item.severity}">
+              <div class="finding-head">
+                <h3>${escapeHTML(item.title)}</h3>
+                <span class="badge">${escapeHTML(item.category)} · ${escapeHTML(item.severity)}</span>
+              </div>
+              <p>${escapeHTML(item.detail)}</p>
+              ${item.fix ? `<p><strong>Suggested action:</strong> ${escapeHTML(item.fix)}</p>` : ''}
+            </article>
+          `).join('')
+        : '<div class="empty">No findings match this filter.</div>';
+
+      document.querySelectorAll('.filter').forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.filter === state.filter));
+      });
+    }
+
+    function drawChart() {
+      const canvas = $('distributionChart');
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      const rect = canvas.getBoundingClientRect();
+      if (!rect.width) return;
+
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.round(rect.width * dpr);
+      canvas.height = Math.round(rect.height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const w = rect.width;
+      const h = rect.height;
+      const cx = w / 2;
+      const cy = h / 2;
+      const outer = Math.min(58, h * 0.38);
+      const inner = outer * 0.63;
+
+      ctx.clearRect(0, 0, w, h);
+
+      const vals = state.report ? [state.report.counts.error, state.report.counts.warning, state.report.counts.pass] : [0, 0, 0];
+      const total = vals.reduce((a, b) => a + b, 0);
+      const css = getComputedStyle(document.body);
+      const colors = [css.getPropertyValue('--bad').trim(), css.getPropertyValue('--warn').trim(), css.getPropertyValue('--good').trim()];
+
+      if (total === 0) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, outer, 0, 2 * Math.PI);
+        ctx.strokeStyle = css.getPropertyValue('--line').trim();
+        ctx.lineWidth = outer - inner;
+        ctx.stroke();
+      } else {
+        let start = -Math.PI / 2;
+        vals.forEach((value, index) => {
+          if (!value) return;
+          const end = start + (value / total) * (Math.PI * 2);
+          ctx.beginPath();
+          ctx.arc(cx, cy, outer, start, end);
+          ctx.strokeStyle = colors[index];
+          ctx.lineWidth = outer - inner;
+          ctx.stroke();
+          start = end;
+        });
+      }
+
+      ctx.fillStyle = css.getPropertyValue('--ink').trim();
+      ctx.font = '700 19px system-ui';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(String(total), cx, cy - 4);
+      ctx.fillStyle = css.getPropertyValue('--muted').trim();
+      ctx.font = '10px system-ui';
+      ctx.fillText('checks', cx, cy + 13);
+    }
+
+    function renderSummary() {
+      if (!state.report) return;
+
+      const { counts, overallScore, categoryScores, metrics } = state.report;
+      $('errorCount').textContent = counts.error;
+      $('warningCount').textContent = counts.warning;
+      $('passCount').textContent = counts.pass;
+      $('sizeCount').textContent = metrics.sourceBytes >= 1024 ? `${(metrics.sourceBytes / 1024).toFixed(1)} KB` : `${metrics.sourceBytes} B`;
+
+      $('overallScore').textContent = overallScore;
+      $('overallRing').style.setProperty('--score', overallScore);
+      $('auditState').textContent = 'Audit complete';
+      $('scoreLabel').textContent = overallScore >= 90 ? 'Strong source signals' : overallScore >= 70 ? 'Improvements recommended' : 'Review key issues';
+      $('scoreCaption').textContent = 'Weighted static heuristic; not a certification.';
+
+      $('scoreBars').innerHTML = Object.entries(categoryScores).map(([category, score]) => `
+        <div class="bar-row">
+          <span>${escapeHTML(category)}</span>
+          <div class="bar-track"><div class="bar-fill" style="width:${score}%"></div></div>
+          <span class="bar-value">${score}</span>
+        </div>
+      `).join('');
+
+      $('metricsGrid').innerHTML = Object.entries(categoryScores).map(([category, score]) => `
+        <div class="metric"><b>${escapeHTML(category)} score</b><span>${score}/100 weighted heuristic</span></div>
+      `).join('') + `
+         <div class="metric"><b>Source</b><span>${(metrics.sourceBytes / 1024).toFixed(1)} KB</span></div>
+         <div class="metric"><b>Title</b><span>${metrics.titleLength} characters</span></div>
+         <div class="metric"><b>JSON-LD</b><span>${metrics.validJsonLdBlocks}/${metrics.jsonLdBlocks} valid</span></div>
+         <div class="metric"><b>Images</b><span>${metrics.imageCount} found</span></div>
+      `;
+
+      drawChart();
+    }
+
+    function showView(view) {
+      state.view = view;
+      navButtons.forEach((button) => button.classList.toggle('active', button.dataset.view === view));
+
+      const titles = {
+        overview: ['Audit overview', 'Inspect HTML quality, accessibility, SEO and performance signals.'],
+        accessibility: ['Accessibility audit', 'Review structural and accessibility quality indicators.'],
+        seo: ['SEO audit', 'Check metadata, canonical tags and structured data.'],
+        performance: ['Performance audit', 'Review static source hints only—no live performance timings.'],
+        export: ['Export dashboard', 'Download the latest audit as JSON or CSV.']
+      };
+
+      const info = titles[view] || titles.overview;
+      $('viewTitle').textContent = info[0];
+      $('viewSubtitle').textContent = info[1];
+
+      $('exportCard').classList.toggle('hidden', view !== 'export');
+      $('findingsCard').classList.toggle('hidden', view === 'export');
+      renderFindings();
+    }
+
+    function exportJson() {
+      if (!state.report) return;
+      download('flux-audit-report.json', JSON.stringify(state.report, null, 2), 'application/json;charset=utf-8');
+    }
+
+    function exportCsv() {
+      if (!state.report) return;
+      const rows = [
+        ['category', 'severity', 'title', 'detail', 'suggested_action'],
+        ...state.report.findings.map((item) => [item.category, item.severity, item.title, item.detail, item.fix])
+      ];
+      const csv = rows.map((row) => row.map((cell) => `"${String(cell || '').replace(/"/g, '""')}"`).join(',')).join('\r\n');
+      download('flux-audit-findings.csv', csv, 'text/csv;charset=utf-8');
+    }
+
+    async function copySummary() {
+      if (!state.report) return;
+      const summary = [
+        'FLUX audit report',
+        `Generated: ${state.report.generatedAt}`,
+        `Overall score: ${state.report.overallScore}/100 (weighted heuristic)`,
+        `Errors: ${state.report.counts.error} | Suggestions: ${state.report.counts.warning} | Passed: ${state.report.counts.pass}`,
+        `Category scores: ${Object.entries(state.report.categoryScores).map(([key, value]) => `${key}: ${value}`).join(' | ')}`,
+        'Static checks only; no real browser timing or WCAG certification.'
+      ].join('\n');
+
+      try {
+        await navigator.clipboard.writeText(summary);
+        notify('Audit summary copied.');
+      } catch (err) {
+        notify('Clipboard access is unavailable in this browser.');
+      }
+    }
+
+    function download(name, data, type) {
+      const blob = new Blob([data], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1200);
+    }
+
+    function conservativeFix(html) {
+      const doc = parseHTML(html);
+      const head = doc.head || doc.querySelector('head');
+      if (head && !doc.querySelector('meta[charset]')) {
+        const meta = doc.createElement('meta');
+        meta.setAttribute('charset', 'utf-8');
+        head.prepend(meta);
+      }
+      if (head && !doc.querySelector('meta[name="viewport" i]')) {
+        const meta = doc.createElement('meta');
+        meta.setAttribute('name', 'viewport');
+        meta.setAttribute('content', 'width=device-width, initial-scale=1');
+        head.appendChild(meta);
+      }
+      return '<!doctype html>\n' + doc.documentElement.outerHTML;
+    }
+
+    async function runAudit(html = sourceEl.value) {
+      if (!html.trim()) {
+        notify('Paste HTML or select a file first.');
+        return;
+      }
+
+      $('analyzeBtn').disabled = true;
+      $('analyzeBtn').textContent = 'Analyzing…';
+      $('status').textContent = 'Analyzing locally…';
+
+      await new Promise((resolve) => setTimeout(resolve, 20));
+
+      try {
+        state.report = audit(html);
+        renderSummary();
+        renderFindings();
+        $('status').textContent = 'Audit complete. Source was processed locally and not uploaded.';
+      } catch (error) {
+        notify(`Could not analyze HTML: ${error.message}`);
+        $('status').textContent = 'Analysis failed; review the source and try again.';
+      } finally {
+        $('analyzeBtn').disabled = false;
+        $('analyzeBtn').textContent = 'Analyze HTML';
+      }
+    }
+
+    $('analyzeBtn').addEventListener('click', () => runAudit());
+
+    $('sampleBtn').addEventListener('click', () => {
+      sourceEl.value = sample;
+      runAudit();
     });
-  }
-  function analyzeDocument(doc) {
-    const list=[];
-    check(list,!!doc.documentElement.getAttribute("lang")?.trim(),"error","Page language is declared","Declare the primary language on the html element.");
-    check(list,!!doc.querySelector("title")?.textContent.trim(),"error","Page has a descriptive title","Add a meaningful, non-empty title in head.");
-    check(list,!!doc.querySelector('meta[name="viewport"]'),"warning","Mobile viewport is configured","A responsive viewport meta tag is recommended.");
-    check(list,!!doc.querySelector('meta[name="description"]'),"warning","Meta description is present","Consider an accurate page summary for search previews.");
-    const imgs=[...doc.querySelectorAll("img")],missing=imgs.filter(x=>!x.hasAttribute("alt")); check(list,missing.length===0,"error","Images have alt attributes",`${missing.length} of ${imgs.length} image(s) are missing alt attributes.`);
-    const headings=[...doc.querySelectorAll("h1,h2,h3,h4,h5,h6")],h1=headings.filter(x=>x.tagName==="H1"); check(list,h1.length===1,"warning","One main H1 heading",`Found ${h1.length} H1 heading(s).`);
-    const jumps=[]; for(let i=1;i<headings.length;i++){const a=Number(headings[i-1].tagName[1]),b=Number(headings[i].tagName[1]);if(b>a+1)jumps.push(`${headings[i-1].tagName} to ${headings[i].tagName}`);} check(list,!jumps.length,"warning","Heading levels follow a logical order",jumps.length?`Possible skipped levels: ${jumps.join(", ")}.`:"No skipped heading levels detected.");
-    const links=[...doc.querySelectorAll("a")],empty=links.filter(a=>!a.textContent.trim()&&!a.getAttribute("aria-label")&&!a.querySelector("img[alt]:not([alt=''])"));check(list,!empty.length,"error","Links have understandable names",`${empty.length} link(s) appear to have no accessible name.`);
-    const buttons=[...doc.querySelectorAll("button,input[type=button],input[type=submit],input[type=reset]")],unnamed=buttons.filter(b=>!b.textContent.trim()&&!b.value?.trim()&&!b.getAttribute("aria-label")&&!b.getAttribute("aria-labelledby"));check(list,!unnamed.length,"error","Buttons have accessible names",`${unnamed.length} button(s) appear unnamed.`);
-    const controls=[...doc.querySelectorAll("input:not([type=hidden]),select,textarea")],unlabeled=controls.filter(el=>{if(el.getAttribute("aria-label")||el.getAttribute("aria-labelledby")||el.closest("label"))return false;return !el.id||![...doc.querySelectorAll("label[for]")].some(l=>l.htmlFor===el.id);});check(list,!unlabeled.length,"error","Form controls have labels",`${unlabeled.length} of ${controls.length} control(s) lack an associated label or accessible name.`);
-    const ids=[...doc.querySelectorAll("[id]")].map(x=>x.id),dups=[...new Set(ids.filter((id,i)=>ids.indexOf(id)!==i))];check(list,!dups.length,"warning","IDs are unique",dups.length?`Duplicate ID(s): ${dups.join(", ")}.`:"No duplicate IDs detected.");
-    check(list,!!doc.querySelector("main"),"warning","A main content landmark exists","Consider one main element for the primary page content.");
-    const hashLinks=[...doc.querySelectorAll('a[href^="#"]')].filter(a=>a.getAttribute("href").length>1),broken=[];
-    hashLinks.forEach(a=>{const href=a.getAttribute("href"),encoded=href.slice(1);let id;try{id=decodeURIComponent(encoded);}catch{id=encoded;}if(!doc.getElementById(id))broken.push({href,id});});
-    if(!hashLinks.length)check(list,true,"error","In-page link targets exist","Not applicable: no in-page links were found.");else check(list,!broken.length,"error","In-page link targets exist",broken.length?broken.map(x=>`href="${x.href}" points to missing target id="${x.id}".`).join(" "):`All ${hashLinks.length} in-page link target(s) exist.`);
-    const tables=[...doc.querySelectorAll("table")],bad=tables.filter(t=>!t.querySelector("th"));check(list,!bad.length,"warning","Data tables use header cells",`${bad.length} table(s) have no header cells; layout tables are not distinguished automatically.`);
-    check(list,!!doc.querySelector("meta[charset]"),"warning","Character encoding is declared","Add a UTF-8 charset declaration near the beginning of head.");
-    return list;
-  }
-  async function analyze() {
-    const raw=$("source").value; if(!raw.trim()){$("fileinfo").textContent="Paste HTML or choose a file first.";return;}
-    const progress=$("progress"),bar=progress.querySelector("span");progress.hidden=false;progress.setAttribute("aria-valuenow","10");bar.style.width="10%";$("analyze").disabled=true;
-    await new Promise(resolve=>setTimeout(resolve,30));
-    try {
-      const doc=new DOMParser().parseFromString(raw,"text/html");issues=analyzeDocument(doc);
-      const errors=issues.filter(x=>x.level==="error").length,warnings=issues.filter(x=>x.level==="warning").length,passed=issues.filter(x=>x.level==="good").length,score=Math.max(0,100-errors*9-warnings*4);
-      $("score").textContent=score;$("grade").textContent=score>=90?"Strong starting point":score>=70?"Some improvements needed":"Several improvements recommended";$("summaryText").textContent=`${issues.length} checks · ${errors} error(s) · ${warnings} suggestion(s)`;$("errors").textContent=errors;$("warnings").textContent=warnings;$("passed").textContent=passed;
-      report=`MRMWSK FLUX — HTML QUALITY REPORT\nScore: ${score}/100\nErrors: ${errors} | Suggestions: ${warnings} | Passed: ${passed}\n\n`+issues.map(i=>`[${i.level.toUpperCase()}] ${i.title}\n${i.detail}`).join("\n\n");filter="all";render();$("results").style.display="block";$("status").textContent="Analysis complete. Content-dependent fixes are explained below; FLUX does not guess your meaning.";
-    } catch { $("status").textContent="Analysis could not be completed. Check the source and try again."; }
-    progress.setAttribute("aria-valuenow","100");bar.style.width="100%";$("analyze").disabled=false;setTimeout(()=>{progress.hidden=true;bar.style.width="0%";},350);
-  }
-  function download(content,type,name){const url=URL.createObjectURL(new Blob([content],{type})),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-  function applyFixes(){const raw=$("source").value;if(!raw.trim()){$("status").textContent="Paste or upload HTML before applying fixes.";return;}const doc=new DOMParser().parseFromString(raw,"text/html"),changes=[];if(!doc.querySelector("meta[charset]")){const m=doc.createElement("meta");m.setAttribute("charset","utf-8");doc.head.prepend(m);changes.push("Added UTF-8 charset");}if(!doc.querySelector('meta[name="viewport"]')){const m=doc.createElement("meta");m.name="viewport";m.content="width=device-width, initial-scale=1";doc.head.append(m);changes.push("Added viewport metadata");}if(!changes.length){$("status").textContent="No safe metadata fixes were needed.";return;}download("<!doctype html>\n"+doc.documentElement.outerHTML,"text/html;charset=utf-8","flux-safe-fixed.html");$("status").textContent=`Downloaded a separate corrected copy: ${changes.join("; ")}. Re-analyze by choosing that file or pasting its contents.`;}
-  $("analyze").addEventListener("click",analyze);$("fix").addEventListener("click",applyFixes);$("sample").addEventListener("click",()=>{$("source").value=sample;$("fileinfo").textContent="Sample loaded. Select Analyze HTML to run checks.";});
-  $("clear").addEventListener("click",()=>{$("source").value="";$("results").style.display="none";$("fileinfo").textContent="Editor cleared.";issues=[];report="";});
-  $("file").addEventListener("change",async e=>{const f=e.target.files?.[0];if(!f)return;if(!/\.html?$/i.test(f.name)){ $("fileinfo").textContent="Unsupported file type. Choose an .html or .htm file.";e.target.value="";return;}if(f.size>MAX_SIZE){$("fileinfo").textContent="File exceeds the 5 MB limit.";e.target.value="";return;}try{$("source").value=await f.text();$("fileinfo").textContent=`Loaded ${f.name} (${Math.ceil(f.size/1024)} KB). File stays on your device.`;}catch{$("fileinfo").textContent="Could not read that file.";}});
-  $("download").addEventListener("click",()=>report?download(report,"text/plain;charset=utf-8","mrmwsk-flux-report.txt"):( $("status").textContent="Analyze HTML before downloading a report."));
-  $("copy").addEventListener("click",async()=>{if(!report){$("status").textContent="Analyze HTML before copying a report.";return;}try{await navigator.clipboard.writeText(report);$("copy").textContent="Copied!";setTimeout(()=>$("copy").textContent="Copy report",1300);}catch{$("status").textContent="Copy unavailable in this browser context.";}});
-  document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.filter;render();}));
-})();
-</script>
+
+    $('clearBtn').addEventListener('click', () => {
+      sourceEl.value = '';
+      state.report = null;
+      state.filter = 'all';
+      $('findings').innerHTML = '<div class="empty">Paste or choose HTML and run an audit to see results.</div>';
+      $('scoreBars').innerHTML = '<div class="empty">Run an audit to see category scores.</div>';
+      ['errorCount', 'warningCount', 'passCount', 'sizeCount', 'overallScore'].forEach((id) => {
+        $(id).textContent = '—';
+      });
+      $('auditState').textContent = 'Awaiting source';
+      $('scoreLabel').textContent = 'Ready to audit';
+      $('scoreCaption').textContent = 'Run an audit to calculate category scores.';
+      $('metricsGrid').innerHTML = '<div class="empty">Run an audit to populate metrics.</div>';
+      $('jsonBtn').disabled = true;
+      $('csvBtn').disabled = true;
+      $('copyBtn').disabled = true;
+      $('downloadHtmlBtn').disabled = true;
+      $('fixBtn').disabled = true;
+      $('status').textContent = 'Cleared. Nothing is stored or uploaded.';
+      drawChart();
+    });
+
+    $('fileInput').addEventListener('change', async (event) => {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      if (!/\.html?$/i.test(file.name)) {
+        notify('Choose an .html or .htm file.');
+        event.target.value = '';
+        return;
+      }
+      if (file.size > MAX_SIZE) {
+        notify('File is larger than 5 MB.');
+        event.target.value = '';
+        return;
+      }
+      try {
+        sourceEl.value = await file.text();
+        $('status').textContent = `Loaded ${file.name}; source remains local.`;
+        runAudit();
+      } catch (err) {
+        notify('Could not read that file.');
+      }
+    });
+
+    $('fixBtn').addEventListener('click', () => {
+      if (!sourceEl.value.trim()) return;
+      sourceEl.value = conservativeFix(sourceEl.value);
+      runAudit();
+    });
+
+    $('downloadHtmlBtn').addEventListener('click', () => {
+      if (!sourceEl.value.trim()) return;
+      download('flux-checked.html', sourceEl.value, 'text/html;charset=utf-8');
+    });
+
+    $('jsonBtn').addEventListener('click', exportJson);
+    $('csvBtn').addEventListener('click', exportCsv);
+    $('copyBtn').addEventListener('click', copySummary);
+
+    themeSelect.addEventListener('change', (event) => setTheme(event.target.value));
+    $('themeToggle').addEventListener('click', () => {
+      const current = themeSelect.value;
+      const dark = current === 'dark' || current === 'midnight' || (current === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      setTheme(dark ? 'light' : 'dark');
+    });
+
+    $('collapseBtn').addEventListener('click', () => {
+      const sidebar = $('sidebar');
+      const collapsed = sidebar.classList.toggle('collapsed');
+      $('collapseBtn').setAttribute('aria-expanded', String(!collapsed));
+      $('collapseBtn').setAttribute('aria-label', collapsed ? 'Expand sidebar' : 'Collapse sidebar');
+      const navText = $('collapseBtn').querySelector('.nav-text');
+      if (navText) navText.textContent = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
+    });
+
+    navButtons.forEach((button) => {
+      button.addEventListener('click', () => showView(button.dataset.view));
+    });
+
+    document.querySelectorAll('.filter').forEach((button) => {
+      button.addEventListener('click', () => {
+        state.filter = button.dataset.filter;
+        renderFindings();
+      });
+    });
+
+    window.addEventListener('resize', () => requestAnimationFrame(drawChart));
+
+    initTheme();
+    drawChart();
+  })();
+  </script>
 </body>
 </html>
