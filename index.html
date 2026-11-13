@@ -4,17 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#10251d">
-  <meta name="description" content="FLUX by MrMWSK — a private, browser-based HTML quality, accessibility, SEO and performance checker.">
+  <meta name="description" content="FLUX by MrMWSK — private, browser-based HTML quality, accessibility, SEO and performance checks.">
   <title>MrMWSK FLUX — HTML Audit Studio</title>
   <style>
-    :root{color-scheme:light;--bg:#edf3f7;--panel:rgba(255,255,255,.74);--solid:#fff;--soft:#f3f8fb;--ink:#172630;--muted:#607482;--line:rgba(107,137,156,.22);--accent:#16865c;--accent2:#2785d8;--good:#16865c;--good-bg:#e7f7ee;--warn:#a96d08;--warn-bg:#fff4dc;--bad:#bd403d;--bad-bg:#fff0ef;--shadow:0 18px 48px rgba(37,66,84,.10);--glass:blur(20px);--radius:18px}
-    body[data-theme="dark"]{color-scheme:dark;--bg:#0d1720;--panel:rgba(20,33,44,.78);--solid:#14212c;--soft:#1a2a36;--ink:#eaf3f7;--muted:#a1b5c2;--line:rgba(154,187,207,.17);--accent:#62d59b;--accent2:#79b9ff;--good:#62d59b;--good-bg:#153426;--warn:#ffd06b;--warn-bg:#352a14;--bad:#ff9288;--bad-bg:#391f21;--shadow:0 20px 55px rgba(0,0,0,.3)}
-    body[data-theme="forest"]{--bg:#eaf4ed;--panel:rgba(250,255,251,.78);--solid:#fbfffc;--soft:#eff8f1;--ink:#193126;--muted:#5e7568;--line:rgba(82,133,101,.2);--accent:#20734b;--accent2:#367b9d;--good:#20734b;--good-bg:#e5f5e9;--warn:#93610b;--warn-bg:#fff2d6;--bad:#b74640;--bad-bg:#fff0ed}
-    body[data-theme="midnight"]{color-scheme:dark;--bg:#111425;--panel:rgba(27,30,49,.8);--solid:#1c2033;--soft:#252a42;--ink:#f0f1ff;--muted:#b3bad5;--line:rgba(168,175,229,.18);--accent:#79dbaa;--accent2:#9bbaff;--good:#79dbaa;--good-bg:#17342e;--warn:#f5cf70;--warn-bg:#342b17;--bad:#ff9288;--bad-bg:#392226;--shadow:0 20px 55px rgba(0,0,0,.34)}
-    @media(prefers-color-scheme:dark){body[data-theme="system"]{color-scheme:dark;--bg:#0d1720;--panel:rgba(20,33,44,.78);--solid:#14212c;--soft:#1a2a36;--ink:#eaf3f7;--muted:#a1b5c2;--line:rgba(154,187,207,.17);--accent:#62d59b;--accent2:#79b9ff;--good:#62d59b;--good-bg:#153426;--warn:#ffd06b;--warn-bg:#352a14;--bad:#ff9288;--bad-bg:#391f21;--shadow:0 20px 55px rgba(0,0,0,.3)}}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 5% 0, color-mix(in srgb,var(--accent2) 12%,transparent),transparent 30%),radial-gradient(ellipse at 100% 100%,color-mix(in srgb,var(--accent) 10%,transparent),transparent 34%),var(--bg);color:var(--ink);font:14px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;transition:background .2s,color .2s}button,input,textarea,select{font:inherit}button{color:inherit;cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid color-mix(in srgb,var(--accent2) 45%,transparent);outline-offset:2px}.app{max-width:1600px;min-height:100vh;margin:auto;display:flex}.sidebar{width:252px;flex:0 0 252px;padding:22px 14px;background:var(--panel);border-right:1px solid var(--line);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);transition:width .2s,flex-basis .2s,padding .2s;z-index:5}.sidebar.collapsed{width:76px;flex-basis:76px;padding-inline:10px}.brand{display:flex;align-items:center;gap:11px;padding:4px 8px 24px;font-weight:900;font-size:20px;white-space:nowrap}.brand-mark{width:36px;height:36px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:900;box-shadow:0 8px 20px color-mix(in srgb,var(--accent) 25%,transparent)}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.13em;text-transform:uppercase}.nav-label{padding:10px 12px 6px;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}.nav{display:grid;gap:5px}.nav button,.collapse-btn{display:flex;align-items:center;gap:12px;width:100%;border:1px solid transparent;border-radius:12px;background:transparent;padding:10px 12px;text-align:left;font-weight:720;color:var(--muted);white-space:nowrap}.nav button:hover,.collapse-btn:hover{background:var(--soft);color:var(--ink)}.nav button.active{background:color-mix(in srgb,var(--accent) 11%,var(--panel));border-color:color-mix(in srgb,var(--accent) 20%,var(--line));color:var(--accent)}.nav-icon{width:24px;text-align:center;font-size:16px;flex:0 0 24px}.sidebar.collapsed .brand-text,.sidebar.collapsed .nav-label,.sidebar.collapsed .nav-text,.sidebar.collapsed .side-info{display:none}.sidebar.collapsed .brand{justify-content:center;padding-inline:0}.sidebar.collapsed .nav button,.sidebar.collapsed .collapse-btn{justify-content:center;padding-inline:8px}.sidebar.collapsed .nav-icon{font-size:17px}.collapse-btn{margin-top:20px;border-color:var(--line);justify-content:flex-start}.side-info{margin-top:22px;border:1px solid var(--line);background:var(--soft);padding:12px;border-radius:14px;color:var(--muted);font-size:11px}.main{min-width:0;flex:1;padding:20px 24px 40px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px}.page-title h1{margin:0;font-size:clamp(22px,3vw,30px);letter-spacing:-.7px}.page-title p{margin:3px 0 0;color:var(--muted)}.top-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.select,.btn{border:1px solid var(--line);border-radius:11px;background:var(--panel);padding:9px 12px;color:var(--ink);font-weight:700}.btn{transition:transform .12s,background .15s}.btn:hover:not(:disabled){transform:translateY(-1px)}.btn:disabled{opacity:.5;cursor:not-allowed}.btn.primary{border:0;background:linear-gradient(120deg,var(--accent),color-mix(in srgb,var(--accent2) 65%,var(--accent)));color:#fff}.btn.small{padding:7px 10px;font-size:12px}.glass{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass)}.dashboard{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}.card{padding:17px;min-width:0}.span-12{grid-column:span 12}.span-8{grid-column:span 8}.span-7{grid-column:span 7}.span-6{grid-column:span 6}.span-5{grid-column:span 5}.span-4{grid-column:span 4}.card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.card-head h2,.card-head h3{margin:0;font-size:15px;letter-spacing:-.2px}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:850}.input-layout{display:grid;grid-template-columns:1fr;gap:11px}textarea#source{width:100%;min-height:230px;resize:vertical;border:1px solid var(--line);border-radius:13px;background:color-mix(in srgb,var(--solid) 50%,transparent);color:var(--ink);padding:13px;font:12px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace}.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.file-input{max-width:100%;color:var(--muted);font-size:12px}.privacy{margin:0;color:var(--muted);font-size:11px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:12px}.stat strong{display:block;font-size:24px;line-height:1.2}.stat span{font-size:10px;color:var(--muted);font-weight:800;letter-spacing:.09em;text-transform:uppercase}.stat.error strong{color:var(--bad)}.stat.warning strong{color:var(--warn)}.stat.pass strong{color:var(--good)}.score-line{display:flex;align-items:center;gap:13px;margin-top:12px;padding:11px;border:1px solid var(--line);background:var(--soft);border-radius:14px}.score-ring{--score:0;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;flex:none;background:radial-gradient(closest-side,var(--solid) 78%,transparent 80%),conic-gradient(var(--accent) calc(var(--score)*1%),color-mix(in srgb,var(--line) 75%,transparent) 0)}.score-ring b{font-size:17px}.score-copy strong{display:block}.score-copy span{color:var(--muted);font-size:12px}.chart{width:100%;height:160px;display:block}.chart-legend{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:11px}.legend-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:5px}.bars{display:grid;gap:11px}.bar-row{display:grid;grid-template-columns:105px 1fr 36px;gap:9px;align-items:center;font-size:11px}.bar-track{height:9px;border-radius:99px;background:var(--soft);overflow:hidden}.bar-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0;transition:width .3s}.bar-value{text-align:right;font-weight:800;color:var(--muted)}.findings-wrap{display:grid;gap:9px}.finding{padding:12px;border:1px solid var(--line);border-left:4px solid var(--good);border-radius:12px;background:color-mix(in srgb,var(--panel) 90%,transparent)}.finding.warning{border-left-color:var(--warn)}.finding.error{border-left-color:var(--bad)}.finding-head{display:flex;justify-content:space-between;gap:9px}.finding h3{font-size:13px;margin:0}.finding p{margin:5px 0 0;color:var(--muted);font-size:12px}.badge{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:900}.filter-row{display:flex;gap:7px;flex-wrap:wrap}.filter{border:1px solid var(--line);border-radius:999px;background:var(--soft);padding:6px 9px;font-size:11px;font-weight:800}.filter[aria-pressed=true]{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}.empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.hidden{display:none!important}.report-note{font-size:11px;color:var(--muted);line-height:1.5}.export-grid{display:flex;gap:8px;flex-wrap:wrap}.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px}.metric{padding:11px;border:1px solid var(--line);border-radius:12px;background:var(--soft)}.metric b{display:block;margin-bottom:4px;font-size:12px}.metric span{color:var(--muted);font-size:11px}.section-title{margin:18px 0 9px;font-size:13px}.toast{position:fixed;right:20px;bottom:20px;z-index:20;background:var(--solid);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:12px;padding:11px 15px;max-width:min(360px,calc(100vw - 40px));color:var(--ink)}
-    @media(max-width:1100px){.main{padding:18px}.span-8,.span-7,.span-6,.span-5,.span-4{grid-column:span 12}.stats{grid-template-columns:repeat(4,1fr)}}
-    @media(max-width:760px){.app{display:block}.sidebar{position:sticky;top:0;width:100%;padding:8px 10px;border-right:0;border-bottom:1px solid var(--line)}.sidebar.collapsed{width:100%;flex-basis:auto;padding:8px 10px}.brand,.side-info,.nav-label,.collapse-btn{display:none!important}.nav{display:flex;overflow-x:auto;gap:5px}.nav button,.sidebar.collapsed .nav button{width:auto;flex:none;padding:8px 10px}.nav-text,.sidebar.collapsed .nav-text{display:inline!important;font-size:11px}.nav-icon{width:20px;flex-basis:20px}.main{padding:15px 12px 30px}.topbar{align-items:flex-start;flex-direction:column}.stats{grid-template-columns:repeat(2,1fr)}}
+    :root{color-scheme:light;--bg:#edf3f7;--panel:rgba(255,255,255,.78);--solid:#fff;--soft:#f3f8fb;--ink:#172630;--muted:#607482;--line:rgba(107,137,156,.22);--accent:#16865c;--accent2:#2785d8;--good:#16865c;--good-bg:#e7f7ee;--warn:#a96d08;--warn-bg:#fff4dc;--bad:#bd403d;--bad-bg:#fff0ef;--shadow:0 18px 48px rgba(37,66,84,.10);--radius:17px}
+    body[data-theme="dark"],body[data-theme="system"]{color-scheme:dark;--bg:#0d1720;--panel:rgba(20,33,44,.84);--solid:#14212c;--soft:#1a2a36;--ink:#eaf3f7;--muted:#a1b5c2;--line:rgba(154,187,207,.17);--accent:#62d59b;--accent2:#79b9ff;--good:#62d59b;--good-bg:#153426;--warn:#ffd06b;--warn-bg:#352a14;--bad:#ff9288;--bad-bg:#391f21;--shadow:0 20px 55px rgba(0,0,0,.3)}
+    body[data-theme="system"],body[data-theme="light"]{color-scheme:light;--bg:#edf3f7;--panel:rgba(255,255,255,.78);--solid:#fff;--soft:#f3f8fb;--ink:#172630;--muted:#607482;--line:rgba(107,137,156,.22);--accent:#16865c;--accent2:#2785d8;--good:#16865c;--good-bg:#e7f7ee;--warn:#a96d08;--warn-bg:#fff4dc;--bad:#bd403d;--bad-bg:#fff0ef;--shadow:0 18px 48px rgba(37,66,84,.10)}
+    @media(prefers-color-scheme:dark){body[data-theme="system"]{color-scheme:dark;--bg:#0d1720;--panel:rgba(20,33,44,.84);--solid:#14212c;--soft:#1a2a36;--ink:#eaf3f7;--muted:#a1b5c2;--line:rgba(154,187,207,.17);--accent:#62d59b;--accent2:#79b9ff;--good:#62d59b;--good-bg:#153426;--warn:#ffd06b;--warn-bg:#352a14;--bad:#ff9288;--bad-bg:#391f21;--shadow:0 20px 55px rgba(0,0,0,.3)}}
+    body[data-theme="forest"]{--bg:#eaf4ed;--panel:rgba(250,255,251,.82);--solid:#fbfffc;--soft:#eff8f1;--ink:#193126;--muted:#5e7568;--line:rgba(82,133,101,.2);--accent:#20734b;--accent2:#367b9d;--good:#20734b;--good-bg:#e5f5e9;--warn:#93610b;--warn-bg:#fff2d6;--bad:#b74640;--bad-bg:#fff0ed}
+    body[data-theme="midnight"]{color-scheme:dark;--bg:#111425;--panel:rgba(27,30,49,.86);--solid:#1c2033;--soft:#252a42;--ink:#f0f1ff;--muted:#b3bad5;--line:rgba(168,175,229,.18);--accent:#79dbaa;--accent2:#9bbaff;--good:#79dbaa;--good-bg:#17342e;--warn:#f5cf70;--warn-bg:#342b17;--bad:#ff9288;--bad-bg:#392226;--shadow:0 20px 55px rgba(0,0,0,.34)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 4% 0,color-mix(in srgb,var(--accent2) 12%,transparent),transparent 30%),radial-gradient(ellipse at 100% 100%,color-mix(in srgb,var(--accent) 10%,transparent),transparent 34%),var(--bg);color:var(--ink);font:14px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;transition:background .2s,color .2s}button,input,textarea,select{font:inherit}button{color:inherit;cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid color-mix(in srgb,var(--accent2) 45%,transparent);outline-offset:2px}.app{max-width:1600px;min-height:100vh;margin:auto;display:flex}.sidebar{width:250px;flex:0 0 250px;padding:20px 13px;background:var(--panel);border-right:1px solid var(--line);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:width .2s,flex-basis .2s,padding .2s;z-index:5}.sidebar.collapsed{width:72px;flex-basis:72px;padding-inline:9px}.brand{display:flex;align-items:center;gap:11px;padding:3px 8px 22px;font-weight:900;font-size:19px;white-space:nowrap}.brand-mark{width:35px;height:35px;display:grid;place-items:center;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:900}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.13em;text-transform:uppercase}.nav-label{padding:9px 11px 6px;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}.nav{display:grid;gap:5px}.nav button,.collapse-btn{display:flex;align-items:center;gap:12px;width:100%;border:1px solid transparent;border-radius:12px;background:transparent;padding:10px 11px;text-align:left;font-weight:720;color:var(--muted);white-space:nowrap}.nav button:hover,.collapse-btn:hover{background:var(--soft);color:var(--ink)}.nav button.active{background:color-mix(in srgb,var(--accent) 11%,var(--panel));border-color:color-mix(in srgb,var(--accent) 20%,var(--line));color:var(--accent)}.nav-icon{width:24px;text-align:center;font-size:16px;flex:0 0 24px}.sidebar.collapsed .brand-text,.sidebar.collapsed .nav-label,.sidebar.collapsed .nav-text,.sidebar.collapsed .side-info{display:none}.sidebar.collapsed .brand{justify-content:center;padding-inline:0}.sidebar.collapsed .nav button,.sidebar.collapsed .collapse-btn{justify-content:center;padding-inline:7px}.collapse-btn{margin-top:18px;border-color:var(--line)}.side-info{margin-top:20px;border:1px solid var(--line);background:var(--soft);padding:11px;border-radius:13px;color:var(--muted);font-size:11px}.main{min-width:0;flex:1;padding:20px 23px 40px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:17px}.page-title h1{margin:0;font-size:clamp(22px,3vw,29px);letter-spacing:-.7px}.page-title p{margin:3px 0 0;color:var(--muted)}.top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.select,.btn{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:8px 11px;color:var(--ink);font-weight:700}.btn{transition:transform .12s,background .15s}.btn:hover:not(:disabled){transform:translateY(-1px)}.btn:disabled{opacity:.5;cursor:not-allowed}.btn.primary{border:0;background:linear-gradient(120deg,var(--accent),color-mix(in srgb,var(--accent2) 65%,var(--accent)));color:#fff}.glass{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}.dashboard{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:13px}.card{padding:16px;min-width:0}.span-12{grid-column:span 12}.span-7{grid-column:span 7}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px}.card-head h2{margin:0;font-size:15px;letter-spacing:-.2px}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:850}.input-layout{display:grid;gap:10px}textarea#source{width:100%;min-height:220px;resize:vertical;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--solid) 65%,transparent);color:var(--ink);padding:12px;font:12px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace}.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.file-input{max-width:100%;color:var(--muted);font-size:12px}.privacy,.report-note{margin:0;color:var(--muted);font-size:11px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.stat{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:10px}.stat strong{display:block;font-size:22px;line-height:1.2}.stat span{font-size:9px;color:var(--muted);font-weight:800;letter-spacing:.08em;text-transform:uppercase}.stat.error strong{color:var(--bad)}.stat.warning strong{color:var(--warn)}.stat.pass strong{color:var(--good)}.score-line{display:flex;align-items:center;gap:12px;margin-top:10px;padding:10px;border:1px solid var(--line);background:var(--soft);border-radius:12px}.score-ring{--score:0;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;flex:none;background:radial-gradient(closest-side,var(--solid) 78%,transparent 80%),conic-gradient(var(--accent) calc(var(--score)*1%),var(--line) 0)}.score-ring b{font-size:16px}.score-copy strong{display:block}.score-copy span{color:var(--muted);font-size:11px}.bars{display:grid;gap:10px}.bar-row{display:grid;grid-template-columns:100px 1fr 30px;gap:8px;align-items:center;font-size:11px}.bar-track{height:8px;border-radius:99px;background:var(--soft);overflow:hidden}.bar-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s}.bar-value{text-align:right;font-weight:800;color:var(--muted)}.chart{width:100%;height:145px;display:block}.chart-legend{display:flex;gap:11px;flex-wrap:wrap;color:var(--muted);font-size:10px}.legend-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}.finding-list{display:grid;gap:8px}.finding{padding:11px;border:1px solid var(--line);border-left:4px solid var(--good);border-radius:11px;background:color-mix(in srgb,var(--panel) 90%,transparent)}.finding.warning{border-left-color:var(--warn)}.finding.error{border-left-color:var(--bad)}.finding-head{display:flex;justify-content:space-between;gap:9px}.finding h3{font-size:12px;margin:0}.finding p{margin:5px 0 0;color:var(--muted);font-size:11px}.badge{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:900;white-space:nowrap}.filter-row,.export-grid{display:flex;gap:7px;flex-wrap:wrap}.filter{border:1px solid var(--line);border-radius:999px;background:var(--soft);padding:6px 9px;font-size:11px;font-weight:800}.filter[aria-pressed=true]{color:var(--accent);border-color:var(--accent)}.empty{padding:22px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:11px}.hidden{display:none!important}.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:8px}.metric{padding:10px;border:1px solid var(--line);border-radius:11px;background:var(--soft)}.metric b{display:block;margin-bottom:3px;font-size:11px}.metric span{color:var(--muted);font-size:10px}.section-title{margin:16px 0 8px;font-size:12px}.toast{position:fixed;right:18px;bottom:18px;z-index:20;background:var(--solid);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:11px;padding:10px 14px;max-width:min(360px,calc(100vw - 36px));color:var(--ink)}
+    @media(max-width:1050px){.main{padding:16px}.span-7,.span-5,.span-6{grid-column:span 12}}
+    @media(max-width:740px){.app{display:block}.sidebar,.sidebar.collapsed{position:sticky;top:0;width:100%;padding:7px 9px;border-right:0;border-bottom:1px solid var(--line)}.brand,.side-info,.nav-label,.collapse-btn{display:none!important}.nav{display:flex;overflow-x:auto;gap:4px}.nav button,.sidebar.collapsed .nav button{width:auto;flex:none;padding:7px 9px}.nav-text,.sidebar.collapsed .nav-text{display:inline!important;font-size:10px}.nav-icon{width:19px;flex-basis:19px}.main{padding:14px 10px 28px}.topbar{align-items:flex-start;flex-direction:column}.stats{grid-template-columns:repeat(2,1fr)}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
   </style>
 </head>
@@ -26,314 +27,141 @@
       <nav class="nav" aria-label="Audit sections">
         <button class="active" type="button" data-view="overview" title="Overview"><span class="nav-icon">◫</span><span class="nav-text">Overview</span></button>
         <button type="button" data-view="accessibility" title="Accessibility"><span class="nav-icon">◎</span><span class="nav-text">Accessibility</span></button>
-        <button type="button" data-view="seo" title="SEO audit"><span class="nav-icon">⌕</span><span class="nav-text">SEO audit</span></button>
+        <button type="button" data-view="seo" title="SEO"><span class="nav-icon">⌕</span><span class="nav-text">SEO</span></button>
         <button type="button" data-view="performance" title="Performance"><span class="nav-icon">ϟ</span><span class="nav-text">Performance</span></button>
-        <button type="button" data-view="export" title="Export dashboard"><span class="nav-icon">⇩</span><span class="nav-text">Export report</span></button>
+        <button type="button" data-view="export" title="Exports"><span class="nav-icon">⇩</span><span class="nav-text">Exports</span></button>
       </nav>
       <button class="collapse-btn" id="collapseBtn" type="button" aria-expanded="true" aria-label="Collapse sidebar"><span class="nav-icon">⇤</span><span class="nav-text">Collapse sidebar</span></button>
-      <div class="side-info">Source is parsed locally in your browser. FLUX does not render the uploaded page or fetch its external resources.</div>
+      <div class="side-info">HTML is parsed locally; FLUX never renders your uploaded page or fetches its external resources.</div>
     </aside>
-
     <main class="main">
       <div class="topbar">
-        <div class="page-title"><h1 id="viewTitle">Audit overview</h1><p id="viewSubtitle">Inspect HTML quality, accessibility, SEO and static performance signals.</p></div>
-        <div class="top-actions">
-          <label class="eyebrow" for="themeSelect">Appearance</label>
-          <select class="select" id="themeSelect" aria-label="Color theme">
-            <option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option><option value="forest">Forest</option><option value="midnight">Midnight</option>
-          </select>
-          <button class="btn" id="themeToggle" type="button" aria-label="Toggle light and dark theme">☼ / ☾</button>
-        </div>
+        <div class="page-title"><h1 id="viewTitle">Audit overview</h1><p id="viewSubtitle">Inspect source-level accessibility, SEO and performance signals.</p></div>
+        <div class="top-actions"><label class="eyebrow" for="themeSelect">Theme</label><select class="select" id="themeSelect" aria-label="Color theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option><option value="forest">Forest</option><option value="midnight">Midnight</option></select><button class="btn" id="themeToggle" type="button" aria-label="Toggle light or dark theme">☼ / ☾</button></div>
       </div>
-
       <section class="dashboard">
-        <article class="glass card span-7">
-          <div class="card-head"><h2>HTML source</h2><span class="eyebrow">Local analysis · 5 MB max</span></div>
-          <div class="input-layout">
-            <textarea id="source" spellcheck="false" aria-label="HTML source" placeholder="Paste HTML here, or choose an .html/.htm file below…"></textarea>
-            <div class="actions">
-              <button class="btn primary" id="analyzeBtn" type="button">Analyze HTML</button>
-              <button class="btn" id="sampleBtn" type="button">Load sample</button>
-              <button class="btn" id="clearBtn" type="button">Clear</button>
-              <input class="file-input" id="fileInput" type="file" accept=".html,.htm,text/html" aria-label="Choose HTML file">
-            </div>
-            <div class="actions"><button class="btn" id="fixBtn" type="button" disabled>Apply conservative fixes</button><button class="btn" id="downloadHtmlBtn" type="button" disabled>Download HTML</button></div>
-            <p class="privacy" id="status" role="status" aria-live="polite">No source is sent to a server. Checks are static heuristics, not a live crawl or formal WCAG certification.</p>
-          </div>
-        </article>
-
-        <article class="glass card span-5">
-          <div class="card-head"><h2>Audit summary</h2><span class="eyebrow" id="auditState">Awaiting source</span></div>
-          <div class="stats">
-            <div class="stat error"><strong id="errorCount">—</strong><span>Errors</span></div>
-            <div class="stat warning"><strong id="warningCount">—</strong><span>Suggestions</span></div>
-            <div class="stat pass"><strong id="passCount">—</strong><span>Passed</span></div>
-            <div class="stat"><strong id="sizeCount">—</strong><span>Source size</span></div>
-          </div>
-          <div class="score-line"><div class="score-ring" id="overallRing"><b id="overallScore">—</b></div><div class="score-copy"><strong id="scoreLabel">Ready to audit</strong><span id="scoreCaption">Run an audit to calculate category scores.</span></div></div>
-        </article>
-
-        <article class="glass card span-6 chart-card">
-          <div class="card-head"><h2>Category score chart</h2><span class="eyebrow">Heuristic scores</span></div>
-          <div class="bars" id="scoreBars"><div class="empty">Run an audit to see category scores.</div></div>
-        </article>
-
-        <article class="glass card span-6 chart-card">
-          <div class="card-head"><h2>Findings distribution</h2><span class="eyebrow">Current report</span></div>
-          <canvas class="chart" id="distributionChart" role="img" aria-label="Audit findings distribution chart"></canvas>
-          <div class="chart-legend"><span><i class="legend-dot" style="background:var(--bad)"></i>Errors</span><span><i class="legend-dot" style="background:var(--warn)"></i>Suggestions</span><span><i class="legend-dot" style="background:var(--good)"></i>Passed</span></div>
-        </article>
-
-        <article class="glass card span-12" id="findingsCard">
-          <div class="card-head"><h2 id="findingsHeading">Audit findings</h2><span class="eyebrow" id="findingsCount">No report yet</span></div>
-          <div class="filter-row" id="filterRow" aria-label="Filter findings"><button type="button" class="filter" data-filter="all" aria-pressed="true">All</button><button type="button" class="filter" data-filter="error" aria-pressed="false">Errors</button><button type="button" class="filter" data-filter="warning" aria-pressed="false">Suggestions</button><button type="button" class="filter" data-filter="pass" aria-pressed="false">Passed</button></div>
-          <div class="findings-wrap" id="findings"><div class="empty">Paste or choose HTML and run an audit to see results.</div></div>
-          <div class="report-note" style="margin-top:12px">Performance checks inspect the submitted source only. They cannot measure network timing, Core Web Vitals, server behavior, or actual browser rendering.</div>
-        </article>
-
-        <article class="glass card span-12 hidden" id="exportCard">
-          <div class="card-head"><h2>Export dashboard</h2><span class="eyebrow">Private, local downloads</span></div>
-          <p class="report-note">Export your latest audit findings and category scores. The exported report contains findings, not the submitted HTML source.</p>
-          <div class="export-grid"><button class="btn primary" id="jsonBtn" type="button" disabled>Export JSON</button><button class="btn" id="csvBtn" type="button" disabled>Export CSV</button><button class="btn" id="copyBtn" type="button" disabled>Copy summary</button></div>
-          <h3 class="section-title">Category metrics</h3><div class="metric-grid" id="metricsGrid"><div class="empty">Run an audit to populate export metrics.</div></div>
-        </article>
+        <article class="glass card span-7"><div class="card-head"><h2>HTML source</h2><span class="eyebrow">Local · 5 MB max</span></div><div class="input-layout"><textarea id="source" spellcheck="false" aria-label="HTML source" placeholder="Paste HTML here, or choose a .html/.htm file…"></textarea><div class="actions"><button class="btn primary" id="analyzeBtn" type="button">Analyze HTML</button><button class="btn" id="sampleBtn" type="button">Load sample</button><button class="btn" id="clearBtn" type="button">Clear</button><input class="file-input" id="fileInput" type="file" accept=".html,.htm,text/html" aria-label="Choose HTML file"></div><div class="actions"><button class="btn" id="fixBtn" type="button" disabled>Apply conservative fixes</button><button class="btn" id="downloadHtmlBtn" type="button" disabled>Download HTML</button></div><p class="privacy" id="status" role="status" aria-live="polite">Static heuristics only—not a live crawl, formal WCAG conformance test or browser performance measurement.</p></div></article>
+        <article class="glass card span-5"><div class="card-head"><h2>Audit summary</h2><span class="eyebrow" id="auditState">Awaiting source</span></div><div class="stats"><div class="stat error"><strong id="errorCount">—</strong><span>Errors</span></div><div class="stat warning"><strong id="warningCount">—</strong><span>Suggestions</span></div><div class="stat pass"><strong id="passCount">—</strong><span>Passed</span></div><div class="stat"><strong id="sizeCount">—</strong><span>Source size</span></div></div><div class="score-line"><div class="score-ring" id="overallRing"><b id="overallScore">—</b></div><div class="score-copy"><strong id="scoreLabel">Ready to audit</strong><span id="scoreCaption">Run an audit to calculate category scores.</span></div></div></article>
+        <article class="glass card span-6"><div class="card-head"><h2>Category scores</h2><span class="eyebrow">Weighted heuristic</span></div><div class="bars" id="scoreBars"><div class="empty">Run an audit to see category scores.</div></div></article>
+        <article class="glass card span-6"><div class="card-head"><h2>Finding distribution</h2><span class="eyebrow">Current report</span></div><canvas class="chart" id="distributionChart" role="img" aria-label="Chart of errors, suggestions and passed checks"></canvas><div class="chart-legend"><span><i class="legend-dot" style="background:var(--bad)"></i>Errors</span><span><i class="legend-dot" style="background:var(--warn)"></i>Suggestions</span><span><i class="legend-dot" style="background:var(--good)"></i>Passed</span></div></article>
+        <article class="glass card span-12" id="findingsCard"><div class="card-head"><h2 id="findingsHeading">Audit findings</h2><span class="eyebrow" id="findingsCount">No report yet</span></div><div class="filter-row" aria-label="Filter findings"><button type="button" class="filter" data-filter="all" aria-pressed="true">All</button><button type="button" class="filter" data-filter="error" aria-pressed="false">Errors</button><button type="button" class="filter" data-filter="warning" aria-pressed="false">Suggestions</button><button type="button" class="filter" data-filter="pass" aria-pressed="false">Passed</button></div><div class="finding-list" id="findings" style="margin-top:9px"><div class="empty">Paste or choose HTML and run an audit to see results.</div></div><p class="report-note" style="margin-top:10px">Performance checks inspect submitted source only; they cannot measure network timing, Core Web Vitals, server behavior, or rendered layout.</p></article>
+        <article class="glass card span-12 hidden" id="exportCard"><div class="card-head"><h2>Export dashboard</h2><span class="eyebrow">Private local downloads</span></div><p class="report-note">Exports include findings and metrics, not the submitted HTML source.</p><div class="export-grid" style="margin-top:12px"><button class="btn primary" id="jsonBtn" type="button" disabled>Export JSON</button><button class="btn" id="csvBtn" type="button" disabled>Export CSV</button><button class="btn" id="copyBtn" type="button" disabled>Copy summary</button></div><h3 class="section-title">Audit metrics</h3><div class="metric-grid" id="metricsGrid"><div class="empty">Run an audit to populate metrics.</div></div></article>
       </section>
     </main>
   </div>
   <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
-
   <script>
-  (() => {
+  (()=>{
     "use strict";
-    const $ = id => document.getElementById(id);
-    const MAX_SIZE = 5 * 1024 * 1024;
-    const sourceEl = $("source"), findingsEl = $("findings"), themeSelect = $("themeSelect");
-    const navButtons = [...document.querySelectorAll(".nav button[data-view]")];
-    let reportData = null, activeFilter = "all", activeView = "overview", toastTimer;
-
-    const sample = `<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Accessible sample page for FLUX</title>
-  <meta name="description" content="A practical sample page to demonstrate HTML accessibility, SEO and static performance checks in FLUX.">
-  <link rel="canonical" href="https://example.com/sample">
-  <meta property="og:title" content="Accessible sample page">
-  <meta property="og:description" content="Example metadata for social sharing previews.">
-</head>
-<body>
-  <header><h1>Welcome to the sample</h1></header>
-  <main>
-    <p>A concise example to try the local HTML audit.</p>
-    <a href="#details">Read more</a>
-    <h2 id="details">Details</h2>
-    <img src="landscape.jpg" alt="A green hillside below a blue sky" width="800" height="500" loading="lazy">
-    <button type="button">Continue</button>
-  </main>
-</body>
-</html>`;
-
-    const esc = value => String(value).replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]));
-    const textOf = node => (node?.textContent || "").replace(/\s+/g," ").trim();
-    const add = (list, category, severity, title, detail, fix="") => list.push({category,severity,title,detail,fix});
-
-    function notify(message) {
-      const toast = $("toast"); toast.textContent = message; toast.classList.remove("hidden");
-      clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.add("hidden"), 2800);
-    }
-
-    function setTheme(theme) {
-      document.body.dataset.theme = theme;
-      try { localStorage.setItem("flux-theme", theme); } catch {}
-      themeSelect.value = theme;
-      requestAnimationFrame(drawChart);
-    }
-    function initTheme() {
-      let saved = "system";
-      try { saved = localStorage.getItem("flux-theme") || "system"; } catch {}
-      setTheme(["system","light","dark","forest","midnight"].includes(saved) ? saved : "system");
-      const media = window.matchMedia?.("(prefers-color-scheme: dark)");
-      media?.addEventListener?.("change", () => { if (themeSelect.value === "system") requestAnimationFrame(drawChart); });
-    }
-
-    function hasName(el, doc) {
-      if ((el.getAttribute("aria-label") || "").trim()) return true;
-      const refs = (el.getAttribute("aria-labelledby") || "").trim().split(/\s+/).filter(Boolean);
-      if (refs.length && refs.every(id => textOf(doc.getElementById(id)))) return true;
-      if (el.tagName === "INPUT" && ["button","submit","reset"].includes((el.type || "").toLowerCase())) return !!el.value.trim();
-      return !!textOf(el) || !!el.querySelector('img[alt]:not([alt=""])');
-    }
-
-    function analyze(html) {
-      const doc = new DOMParser().parseFromString(html,"text/html"), findings = [];
-      const title = textOf(doc.querySelector("title"));
-      const desc = doc.querySelector('meta[name="description" i]')?.getAttribute("content")?.trim() || "";
-      const h1s = [...doc.querySelectorAll("h1")];
-      const imgs = [...doc.querySelectorAll("img")];
-      const links = [...doc.querySelectorAll("a[href]")];
-      const controls = [...doc.querySelectorAll("button,input[type=button],input[type=submit],input[type=reset]")];
-      const fields = [...doc.querySelectorAll("input:not([type=hidden]):not([type=button]):not([type=submit]):not([type=reset]),select,textarea")];
-      const cats = {Accessibility:[],SEO:[],Performance:[],Structure:[]};
-      const check = (cat, ok, titleText, detail, fix, severity="warning") => add(cats[cat],cat,ok?"pass":severity,titleText,ok?`Passed: ${detail}`:detail,ok?"":fix);
-
-      // Accessibility and document structure
-      check("Accessibility",!!doc.documentElement.getAttribute("lang")?.trim(),"Page language is declared","Declare the primary language on the html element.",'Set an accurate lang value, such as lang="en".','error');
-      check("Accessibility",imgs.every(img=>img.hasAttribute("alt")),"Images have alt attributes",`${imgs.filter(img=>!img.hasAttribute("alt")).length} image(s) are missing alt attributes.`,"Add an accurate description, or alt=\"\" for decorative images.","error");
-      check("Accessibility",links.every(a=>hasName(a,doc)),"Links have accessible names",`${links.filter(a=>!hasName(a,doc)).length} link(s) have no discernible name.`,"Add descriptive link text or a valid accessible name.","error");
-      check("Accessibility",controls.every(el=>hasName(el,doc)),"Buttons have accessible names",`${controls.filter(el=>!hasName(el,doc)).length} button control(s) need a name.`,"Add visible text or a meaningful aria-label.","error");
-      const unlabeled = fields.filter(el => {const explicit=el.id&&[...doc.querySelectorAll("label[for]")].some(l=>l.htmlFor===el.id&&textOf(l));return !explicit&&!el.closest("label")&&!el.getAttribute("aria-label")&&!el.getAttribute("aria-labelledby");});
-      check("Accessibility",!unlabeled.length,"Form controls have labels",`${unlabeled.length} control(s) may lack labels.`,"Associate a visible label or a valid accessible name.","error");
-      const ids=[...doc.querySelectorAll("[id]")].map(el=>el.id), uniqueIds=new Set(ids);
-      check("Accessibility",ids.length===uniqueIds.size,"IDs are unique",`${ids.length-uniqueIds.size} duplicate ID occurrence(s) found.`,"Give each element a unique ID and update its references.","error");
-      check("Structure",!!doc.querySelector("main,[role=main]"),"Main landmark exists","A main content landmark was not found.","Wrap primary content in a main element.");
-      const heads=[...doc.querySelectorAll("h1,h2,h3,h4,h5,h6")]; let jumps=0, previous=0;
-      for(const h of heads){const n=Number(h.tagName[1]);if(previous&&n>previous+1)jumps++;previous=n;}
-      check("Structure",jumps===0,"Heading hierarchy is sequential",`${jumps} heading level jump(s) found.`,"Use heading levels to reflect nested sections without skipping levels.");
-      check("Structure",h1s.length===1,"One primary H1 is present",`Found ${h1s.length} H1 heading(s).`,"Use a clear main heading; multiple H1s may be valid but should be intentional.");
-      const hashBroken=links.filter(a=>{const href=a.getAttribute("href")||"";if(!href.startsWith("#")||href==="#")return false;let id=href.slice(1);try{id=decodeURIComponent(id)}catch{}return !doc.getElementById(id)});
-      check("Structure",hashBroken.length===0,"In-page links resolve",`${hashBroken.length} fragment link(s) have missing targets.`,"Correct the fragment or add the referenced ID.");
+    const $=id=>document.getElementById(id), MAX_SIZE=5*1024*1024;
+    const sourceEl=$("source"),findingsEl=$("findings"),themeSelect=$("themeSelect"),navButtons=[...document.querySelectorAll(".nav button[data-view]")];
+    let reportData=null,activeFilter="all",activeView="overview",toastTimer;
+    const sample=`<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Accessible sample page for FLUX audit</title><meta name="description" content="A practical sample page to demonstrate local HTML accessibility, SEO and static performance checks with the FLUX audit studio."><link rel="canonical" href="https://example.com/sample"><meta property="og:title" content="Accessible sample page"><meta property="og:description" content="Example metadata for sharing previews."><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Accessible sample page"}<\/script></head><body><header><h1>Welcome to the sample</h1></header><main><p>Try the local HTML audit.</p><a href="#details">Read more</a><h2 id="details">Details</h2><img src="landscape.jpg" alt="A green hillside below a blue sky" width="800" height="500" loading="lazy"><button type="button">Continue</button></main></body></html>`;
+    const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+    const txt=n=>(n?.textContent||"").replace(/\s+/g," ").trim();
+    const push=(list,category,severity,title,detail,fix="")=>list.push({category,severity,title,detail,fix});
+    function notify(message){const t=$("toast");t.textContent=message;t.classList.remove("hidden");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.add("hidden"),2600)}
+    function setTheme(theme){document.body.dataset.theme=theme;themeSelect.value=theme;try{localStorage.setItem("flux-theme",theme)}catch{}requestAnimationFrame(drawChart)}
+    function initTheme(){let saved="system";try{saved=localStorage.getItem("flux-theme")||"system"}catch{}setTheme(["system","light","dark","forest","midnight"].includes(saved)?saved:"system");const media=window.matchMedia?.("(prefers-color-scheme: dark)");const onChange=()=>{if(themeSelect.value==="system")requestAnimationFrame(drawChart)};media?.addEventListener?media.addEventListener("change",onChange):media?.addListener?.(onChange)}
+    function accessibleName(el,doc){if((el.getAttribute("aria-label")||"").trim())return true;const refs=(el.getAttribute("aria-labelledby")||"").trim().split(/\s+/).filter(Boolean);if(refs.length&&refs.every(id=>txt(doc.getElementById(id))))return true;if(el.tagName==="INPUT"&&["button","submit","reset"].includes((el.type||"").toLowerCase()))return !!el.value.trim();if(el.tagName==="IMG")return el.hasAttribute("alt");return !!txt(el)||!!el.querySelector('img[alt]:not([alt=""])')}
+    function audit(html){
+      const doc=new DOMParser().parseFromString(html,"text/html"),groups={Accessibility:[],SEO:[],Performance:[],Semantics:[]};
+      const check=(group,ok,title,detail,fix,severity="warning")=>push(groups[group],group,ok?"pass":severity,title,ok?`Passed: ${detail}`:detail,ok?"":fix);
+      const title=txt(doc.querySelector("title")), description=doc.querySelector('meta[name="description" i]')?.content?.trim()||"", lang=doc.documentElement.getAttribute("lang")?.trim()||"";
+      const imgs=[...doc.querySelectorAll("img")],links=[...doc.querySelectorAll("a[href]")],buttons=[...doc.querySelectorAll("button,input[type=button],input[type=submit],input[type=reset]")];
+      const fields=[...doc.querySelectorAll("input:not([type=hidden]):not([type=button]):not([type=submit]):not([type=reset]),select,textarea")];
+      // Accessibility and semantics
+      check("Accessibility",!!lang,"Document language is declared","Root html lang is missing.",'Set an accurate language on <html>, such as lang="en".',"error");
+      check("Accessibility",imgs.every(i=>i.hasAttribute("alt")),"Images have alt attributes",`${imgs.filter(i=>!i.hasAttribute("alt")).length} image(s) lack alt attributes.`,"Provide accurate alternative text or alt=\"\" for decorative images.","error");
+      check("Accessibility",links.every(a=>accessibleName(a,doc)),"Links have accessible names",`${links.filter(a=>!accessibleName(a,doc)).length} link(s) have no discernible name.`,"Use descriptive anchor text or a valid accessible name.","error");
+      check("Accessibility",buttons.every(b=>accessibleName(b,doc)),"Buttons have accessible names",`${buttons.filter(b=>!accessibleName(b,doc)).length} button control(s) need a name.`,"Add visible text or a meaningful aria-label.","error");
+      const unlabeled=fields.filter(el=>{const id=el.id,explicit=id&&[...doc.querySelectorAll("label[for]")].some(l=>l.htmlFor===id&&txt(l));return !explicit&&!el.closest("label")&&!el.getAttribute("aria-label")&&!el.getAttribute("aria-labelledby")});
+      check("Accessibility",!unlabeled.length,"Form controls appear labeled",`${unlabeled.length} control(s) may lack an associated label.`,"Add an associated visible label or a valid accessible name.","error");
+      const idEls=[...doc.querySelectorAll("[id]")],idCounts=new Map();idEls.forEach(el=>idCounts.set(el.id,(idCounts.get(el.id)||0)+1));const dup=[...idCounts].filter(([,n])=>n>1);
+      check("Accessibility",!dup.length,"IDs are unique",`${dup.length} duplicated ID value(s) found.`,"Make IDs unique and update any references.","error");
+      const ariaRefs=[...doc.querySelectorAll("[aria-labelledby],[aria-describedby]")].flatMap(el=>["aria-labelledby","aria-describedby"].flatMap(attr=>(el.getAttribute(attr)||"").trim().split(/\s+/).filter(Boolean).map(id=>({id,attr}))));
+      const brokenAria=ariaRefs.filter(r=>!doc.getElementById(r.id));
+      check("Accessibility",!brokenAria.length,"ARIA ID references resolve",`${brokenAria.length} aria-labelledby/describedby reference(s) point to missing IDs.`,"Ensure every referenced ID exists.","error");
+      const invalidAria=[...doc.querySelectorAll("[aria-hidden],[aria-expanded],[aria-checked],[aria-selected],[aria-pressed],[aria-required],[aria-disabled]")].filter(el=>["aria-hidden","aria-expanded","aria-checked","aria-selected","aria-pressed","aria-required","aria-disabled"].some(a=>el.hasAttribute(a)&&! /^(true|false|mixed)$/i.test(el.getAttribute(a).trim())));
+      check("Accessibility",!invalidAria.length,"ARIA boolean states use valid values",`${invalidAria.length} element(s) have an invalid ARIA boolean-state value.`,"Use true or false (and mixed only where supported).");
+      const tabindex=doc.querySelectorAll('[tabindex="-1"]');
+      check("Accessibility",true,"Keyboard focus order requires manual review",`${tabindex.length} negative tabindex value(s) found; static checks cannot determine actual focus order.`,"Test keyboard navigation in a real browser.");
+      check("Semantics",!!doc.querySelector("main,[role=main]"),"Main landmark exists","No main landmark was found.","Use one main element for the primary page content.");
+      const headings=[...doc.querySelectorAll("h1,h2,h3,h4,h5,h6")];let jumps=0,last=0;headings.forEach(h=>{const n=Number(h.tagName[1]);if(last&&n>last+1)jumps++;last=n});
+      check("Semantics",jumps===0,"Heading levels do not skip","Found "+jumps+" heading level jump(s).","Use heading levels to reflect nested sections.");
+      check("Semantics",doc.querySelectorAll("h1").length===1,"One primary H1 is present",`Found ${doc.querySelectorAll("h1").length} H1 heading(s).`,"Use one clear page heading; multiple H1s may be intentional but should be reviewed.");
+      const roleValues=new Set("alert alertdialog application article banner complementary contentinfo dialog document feed figure form grid gridcell group heading img list listbox listitem log main marquee math menu menubar menuitem menuitemcheckbox menuitemradio navigation none note option presentation progressbar radio radiogroup region row rowgroup search separator slider spinbutton status switch tab table tablist tabpanel textbox timer toolbar tooltip tree treegrid treeitem".split(" "));
+      const invalidRoles=[...doc.querySelectorAll("[role]")].filter(el=>(el.getAttribute("role")||"").trim().split(/\s+/).every(r=>!roleValues.has(r)));
+      check("Semantics",!invalidRoles.length,"ARIA roles use recognized tokens",`${invalidRoles.length} element(s) use unrecognized role tokens.`,"Check roles against the WAI-ARIA role taxonomy.");
+      const landmarks=[...doc.querySelectorAll("header,nav,main,footer,aside,[role=main],[role=navigation],[role=banner],[role=contentinfo]")];
+      check("Semantics",landmarks.length>0,"Landmark elements are present","No common landmark elements were detected.","Use appropriate header, nav, main, aside, and footer landmarks.");
       const tables=[...doc.querySelectorAll("table")];
-      check("Structure",tables.every(t=>!t.querySelector("tr")||t.querySelector("th")),"Tables have header cells",`${tables.filter(t=>!t.querySelector("th")).length} table(s) lack header cells.`,"For data tables, add appropriate th cells and scope.");
-
-      // SEO source-level signals
-      const titleLength=title.length, descLength=desc.length;
-      check("SEO",!!title,"Descriptive title exists","A non-empty title was not found.","Add an accurate, unique title in the document head.","error");
-      check("SEO",titleLength>=20&&titleLength<=60,"Title length is in a useful range",`Title has ${titleLength} characters.`,"Review for a concise title (often around 20–60 characters).");
-      check("SEO",!!desc,"Meta description exists","A description meta tag is missing or empty.","Write an accurate summary; do not use placeholder text.");
-      check("SEO",descLength>=50&&descLength<=160,"Description length is in a useful range",`Description has ${descLength} characters.`,"Review the description length (often around 50–160 characters).");
-      check("SEO",!!doc.querySelector('link[rel~="canonical" i]'),"Canonical URL is declared","No canonical link was detected.","Add the preferred absolute URL when appropriate.");
-      check("SEO",!!doc.querySelector('meta[property="og:title" i]')&&!!doc.querySelector('meta[property="og:description" i]'),"Open Graph basics are present","og:title and/or og:description are missing.","Add accurate og:title and og:description metadata.");
-      check("SEO",!!doc.querySelector('meta[name="robots" i]'),"Robots directives are explicit","No robots meta directive found (this is not necessarily a problem).","Set robots directives only if you need to control indexing.");
-      check("SEO",!!doc.querySelector('meta[name="viewport" i]'),"Mobile viewport is configured","Viewport metadata is missing.","Add width=device-width, initial-scale=1.");
-      const lang=doc.documentElement.getAttribute("lang")||"";
-      check("SEO",!!lang,"Document language can be identified","The root html lang attribute is missing.","Set the page's actual primary language.");
-      const canonical=doc.querySelector('link[rel~="canonical" i]')?.getAttribute("href")||"";
-      if(canonical){let valid=false;try{valid=new URL(canonical).protocol.startsWith("http")}catch{}check("SEO",valid,"Canonical URL is absolute and valid","Canonical URL does not parse as an absolute HTTP(S) URL.","Use an absolute https:// URL.");}
-      const jsonLd=[...doc.querySelectorAll('script[type="application/ld+json" i]')];
-      let validJsonLd=0; for(const node of jsonLd){try{JSON.parse(node.textContent);validJsonLd++}catch{}}
-      check("SEO",!jsonLd.length||validJsonLd===jsonLd.length,"Structured data parses as JSON-LD",`${jsonLd.length-validJsonLd} JSON-LD block(s) contain invalid JSON.`,"Validate and correct JSON syntax; this check does not validate schema semantics.");
-      const linksWithText=links.filter(a=>hasName(a,doc)).length;
-      check("SEO",links.length===0||linksWithText/links.length>=.9,"Link text is descriptive at source level",`${links.length-linksWithText} of ${links.length} links lack an accessible name.`,"Use descriptive anchor text that makes destinations clear.");
-
-      // Static performance heuristics only: no network or rendered timing.
+      check("Semantics",tables.every(t=>!t.querySelector("tr")||t.querySelector("th")),"Data tables include header cells",`${tables.filter(t=>!t.querySelector("th")).length} table(s) lack th cells.`,"For data tables, provide header cells and suitable scope; review layout tables manually.");
+      const fragmentLinks=links.filter(a=>{const h=a.getAttribute("href")||"";if(!h.startsWith("#")||h==="#")return false;let id=h.slice(1);try{id=decodeURIComponent(id)}catch{}return !doc.getElementById(id)});
+      check("Semantics",!fragmentLinks.length,"Fragment links have targets",`${fragmentLinks.length} in-page link(s) have missing targets.`,"Correct the fragment or add the referenced ID.");
+      // SEO source-level checks
+      const descLength=description.length,titleLength=title.length,canonical=doc.querySelector('link[rel~="canonical" i]')?.getAttribute("href")?.trim()||"";
+      check("SEO",!!title,"Title exists","No non-empty document title was found.","Add an accurate, unique title.","error");
+      check("SEO",titleLength>=20&&titleLength<=60,"Title length is reasonable",`Title contains ${titleLength} characters.`,`Review title length; concise descriptive titles are preferred.");
+      check("SEO",!!description,"Meta description exists","Description is missing or empty.","Write an accurate page summary.");
+      check("SEO",descLength>=50&&descLength<=160,"Description length is reasonable",`Description contains ${descLength} characters.`,`Review for a concise summary (roughly 50–160 characters is a common guideline).");
+      check("SEO",!!doc.querySelector('meta[name="viewport" i]'),"Viewport metadata exists","Viewport metadata is missing.","Add a responsive viewport declaration.");
+      check("SEO",!!doc.querySelector('meta[property="og:title" i]')&&!!doc.querySelector('meta[property="og:description" i]'),"Open Graph title and description exist","One or more basic Open Graph tags are missing.","Add accurate og:title and og:description tags.");
+      if(canonical){let valid=false;try{const u=new URL(canonical);valid=u.protocol==="https:"||u.protocol==="http:"}catch{}check("SEO",valid,"Canonical URL is absolute HTTP(S)","Canonical URL does not parse as an absolute HTTP(S) URL.","Use an absolute canonical URL.")}else check("SEO",false,"Canonical URL is declared","No canonical link was detected.","Add the preferred canonical URL where appropriate.");
+      const robots=doc.querySelector('meta[name="robots" i]')?.content||"";
+      check("SEO",!/(noindex|nofollow)/i.test(robots),"Robots directives do not block indexing","A noindex or nofollow directive was found; verify it is intentional.","Remove restrictive directives only if indexing is intended.");
+      const jsonNodes=[...doc.querySelectorAll('script[type="application/ld+json" i]')];let jsonValid=0,jsonShape=0;
+      for(const node of jsonNodes){try{const value=JSON.parse(node.textContent);jsonValid++;const objects=Array.isArray(value)?value:[value];if(objects.every(x=>x&&typeof x==="object"&&("@type" in x||"@graph" in x)))jsonShape++}catch{}}
+      check("SEO",!jsonNodes.length||jsonValid===jsonNodes.length,"JSON-LD syntax parses",`${jsonNodes.length-jsonValid} JSON-LD block(s) contain invalid JSON.`,"Fix JSON syntax; this does not validate Schema.org eligibility.","error");
+      check("SEO",!jsonNodes.length||jsonShape===jsonNodes.length,"JSON-LD has a recognizable schema shape",`${jsonNodes.length-jsonShape} valid JSON block(s) lack a recognizable @type/@graph at the top level.`,"Check top-level JSON-LD object structure and @type.");
+      const metaRobots=doc.querySelector('meta[name="robots" i]');
+      check("SEO",!!lang,"Search language signal exists","The html lang attribute is missing.","Set the page's actual primary language.");
+      check("SEO",!!doc.querySelector('meta[property="og:image" i]'),"Social preview image is set","og:image is not present.","Provide an absolute, representative Open Graph image when sharing previews matter.");
+      // Static performance signals. Not runtime benchmarks.
       const bytes=new TextEncoder().encode(html).length;
-      const inlineCss=[...html.matchAll(/<style\\b[^>]*>([\\s\\S]*?)<\\/style\\s*>/gi)].reduce((n,m)=>n+m[1].length,0);
-      const inlineJs=[...html.matchAll(/<script(?![^>]*\\bsrc\\s*=)[^>]*>([\\s\\S]*?)<\\/script\\s*>/gi)].reduce((n,m)=>n+m[1].length,0);
-      const scripts=[...doc.querySelectorAll("script[src]")], styles=[...doc.querySelectorAll('link[rel~="stylesheet" i]')];
-      const renderBlocking=[...doc.querySelectorAll("script[src]:not([defer]):not([async])")].length;
-      const noDimensions=imgs.filter(img=>!img.hasAttribute("width")||!img.hasAttribute("height")).length;
-      const noLazy=imgs.filter(img=>!img.hasAttribute("loading")&&img.getAttribute("fetchpriority")!=="high").length;
-      const eagerBelowFold=[...doc.querySelectorAll("img")].filter(img=>!img.hasAttribute("loading")&&img.getAttribute("fetchpriority")!=="high").length;
-      const lazyCount=imgs.filter(img=>img.getAttribute("loading")==="lazy").length;
-      check("Performance",bytes<500000,"HTML source size is modest",`Source is ${(bytes/1024).toFixed(1)} KB.`,"Reduce unnecessary markup and embedded data if the document is large.");
-      check("Performance",inlineCss<20000,"Inline CSS size is modest",`Inline style content is ${(inlineCss/1024).toFixed(1)} KB.`,"Consider external or minified CSS for large stylesheets.");
-      check("Performance",inlineJs<30000,"Inline JavaScript size is modest",`Inline script content is ${(inlineJs/1024).toFixed(1)} KB.`,"Consider splitting or deferring non-critical scripts.");
-      check("Performance",renderBlocking===0,"External scripts are async or deferred",`${renderBlocking} external script(s) have neither async nor defer.`,"Add defer or async where execution order permits.");
-      check("Performance",scripts.length+styles.length<=6,"External resource count is limited",`${scripts.length} external scripts and ${styles.length} stylesheets found.`,"Review dependencies; this static check cannot measure their transfer or cost.");
-      check("Performance",noDimensions===0,"Images reserve layout dimensions",`${noDimensions} image(s) have no explicit width or height.`,"Set intrinsic width and height to reduce layout shifts.");
-      check("Performance",noLazy===0,"Images declare loading priority",`${noLazy} image(s) have no loading hint.`,"Use loading=\"lazy\" for below-the-fold images; keep key hero imagery eager.");
-      const oversizedData=(html.match(/data:image\\/[^;]+;base64,[a-z0-9+/=]{50000,}/gi)||[]).length;
-      check("Performance",oversizedData===0,"No very large embedded image data detected",`${oversizedData} large base64 image payload(s) detected.`,"Use optimized image files instead of large inline data URIs.");
-
-      const all=[...cats.Accessibility,...cats.SEO,...cats.Performance,...cats.Structure];
-      const counts={error:all.filter(f=>f.severity==="error").length,warning:all.filter(f=>f.severity==="warning").length,pass:all.filter(f=>f.severity==="pass").length};
-      const categoryScores={};
-      for(const [name,list] of Object.entries(cats)){const e=list.filter(f=>f.severity==="error").length,w=list.filter(f=>f.severity==="warning").length;categoryScores[name]=Math.max(0,Math.round(100-(e*14)-(w*6)));}
-      const overall=Math.round(Object.values(categoryScores).reduce((a,b)=>a+b,0)/Object.keys(categoryScores).length);
-      return {generatedAt:new Date().toISOString(),sourceBytes:bytes,counts,overallScore:overall,categoryScores,findings:all,seoMetrics:{titleLength,descriptionLength:descLength,canonicalPresent:!!canonical,openGraphPresent:!!doc.querySelector('meta[property="og:title" i]'),structuredDataBlocks:jsonLd.length,validStructuredDataBlocks:validJsonLd,headingOneCount:h1s.length,linkCount:links.length},performanceMetrics:{sourceBytes:bytes,inlineCssBytes:inlineCss,inlineJsBytes:inlineJs,imageCount:imgs.length,imagesMissingDimensions:noDimensions,imagesWithoutLoadingHint:noLazy,lazyImages:lazyCount,externalScripts:scripts.length,stylesheets:styles.length,renderBlockingScripts:renderBlocking,largeDataUriImages:oversizedData,measurement:"Static source heuristics only; no network, browser timing or Core Web Vitals measured."}};
+      const inlineCss=[...html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style\s*>/gi)].reduce((n,m)=>n+m[1].length,0);
+      const inlineJs=[...html.matchAll(/<script(?![^>]*\bsrc\s*=)[^>]*>([\s\S]*?)<\/script\s*>/gi)].reduce((n,m)=>n+m[1].length,0);
+      const externalScripts=[...doc.querySelectorAll("script[src]")],styles=[...doc.querySelectorAll('link[rel~="stylesheet" i]')];
+      const blocking=externalScripts.filter(s=>!s.hasAttribute("defer")&&!s.hasAttribute("async")&&s.getAttribute("type")!=="module").length;
+      const imgDimensions=imgs.filter(i=>!i.hasAttribute("width")||!i.hasAttribute("height")).length;
+      const noLoading=imgs.filter(i=>!i.hasAttribute("loading")&&!i.hasAttribute("fetchpriority")).length;
+      const dataUris=(html.match(/data:image\/[^;]+;base64,[a-z0-9+/=]{50000,}/gi)||[]).length;
+      check("Performance",bytes<500000,"HTML payload is under 500 KB",`Source is ${(bytes/1024).toFixed(1)} KB.`,"Reduce excessive markup or embedded assets where possible.");
+      check("Performance",inlineCss<20000,"Inline CSS is under 20 KB",`Inline style content is ${(inlineCss/1024).toFixed(1)} KB.`,"Consider external or minified CSS for large styles.");
+      check("Performance",inlineJs<30000,"Inline JavaScript is under 30 KB",`Inline script content is ${(inlineJs/1024).toFixed(1)} KB.`,"Defer or split non-critical scripts when appropriate.");
+      check("Performance",blocking===0,"External scripts avoid parser blocking",`${blocking} external script(s) lack async/defer/module.`,"Use defer/async when safe; preserve required execution order.");
+      check("Performance",externalScripts.length+styles.length<=6,"External dependency count is modest",`${externalScripts.length} scripts and ${styles.length} stylesheets found.`,"Review dependencies; this check cannot measure download size or third-party execution cost.");
+      check("Performance",imgDimensions===0,"Images reserve layout dimensions",`${imgDimensions} image(s) lack width or height.`,"Set intrinsic dimensions to help reduce layout shifts.");
+      check("Performance",noLoading===0,"Images declare loading priority",`${noLoading} image(s) lack loading or fetchpriority hints.`,"Lazy-load non-critical images and prioritize the main visual where suitable.");
+      check("Performance",dataUris===0,"No very large base64 images detected",`${dataUris} large embedded image data URI(s) found.`,"Prefer optimized external image assets for large images.");
+      // Category score uses weighted checks; skipped/not-applicable checks are neutral because the test passes when absent.
+      const all=Object.values(groups).flat(), counts={error:all.filter(f=>f.severity==="error").length,warning:all.filter(f=>f.severity==="warning").length,pass:all.filter(f=>f.severity==="pass").length};
+      const weights={Accessibility:4,SEO:2,Performance:2,Semantics:3}, categoryScores={};
+      for(const [name,list] of Object.entries(groups)){let earned=0,total=0;for(const f of list){const weight=f.severity==="error"?3:f.severity==="warning"?1:1;total+=weight;if(f.severity==="pass")earned+=weight}categoryScores[name]=total?Math.round(100*earned/total):100}
+      const totalWeight=Object.entries(categoryScores).reduce((sum,[name,score])=>sum+score*weights[name],0), weightSum=Object.values(weights).reduce((a,b)=>a+b,0);
+      return {generatedAt:new Date().toISOString(),sourceBytes:bytes,counts,overallScore:Math.round(totalWeight/weightSum),categoryScores,findings:all,seoMetrics:{titleLength,descriptionLength:descLength,canonicalPresent:!!canonical,openGraphTitle:!!doc.querySelector('meta[property="og:title" i]'),openGraphDescription:!!doc.querySelector('meta[property="og:description" i]'),openGraphImage:!!doc.querySelector('meta[property="og:image" i]'),jsonLdBlocks:jsonNodes.length,validJsonLdBlocks:jsonValid,recognizableJsonLdBlocks:jsonShape,robotsDirective:robots||"not specified",language:lang,h1Count:h1s.length},performanceMetrics:{sourceBytes:bytes,inlineCssCharacters:inlineCss,inlineJsCharacters:inlineJs,imageCount:imgs.length,imagesMissingDimensions:imgDimensions,imagesWithoutLoadingHint:noLoading,externalScripts:externalScripts.length,stylesheets:styles.length,parserBlockingScripts:blocking,largeDataUriImages:dataUris,measurement:"Static source signals only; no network, rendered timing, Core Web Vitals or server behavior measured."}};
     }
 
-    function currentFindings() {
-      if(!reportData)return [];
-      const list=reportData.findings;
-      return activeView==="accessibility"?list.filter(f=>f.category==="Accessibility"||f.category==="Structure"):
-        activeView==="seo"?list.filter(f=>f.category==="SEO"):
-        activeView==="performance"?list.filter(f=>f.category==="Performance"):list;
-    }
-
-    function renderFindings() {
-      if(!reportData){findingsEl.innerHTML='<div class="empty">Paste or choose HTML and run an audit to see results.</div>';return}
-      const viewList=currentFindings();
-      const list=viewList.filter(f=>activeFilter==="all"||f.severity===activeFilter);
-      $("findingsHeading").textContent=activeView==="seo"?"SEO findings":activeView==="performance"?"Performance findings":activeView==="accessibility"?"Accessibility findings":"Audit findings";
-      $("findingsCount").textContent=`${viewList.length} checks · ${list.length} shown`;
-      findingsEl.innerHTML=list.length?list.map(f=>`<article class="finding ${f.severity}"><div class="finding-head"><h3>${esc(f.title)}</h3><span class="badge">${esc(f.category)} · ${esc(f.severity)}</span></div><p>${esc(f.detail)}</p>${f.fix?`<p><strong>Suggested action:</strong> ${esc(f.fix)}</p>`:""}</article>`).join(""):'<div class="empty">No findings match this filter.</div>';
-      document.querySelectorAll("[data-filter]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.filter===activeFilter)));
-    }
-
-    function drawChart() {
-      const canvas=$("distributionChart"), ctx=canvas.getContext("2d");
-      const rect=canvas.getBoundingClientRect(); if(!rect.width)return;
-      const dpr=window.devicePixelRatio||1;canvas.width=rect.width*dpr;canvas.height=rect.height*dpr;ctx.scale(dpr,dpr);
-      const w=rect.width,h=rect.height, centerX=w/2,centerY=h/2,r=Math.min(62,h*.38),inner=r*.62;
-      ctx.clearRect(0,0,w,h);
-      const vals=reportData?[reportData.counts.error,reportData.counts.warning,reportData.counts.pass]:[0,0,0];
-      const total=vals.reduce((a,b)=>a+b,0), css=getComputedStyle(document.body);
-      const colors=[css.getPropertyValue("--bad").trim(),css.getPropertyValue("--warn").trim(),css.getPropertyValue("--good").trim()];
-      if(!total){ctx.beginPath();ctx.arc(centerX,centerY,r,0,Math.PI*2);ctx.strokeStyle=css.getPropertyValue("--line");ctx.lineWidth=r-inner;ctx.stroke();}
-      else{let angle=-Math.PI/2;vals.forEach((v,i)=>{if(!v)return;const next=angle+(v/total)*Math.PI*2;ctx.beginPath();ctx.arc(centerX,centerY,r,angle,next);ctx.strokeStyle=colors[i];ctx.lineWidth=r-inner;ctx.lineCap="butt";ctx.stroke();angle=next;});}
-      ctx.fillStyle=css.getPropertyValue("--ink").trim();ctx.font="700 20px system-ui";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(String(total),centerX,centerY-4);
-      ctx.fillStyle=css.getPropertyValue("--muted").trim();ctx.font="11px system-ui";ctx.fillText("checks",centerX,centerY+14);
-    }
-
-    function renderSummary() {
-      if(!reportData)return;
-      const {counts,overallScore,categoryScores,sourceBytes}=reportData;
-      $("errorCount").textContent=counts.error;$("warningCount").textContent=counts.warning;$("passCount").textContent=counts.pass;$("sizeCount").textContent=sourceBytes>=1024?`${(sourceBytes/1024).toFixed(1)} KB`:`${sourceBytes} B`;
-      $("overallScore").textContent=overallScore;$("overallRing").style.setProperty("--score",overallScore);$("auditState").textContent="Audit complete";
-      $("scoreLabel").textContent=overallScore>=90?"Strong source signals":overallScore>=70?"Some improvements recommended":"Review key issues";
-      $("scoreCaption").textContent=`Combined heuristic score across ${Object.keys(categoryScores).length} categories; not a certification.`;
-      const bars=$("scoreBars");bars.innerHTML=Object.entries(categoryScores).map(([name,value])=>`<div class="bar-row"><span>${esc(name)}</span><div class="bar-track"><div class="bar-fill" style="width:${value}%"></div></div><span class="bar-value">${value}</span></div>`).join("");
-      $("jsonBtn").disabled=false;$("csvBtn").disabled=false;$("copyBtn").disabled=false;$("downloadHtmlBtn").disabled=false;$("fixBtn").disabled=false;
-      const metrics=$("metricsGrid");metrics.innerHTML=Object.entries(reportData.categoryScores).map(([name,value])=>`<div class="metric"><b>${esc(name)} score</b><span>${value}/100 heuristic</span></div>`).join("")+`<div class="metric"><b>HTML source</b><span>${(sourceBytes/1024).toFixed(1)} KB</span></div><div class="metric"><b>SEO title length</b><span>${reportData.seoMetrics.titleLength} characters</span></div><div class="metric"><b>Images</b><span>${reportData.performanceMetrics.imageCount} found</span></div>`;
-      drawChart();
-    }
-
-    function showView(view) {
-      activeView=view;activeFilter="all";
-      navButtons.forEach(b=>b.classList.toggle("active",b.dataset.view===view));
-      const map={overview:["Audit overview","Inspect HTML quality, accessibility, SEO and static performance signals."],accessibility:["Accessibility audit","Review source-level checks for names, labels, language and document structure."],seo:["SEO audit","Inspect metadata and page structure; search ranking is not evaluated."],performance:["Performance audit","Review static source indicators; no live performance timings are collected."],export:["Export dashboard","Download a structured JSON or CSV report from this browser."]};
-      $("viewTitle").textContent=map[view][0];$("viewSubtitle").textContent=map[view][1];
-      $("exportCard").classList.toggle("hidden",view!=="export");$("findingsCard").classList.toggle("hidden",view==="export");
-      renderFindings();
-    }
-
-    function download(name,data,type) {const blob=new Blob([data],{type}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1200)}
-    function exportJson(){if(!reportData)return;download("flux-audit-report.json",JSON.stringify(reportData,null,2),"application/json;charset=utf-8")}
+    function listForView(){if(!reportData)return[];const f=reportData.findings;return activeView==="accessibility"?f.filter(x=>x.category==="Accessibility"||x.category==="Semantics"):activeView==="seo"?f.filter(x=>x.category==="SEO"):activeView==="performance"?f.filter(x=>x.category==="Performance"):f}
+    function renderFindings(){if(!reportData){findingsEl.innerHTML='<div class="empty">Paste or choose HTML and run an audit to see results.</div>';return}const view=listForView(),shown=view.filter(f=>activeFilter==="all"||f.severity===activeFilter);$("findingsHeading").textContent=activeView==="seo"?"SEO findings":activeView==="performance"?"Performance findings":activeView==="accessibility"?"Accessibility and semantics": "Audit findings";$("findingsCount").textContent=`${view.length} checks · ${shown.length} shown`;findingsEl.innerHTML=shown.length?shown.map(f=>`<article class="finding ${f.severity}"><div class="finding-head"><h3>${esc(f.title)}</h3><span class="badge">${esc(f.category)} · ${esc(f.severity)}</span></div><p>${esc(f.detail)}</p>${f.fix?`<p><strong>Suggested action:</strong> ${esc(f.fix)}</p>`:""}</article>`).join(""):'<div class="empty">No findings match this filter.</div>';document.querySelectorAll(".filter").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.filter===activeFilter)))}
+    function drawChart(){const c=$("distributionChart");if(!c)return;const ctx=c.getContext("2d"),r=c.getBoundingClientRect();if(!r.width)return;const dpr=window.devicePixelRatio||1;c.width=Math.round(r.width*dpr);c.height=Math.round(r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);const w=r.width,h=r.height,cx=w/2,cy=h/2,outer=Math.min(58,h*.38),inner=outer*.63;ctx.clearRect(0,0,w,h);const vals=reportData?[reportData.counts.error,reportData.counts.warning,reportData.counts.pass]:[0,0,0],total=vals.reduce((a,b)=>a+b,0),css=getComputedStyle(document.body),colors=[css.getPropertyValue("--bad").trim(),css.getPropertyValue("--warn").trim(),css.getPropertyValue("--good").trim()];if(!total){ctx.beginPath();ctx.arc(cx,cy,outer,0,2*Math.PI);ctx.strokeStyle=css.getPropertyValue("--line");ctx.lineWidth=outer-inner;ctx.stroke()}else{let a=-Math.PI/2;vals.forEach((v,i)=>{if(!v)return;const end=a+v/total*2*Math.PI;ctx.beginPath();ctx.arc(cx,cy,outer,a,end);ctx.strokeStyle=colors[i];ctx.lineWidth=outer-inner;ctx.stroke();a=end})}ctx.fillStyle=css.getPropertyValue("--ink").trim();ctx.font="700 19px system-ui";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(String(total),cx,cy-4);ctx.fillStyle=css.getPropertyValue("--muted").trim();ctx.font="10px system-ui";ctx.fillText("checks",cx,cy+13)}
+    function renderSummary(){if(!reportData)return;const {counts,overallScore,categoryScores,sourceBytes}=reportData;$("errorCount").textContent=counts.error;$("warningCount").textContent=counts.warning;$("passCount").textContent=counts.pass;$("sizeCount").textContent=sourceBytes>=1024?`${(sourceBytes/1024).toFixed(1)} KB`:`${sourceBytes} B`;$("overallScore").textContent=overallScore;$("overallRing").style.setProperty("--score",overallScore);$("auditState").textContent="Audit complete";$("scoreLabel").textContent=overallScore>=90?"Strong source signals":overallScore>=70?"Improvements recommended":"Review key issues";$("scoreCaption").textContent="Weighted static heuristic; not a certification.";$("scoreBars").innerHTML=Object.entries(categoryScores).map(([name,value])=>`<div class="bar-row"><span>${esc(name)}</span><div class="bar-track"><div class="bar-fill" style="width:${value}%"></div></div><span class="bar-value">${value}</span></div>`).join("");$("jsonBtn").disabled=$("csvBtn").disabled=$("copyBtn").disabled=false;$("downloadHtmlBtn").disabled=$("fixBtn").disabled=false;$("metricsGrid").innerHTML=Object.entries(categoryScores).map(([name,value])=>`<div class="metric"><b>${esc(name)} score</b><span>${value}/100 weighted heuristic</span></div>`).join("")+`<div class="metric"><b>Source</b><span>${(sourceBytes/1024).toFixed(1)} KB</span></div><div class="metric"><b>Title length</b><span>${reportData.seoMetrics.titleLength} characters</span></div><div class="metric"><b>JSON-LD</b><span>${reportData.seoMetrics.validJsonLdBlocks}/${reportData.seoMetrics.jsonLdBlocks} parse</span></div><div class="metric"><b>Images</b><span>${reportData.performanceMetrics.imageCount} found</span></div>`;drawChart()}
+    function showView(view){activeView=view;activeFilter="all";navButtons.forEach(b=>b.classList.toggle("active",b.dataset.view===view));const titles={overview:["Audit overview","Inspect source-level accessibility, SEO and performance signals."],accessibility:["Accessibility audit","Review static accessibility and semantic markup indicators."],seo:["SEO audit","Review metadata and structured data; search rankings are not tested."],performance:["Performance audit","Review source hints only—no live timing or Core Web Vitals are measured."],export:["Export dashboard","Download audit findings as JSON or CSV."]};$("viewTitle").textContent=titles[view][0];$("viewSubtitle").textContent=titles[view][1];$("exportCard").classList.toggle("hidden",view!=="export");$("findingsCard").classList.toggle("hidden",view==="export");renderFindings()}
+    function download(name,data,type){const url=URL.createObjectURL(new Blob([data],{type})),a=document.createElement("a");a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1200)}
+    function exportJson(){if(reportData)download("flux-audit-report.json",JSON.stringify(reportData,null,2),"application/json;charset=utf-8")}
     function exportCsv(){if(!reportData)return;const rows=[["category","severity","title","detail","suggested_action"],...reportData.findings.map(f=>[f.category,f.severity,f.title,f.detail,f.fix])];const csv=rows.map(row=>row.map(cell=>`"${String(cell??"").replace(/"/g,'""')}"`).join(",")).join("\r\n");download("flux-audit-findings.csv",csv,"text/csv;charset=utf-8")}
-    function copySummary(){if(!reportData)return;const text=`FLUX audit — ${reportData.generatedAt}\nOverall score: ${reportData.overallScore}/100 (heuristic)\nErrors: ${reportData.counts.error} · Suggestions: ${reportData.counts.warning} · Passed: ${reportData.counts.pass}\nCategory scores: ${Object.entries(reportData.categoryScores).map(([k,v])=>`${k} ${v}`).join(" | ")}\nStatic performance only; no live timings or Core Web Vitals measured.`;navigator.clipboard?.writeText(text).then(()=>notify("Audit summary copied.")).catch(()=>notify("Clipboard unavailable in this browser."))}
-
-    function conservativeFix(html) {
-      const doc=new DOMParser().parseFromString(html,"text/html"),head=doc.head||doc.querySelector("head");
-      if(head&&!doc.querySelector("meta[charset]")){const m=doc.createElement("meta");m.setAttribute("charset","utf-8");head.prepend(m)}
-      if(head&&!doc.querySelector('meta[name="viewport" i]')){const m=doc.createElement("meta");m.name="viewport";m.content="width=device-width, initial-scale=1";head.append(m)}
-      return "<!doctype html>\n"+doc.documentElement.outerHTML;
-    }
-
-    async function runAudit(html=sourceEl.value) {
-      if(!html.trim()){notify("Paste HTML or select a file first.");return}
-      $("analyzeBtn").disabled=true;$("analyzeBtn").textContent="Analyzing…";$("status").textContent="Analyzing locally…";
-      await new Promise(resolve=>setTimeout(resolve,25));
-      try{reportData=analyze(html);renderSummary();renderFindings();$("status").textContent="Analysis complete. Source was processed locally and not uploaded.";}
-      catch(error){notify(`Could not analyze HTML: ${error.message}`);$("status").textContent="Analysis failed; check the input and try again."}
-      finally{$("analyzeBtn").disabled=false;$("analyzeBtn").textContent="Analyze HTML"}
-    }
-
-    $("analyzeBtn").addEventListener("click",()=>runAudit());
-    $("sampleBtn").addEventListener("click",()=>{sourceEl.value=sample;runAudit()});
-    $("clearBtn").addEventListener("click",()=>{sourceEl.value="";reportData=null;activeFilter="all";$("findings").innerHTML='<div class="empty">Paste or choose HTML and run an audit to see results.</div>';$("scoreBars").innerHTML='<div class="empty">Run an audit to see category scores.</div>';["errorCount","warningCount","passCount","sizeCount","overallScore"].forEach(id=>$(id).textContent="—");$("auditState").textContent="Awaiting source";$("scoreLabel").textContent="Ready to audit";$("scoreCaption").textContent="Run an audit to calculate category scores.";$("metricsGrid").innerHTML='<div class="empty">Run an audit to populate export metrics.</div>';$("jsonBtn").disabled=$("csvBtn").disabled=$("copyBtn").disabled=$("downloadHtmlBtn").disabled=$("fixBtn").disabled=true;$("status").textContent="Cleared. Nothing is stored or uploaded.";drawChart()});
+    async function copySummary(){if(!reportData)return;const text=`FLUX audit — ${reportData.generatedAt}\nScore: ${reportData.overallScore}/100 (weighted heuristic)\nErrors: ${reportData.counts.error} · Suggestions: ${reportData.counts.warning} · Passed: ${reportData.counts.pass}\n${Object.entries(reportData.categoryScores).map(([k,v])=>`${k}: ${v}/100`).join(" | ")}\nStatic checks only; no live performance timings or WCAG certification.`;try{await navigator.clipboard.writeText(text);notify("Summary copied.")}catch{notify("Clipboard access unavailable.")}}
+    function conservativeFix(html){const doc=new DOMParser().parseFromString(html,"text/html"),head=doc.head;if(head&&!doc.querySelector("meta[charset]")){const m=doc.createElement("meta");m.setAttribute("charset","utf-8");head.prepend(m)}if(head&&!doc.querySelector('meta[name="viewport" i]')){const m=doc.createElement("meta");m.name="viewport";m.content="width=device-width, initial-scale=1";head.append(m)}return"<!doctype html>\n"+doc.documentElement.outerHTML}
+    async function runAudit(html=sourceEl.value){if(!html.trim()){notify("Paste HTML or select a file first.");return}$("analyzeBtn").disabled=true;$("analyzeBtn").textContent="Analyzing…";$("status").textContent="Analyzing locally…";await new Promise(r=>setTimeout(r,20));try{reportData=audit(html);renderSummary();renderFindings();$("status").textContent="Audit complete. Source was processed locally and not uploaded."}catch(error){notify(`Could not analyze HTML: ${error.message}`);$("status").textContent="Audit failed; review source and try again."}finally{$("analyzeBtn").disabled=false;$("analyzeBtn").textContent="Analyze HTML"}}
+    $("analyzeBtn").addEventListener("click",()=>runAudit());$("sampleBtn").addEventListener("click",()=>{sourceEl.value=sample;runAudit()});
+    $("clearBtn").addEventListener("click",()=>{sourceEl.value="";reportData=null;activeFilter="all";findingsEl.innerHTML='<div class="empty">Paste or choose HTML and run an audit to see results.</div>';$("scoreBars").innerHTML='<div class="empty">Run an audit to see category scores.</div>';["errorCount","warningCount","passCount","sizeCount","overallScore"].forEach(id=>$(id).textContent="—");$("auditState").textContent="Awaiting source";$("scoreLabel").textContent="Ready to audit";$("scoreCaption").textContent="Run an audit to calculate category scores.";$("metricsGrid").innerHTML='<div class="empty">Run an audit to populate metrics.</div>';$("jsonBtn").disabled=$("csvBtn").disabled=$("copyBtn").disabled=$("downloadHtmlBtn").disabled=$("fixBtn").disabled=true;$("status").textContent="Cleared. Nothing is stored or uploaded.";drawChart()});
     $("fileInput").addEventListener("change",async e=>{const file=e.target.files?.[0];if(!file)return;if(!/\.html?$/i.test(file.name)){notify("Choose an .html or .htm file.");e.target.value="";return}if(file.size>MAX_SIZE){notify("File is larger than 5 MB.");e.target.value="";return}try{sourceEl.value=await file.text();$("status").textContent=`Loaded ${file.name}; source remains local.`;runAudit()}catch{notify("Could not read that file.")}});
-    $("fixBtn").addEventListener("click",()=>{if(!sourceEl.value.trim())return;sourceEl.value=conservativeFix(sourceEl.value);runAudit()});
-    $("downloadHtmlBtn").addEventListener("click",()=>{if(sourceEl.value.trim())download("flux-checked.html",sourceEl.value,"text/html;charset=utf-8")});
-    $("jsonBtn").addEventListener("click",exportJson);$("csvBtn").addEventListener("click",exportCsv);$("copyBtn").addEventListener("click",copySummary);
-    $("themeSelect").addEventListener("change",e=>setTheme(e.target.value));
-    $("themeToggle").addEventListener("click",()=>{const current=themeSelect.value;const dark=current==="dark"||current==="midnight"||(current==="system"&&matchMedia("(prefers-color-scheme: dark)").matches);setTheme(dark?"light":"dark")});
-    $("collapseBtn").addEventListener("click",()=>{const sidebar=$("sidebar"),collapsed=sidebar.classList.toggle("collapsed");$("collapseBtn").setAttribute("aria-expanded",String(!collapsed));$("collapseBtn").setAttribute("aria-label",collapsed?"Expand sidebar":"Collapse sidebar");$("collapseBtn").querySelector(".nav-text").textContent=collapsed?"Expand sidebar":"Collapse sidebar"});
-    navButtons.forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
-    document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{activeFilter=b.dataset.filter;renderFindings()}));
-    window.addEventListener("resize",()=>requestAnimationFrame(drawChart));
-    initTheme();
+    $("fixBtn").addEventListener("click",()=>{if(sourceEl.value.trim()){sourceEl.value=conservativeFix(sourceEl.value);runAudit()}});$("downloadHtmlBtn").addEventListener("click",()=>{if(sourceEl.value.trim())download("flux-checked.html",sourceEl.value,"text/html;charset=utf-8")});
+    $("jsonBtn").addEventListener("click",exportJson);$("csvBtn").addEventListener("click",exportCsv);$("copyBtn").addEventListener("click",copySummary);themeSelect.addEventListener("change",e=>setTheme(e.target.value));
+    $("themeToggle").addEventListener("click",()=>{const t=themeSelect.value,dark=t==="dark"||t==="midnight"||(t==="system"&&window.matchMedia("(prefers-color-scheme: dark)").matches);setTheme(dark?"light":"dark")});
+    $("collapseBtn").addEventListener("click",()=>{const side=$("sidebar"),collapsed=side.classList.toggle("collapsed");$("collapseBtn").setAttribute("aria-expanded",String(!collapsed));$("collapseBtn").setAttribute("aria-label",collapsed?"Expand sidebar":"Collapse sidebar");$("collapseBtn").querySelector(".nav-text").textContent=collapsed?"Expand sidebar":"Collapse sidebar"});
+    navButtons.forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{activeFilter=b.dataset.filter;renderFindings()}));window.addEventListener("resize",()=>requestAnimationFrame(drawChart));initTheme();drawChart();
   })();
   </script>
 </body>
