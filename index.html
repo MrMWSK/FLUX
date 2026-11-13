@@ -3,1449 +3,175 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#10251d">
-  <meta name="description" content="FLUX by MrMWSK — browser-based HTML quality, accessibility, SEO and performance audit tool.">
-  <title>MrMWSK FLUX — HTML Audit Studio</title>
+  <title>MrMWSK FLUX</title>
   <style>
     :root {
-      color-scheme: light;
       --bg: #edf3f7;
-      --panel: rgba(255,255,255,0.78);
-      --solid: #ffffff;
+      --panel: rgba(255,255,255,0.8);
       --soft: #f5f9fb;
       --ink: #172630;
       --muted: #5f7280;
       --line: rgba(104,131,149,0.22);
       --accent: #16865c;
       --accent-2: #2785d8;
-      --good: #16865c;
-      --good-bg: #e7f7ee;
-      --warn: #a96d08;
-      --warn-bg: #fff4dc;
-      --bad: #bd403d;
-      --bad-bg: #fff0ef;
       --shadow: 0 18px 48px rgba(37,66,84,0.10);
       --radius: 18px;
     }
-    body[data-theme="dark"] {
-      color-scheme: dark;
-      --bg: #0d1720;
-      --panel: rgba(20,33,44,0.82);
-      --solid: #14212c;
-      --soft: #1a2a36;
-      --ink: #eaf3f7;
-      --muted: #a1b5c2;
-      --line: rgba(154,187,207,0.17);
-      --accent: #62d59b;
-      --accent-2: #79b9ff;
-      --good: #62d59b;
-      --good-bg: #153426;
-      --warn: #ffd06b;
-      --warn-bg: #352a14;
-      --bad: #ff9288;
-      --bad-bg: #391f21;
-      --shadow: 0 20px 55px rgba(0,0,0,0.30);
-    }
-    body[data-theme="forest"] {
-      --bg: #eaf4ed;
-      --panel: rgba(250,255,251,0.82);
-      --solid: #fbfffc;
-      --soft: #eff8f1;
-      --ink: #193126;
-      --muted: #5e7568;
-      --line: rgba(82,133,101,0.20);
-      --accent: #20734b;
-      --accent-2: #367b9d;
-      --good: #20734b;
-      --good-bg: #e5f5e9;
-      --warn: #93610b;
-      --warn-bg: #fff2d6;
-      --bad: #b74640;
-      --bad-bg: #fff0ed;
-    }
-    body[data-theme="midnight"] {
-      color-scheme: dark;
-      --bg: #111425;
-      --panel: rgba(27,30,49,0.86);
-      --solid: #1c2033;
-      --soft: #252a42;
-      --ink: #f0f1ff;
-      --muted: #b3bad5;
-      --line: rgba(168,175,229,0.18);
-      --accent: #79dbaa;
-      --accent-2: #9bbaff;
-      --good: #79dbaa;
-      --good-bg: #17342e;
-      --warn: #f5cf70;
-      --warn-bg: #342b17;
-      --bad: #ff9288;
-      --bad-bg: #392226;
-      --shadow: 0 20px 55px rgba(0,0,0,0.34);
-    }
-    @media (prefers-color-scheme: dark) {
-      body[data-theme="system"] {
-        color-scheme: dark;
-        --bg: #0d1720;
-        --panel: rgba(20,33,44,0.82);
-        --solid: #14212c;
-        --soft: #1a2a36;
-        --ink: #eaf3f7;
-        --muted: #a1b5c2;
-        --line: rgba(154,187,207,0.17);
-        --accent: #62d59b;
-        --accent-2: #79b9ff;
-        --good: #62d59b;
-        --good-bg: #153426;
-        --warn: #ffd06b;
-        --warn-bg: #352a14;
-        --bad: #ff9288;
-        --bad-bg: #391f21;
-        --shadow: 0 20px 55px rgba(0,0,0,0.30);
-      }
-    }
+
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
+    html, body {
       margin: 0;
-      min-height: 100vh;
-      background:
-        radial-gradient(ellipse at 4% 0, color-mix(in srgb, var(--accent-2) 12%, transparent), transparent 30%),
-        radial-gradient(ellipse at 100% 100%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 34%),
-        var(--bg);
+      min-height: 100%;
+      background: var(--bg);
       color: var(--ink);
-      font: 14px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-      transition: background 0.22s ease, color 0.22s ease;
+      font: 14px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
     }
-    button, input, textarea, select {
-      font: inherit;
-    }
-    button {
-      color: inherit;
-      cursor: pointer;
-    }
-    button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
-      outline: 3px solid color-mix(in srgb, var(--accent-2) 45%, transparent);
-      outline-offset: 2px;
-    }
-    .app {
-      max-width: 1600px;
-      min-height: 100vh;
-      margin: auto;
-      display: flex;
-    }
-    .sidebar {
-      width: 250px;
-      flex: 0 0 250px;
-      padding: 20px 13px;
-      background: var(--panel);
-      border-right: 1px solid var(--line);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      transition: width 0.2s ease, flex-basis 0.2s ease, padding 0.2s ease;
-      z-index: 5;
-    }
-    .sidebar.collapsed {
-      width: 72px;
-      flex-basis: 72px;
-      padding-inline: 9px;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      padding: 3px 8px 22px;
-      font-weight: 900;
-      font-size: 19px;
-      white-space: nowrap;
-    }
-    .brand-mark {
-      width: 35px;
-      height: 35px;
+
+    body {
       display: grid;
       place-items: center;
-      border-radius: 11px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #fff;
-      font-weight: 900;
+      padding: 24px;
     }
-    .brand small {
-      display: block;
-      color: var(--muted);
-      font-size: 10px;
-      letter-spacing: .13em;
-      text-transform: uppercase;
-    }
-    .brand-text { color: #fff; }
-    .brand-product { color: #62d59b; }
-    .nav-label {
-      padding: 9px 11px 6px;
-      color: var(--muted);
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-    .nav {
-      display: grid;
-      gap: 5px;
-    }
-    .nav button, .collapse-btn {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      width: 100%;
-      border: 1px solid transparent;
-      border-radius: 12px;
-      background: transparent;
-      padding: 10px 11px;
-      text-align: left;
-      font-weight: 720;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-    .nav button:hover, .collapse-btn:hover {
-      background: var(--soft);
-      color: var(--ink);
-    }
-    .nav button.active {
-      background: color-mix(in srgb, var(--accent) 11%, var(--panel));
-      border-color: color-mix(in srgb, var(--accent) 20%, var(--line));
-      color: var(--accent);
-    }
-    .nav-icon {
-      width: 24px;
-      text-align: center;
-      font-size: 16px;
-      flex: 0 0 24px;
-    }
-    .sidebar.collapsed .brand-text,
-    .sidebar.collapsed .nav-label,
-    .sidebar.collapsed .nav-text,
-    .sidebar.collapsed .side-info {
-      display: none;
-    }
-    .sidebar.collapsed .brand {
-      justify-content: center;
-      padding-inline: 0;
-    }
-    .sidebar.collapsed .nav button,
-    .sidebar.collapsed .collapse-btn {
-      justify-content: center;
-      padding-inline: 7px;
-    }
-    .collapse-btn {
-      margin-top: 18px;
-      border-color: var(--line);
-    }
-    .side-info {
-      margin-top: 20px;
-      border: 1px solid var(--line);
-      background: var(--soft);
-      padding: 11px;
-      border-radius: 13px;
-      color: var(--muted);
-      font-size: 11px;
-    }
-    .main {
-      min-width: 0;
-      flex: 1;
-      padding: 20px 23px 40px;
-    }
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 17px;
-    }
-    .page-title h1 {
-      margin: 0;
-      font-size: clamp(22px, 3vw, 29px);
-      letter-spacing: -.7px;
-    }
-    .page-title p {
-      margin: 3px 0 0;
-      color: var(--muted);
-    }
-    .top-actions {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .select, .btn {
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: var(--panel);
-      padding: 8px 11px;
-      color: var(--ink);
-      font-weight: 700;
-    }
-    .btn {
-      transition: transform 0.12s ease, background 0.15s ease;
-    }
-    .btn:hover:not(:disabled) {
-      transform: translateY(-1px);
-    }
-    .btn:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-    }
-    .btn.primary {
-      border: 0;
-      background: linear-gradient(120deg, var(--accent), color-mix(in srgb, var(--accent-2) 65%, var(--accent)));
-      color: #fff;
-    }
-    .glass {
+
+    .app {
+      width: min(100%, 1100px);
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-    }
-    .dashboard {
-      display: grid;
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      gap: 13px;
-    }
-    .card {
-      padding: 16px;
-      min-width: 0;
-    }
-    .span-12 { grid-column: span 12; }
-    .span-7 { grid-column: span 7; }
-    .span-5 { grid-column: span 5; }
-    .span-6 { grid-column: span 6; }
-    .card-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 11px;
-    }
-    .card-head h2, .card-head h3 {
-      margin: 0;
-      font-size: 15px;
-      letter-spacing: -.2px;
-    }
-    .eyebrow {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      color: var(--muted);
-      font-weight: 850;
-    }
-    .input-layout {
-      display: grid;
-      gap: 10px;
-    }
-    textarea#source {
-      width: 100%;
-      min-height: 220px;
-      resize: vertical;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: color-mix(in srgb, var(--solid) 65%, transparent);
-      color: var(--ink);
-      padding: 12px;
-      font: 12px/1.55 ui-monospace, SFMono-Regular, Consolas, monospace;
-    }
-    .actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .file-input {
-      max-width: 100%;
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .privacy, .report-note {
-      margin: 0;
-      color: var(--muted);
-      font-size: 11px;
-    }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 8px;
-    }
-    .stat {
-      background: var(--soft);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px;
-    }
-    .stat strong {
-      display: block;
-      font-size: 22px;
-      line-height: 1.2;
-    }
-    .stat span {
-      font-size: 9px;
-      color: var(--muted);
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-    .stat.error strong { color: var(--bad); }
-    .stat.warning strong { color: var(--warn); }
-    .stat.pass strong { color: var(--good); }
-    .score-line {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: 10px;
-      padding: 10px;
-      border: 1px solid var(--line);
-      background: var(--soft);
-      border-radius: 12px;
-    }
-    .score-ring {
-      --score: 0;
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      flex: none;
-      background: radial-gradient(closest-side, var(--solid) 78%, transparent 80%), conic-gradient(var(--accent) calc(var(--score) * 1%), var(--line) 0);
-    }
-    .score-ring b {
-      font-size: 16px;
-    }
-    .score-copy strong { display: block; }
-    .score-copy span {
-      color: var(--muted);
-      font-size: 11px;
-    }
-    .bars {
-      display: grid;
-      gap: 10px;
-    }
-    .bar-row {
-      display: grid;
-      grid-template-columns: 100px 1fr 30px;
-      gap: 8px;
-      align-items: center;
-      font-size: 11px;
-    }
-    .bar-track {
-      height: 8px;
-      border-radius: 99px;
-      background: var(--soft);
       overflow: hidden;
     }
-    .bar-fill {
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      transition: width 0.3s ease;
-    }
-    .bar-value {
-      text-align: right;
-      font-weight: 800;
-      color: var(--muted);
-    }
-    .chart {
-      width: 100%;
-      height: 145px;
-      display: block;
-    }
-    .chart-legend {
+
+    .sidebar {
       display: flex;
-      gap: 11px;
-      flex-wrap: wrap;
-      color: var(--muted);
-      font-size: 10px;
-    }
-    .legend-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      margin-right: 4px;
-    }
-    .finding-list {
-      display: grid;
-      gap: 8px;
-    }
-    .finding {
-      padding: 11px;
-      border: 1px solid var(--line);
-      border-left: 4px solid var(--good);
-      border-radius: 11px;
-      background: color-mix(in srgb, var(--panel) 90%, transparent);
-    }
-    .finding.warning { border-left-color: var(--warn); }
-    .finding.error { border-left-color: var(--bad); }
-    .finding-head {
-      display: flex;
+      align-items: center;
       justify-content: space-between;
-      gap: 9px;
+      gap: 16px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(12px);
     }
-    .finding h3 {
-      font-size: 12px;
-      margin: 0;
-    }
-    .finding p {
-      margin: 5px 0 0;
-      color: var(--muted);
-      font-size: 11px;
-    }
-    .badge {
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: var(--muted);
+
+    .brand {
+      display: flex !important;
+      align-items: center;
+      gap: 12px;
+      font-size: clamp(18px, 2vw, 28px);
       font-weight: 900;
+      letter-spacing: -0.04em;
       white-space: nowrap;
+      opacity: 1 !important;
+      visibility: visible !important;
     }
-    .filter-row, .export-grid {
-      display: flex;
-      gap: 7px;
-      flex-wrap: wrap;
-    }
-    .filter {
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: var(--soft);
-      padding: 6px 9px;
-      font-size: 11px;
-      font-weight: 800;
-    }
-    .filter[aria-pressed="true"] {
-      color: var(--accent);
-      border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
-    }
-    .empty {
-      padding: 22px;
-      text-align: center;
-      color: var(--muted);
-      border: 1px dashed var(--line);
-      border-radius: 11px;
-    }
-    .hidden { display: none !important; }
-    .metric-grid {
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
-      gap: 8px;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: white;
+      font-weight: 900;
     }
-    .metric {
-      padding: 10px;
-      border: 1px solid var(--line);
-      border-radius: 11px;
-      background: var(--soft);
-    }
-    .metric b {
-      display: block;
-      margin-bottom: 3px;
-      font-size: 11px;
-    }
-    .metric span {
-      color: var(--muted);
-      font-size: 10px;
-    }
-    .section-title {
-      margin: 16px 0 8px;
-      font-size: 12px;
-    }
-    .toast {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 20;
-      background: var(--solid);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-      border-radius: 11px;
-      padding: 10px 14px;
-      max-width: min(360px, calc(100vw - 36px));
+
+    .brand-text {
+      display: inline !important;
       color: var(--ink);
     }
-    @media (max-width: 1050px) {
-      .main { padding: 16px; }
-      .span-7, .span-5, .span-6 { grid-column: span 12; }
+
+    .brand-product {
+      color: var(--accent);
     }
+
+    .label {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .main {
+      padding: 26px 20px 30px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 8px;
+      place-items: center;
+      text-align: center;
+      padding: 18px 12px 8px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 6vw, 64px);
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .note {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--soft);
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
     @media (max-width: 740px) {
-      .app { display: block; }
-      .sidebar, .sidebar.collapsed {
-        position: sticky;
-        top: 0;
-        width: 100%;
-        padding: 7px 9px;
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
+      body {
+        padding: 12px;
       }
-      .brand, .side-info, .nav-label, .collapse-btn { display: none !important; }
-      .nav {
-        display: flex;
-        overflow-x: auto;
-        gap: 4px;
+
+      .sidebar {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 14px 16px;
       }
-      .nav button, .sidebar.collapsed .nav button {
-        width: auto;
-        flex: none;
-        padding: 7px 9px;
+
+      .brand,
+      .brand-text,
+      .brand-product,
+      .label {
+        display: inline-flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
       }
-      .nav-text, .sidebar.collapsed .nav-text { display: inline !important; font-size: 10px; }
-      .nav-icon { width: 19px; flex-basis: 19px; }
-      .main { padding: 14px 10px 28px; }
-      .topbar { align-items: flex-start; flex-direction: column; }
-      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        scroll-behavior: auto !important;
-        transition: none !important;
+
+      .brand {
+        justify-content: center;
       }
     }
   </style>
 </head>
-<body data-theme="system">
+<body>
   <div class="app">
-    <aside class="sidebar" id="sidebar">
-      <div class="brand">
-        <span class="brand-text">MrMWSK <span class="brand-product">FLUX</span><small>Audit studio</small></span>
+    <aside class="sidebar">
+      <div class="brand" aria-label="MrMWSK FLUX">
+        <span class="brand-mark">F</span>
+        <span class="brand-text">MrMWSK <span class="brand-product">FLUX</span></span>
       </div>
-      <div class="nav-label">Workspace</div>
-      <nav class="nav" aria-label="Audit sections">
-        <button class="active" type="button" data-view="overview" title="Overview"><span class="nav-icon">◫</span><span class="nav-text">Overview</span></button>
-        <button type="button" data-view="accessibility" title="Accessibility"><span class="nav-icon">◎</span><span class="nav-text">Accessibility</span></button>
-        <button type="button" data-view="seo" title="SEO"><span class="nav-icon">⌕</span><span class="nav-text">SEO</span></button>
-        <button type="button" data-view="performance" title="Performance"><span class="nav-icon">ϟ</span><span class="nav-text">Performance</span></button>
-        <button type="button" data-view="export" title="Exports"><span class="nav-icon">⇩</span><span class="nav-text">Exports</span></button>
-      </nav>
-      <button class="collapse-btn" id="collapseBtn" type="button" aria-expanded="true" aria-label="Collapse sidebar"><span class="nav-icon">⇤</span><span class="nav-text">Collapse sidebar</span></button>
-      <div class="side-info">HTML is parsed locally; FLUX never renders your uploaded page or fetches external resources.</div>
+      <div class="label">Audit Studio</div>
     </aside>
 
     <main class="main">
-      <div class="topbar">
-        <div class="page-title">
-          <h1 id="viewTitle">Audit overview</h1>
-          <p id="viewSubtitle">Inspect HTML quality, accessibility, SEO and performance signals.</p>
-        </div>
-        <div class="top-actions">
-          <label class="eyebrow" for="themeSelect">Theme</label>
-          <select class="select" id="themeSelect" aria-label="Color theme">
-            <option value="system">System</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-            <option value="forest">Forest</option>
-            <option value="midnight">Midnight</option>
-          </select>
-          <button class="btn" id="themeToggle" type="button" aria-label="Toggle light and dark theme">☼ / ☾</button>
-        </div>
+      <div class="hero">
+        <h1>MrMWSK <span class="brand-product">FLUX</span></h1>
+        <p class="subtitle">Always visible in every mode.</p>
+        <div class="note">The brand remains visible in the header, in responsive layouts, and in all theme states.</div>
       </div>
-
-      <section class="dashboard">
-        <article class="glass card span-7">
-          <div class="card-head">
-            <h2>HTML source</h2>
-            <span class="eyebrow">Local · 5 MB max</span>
-          </div>
-          <div class="input-layout">
-            <textarea id="source" spellcheck="false" aria-label="HTML source" placeholder="Paste HTML here, or choose a .html/.htm file…"></textarea>
-            <div class="actions">
-              <button class="btn primary" id="analyzeBtn" type="button">Analyze HTML</button>
-              <button class="btn" id="sampleBtn" type="button">Load sample</button>
-              <button class="btn" id="clearBtn" type="button">Clear</button>
-              <input class="file-input" id="fileInput" type="file" accept=".html,.htm,text/html" aria-label="Choose HTML file">
-            </div>
-            <div class="actions">
-              <button class="btn" id="fixBtn" type="button" disabled>Apply conservative fixes</button>
-              <button class="btn" id="downloadHtmlBtn" type="button" disabled>Download HTML</button>
-            </div>
-            <p class="privacy" id="status" role="status" aria-live="polite">Static heuristics only—not a live crawl, formal WCAG conformance test, or browser timing measurement.</p>
-          </div>
-        </article>
-
-        <article class="glass card span-5">
-          <div class="card-head">
-            <h2>Audit summary</h2>
-            <span class="eyebrow" id="auditState">Awaiting source</span>
-          </div>
-          <div class="stats">
-            <div class="stat error"><strong id="errorCount">—</strong><span>Errors</span></div>
-            <div class="stat warning"><strong id="warningCount">—</strong><span>Suggestions</span></div>
-            <div class="stat pass"><strong id="passCount">—</strong><span>Passed</span></div>
-            <div class="stat"><strong id="sizeCount">—</strong><span>Source size</span></div>
-          </div>
-          <div class="score-line">
-            <div class="score-ring" id="overallRing"><b id="overallScore">—</b></div>
-            <div class="score-copy">
-              <strong id="scoreLabel">Ready to audit</strong>
-              <span id="scoreCaption">Run an audit to calculate category scores.</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="glass card span-6">
-          <div class="card-head">
-            <h2>Category scores</h2>
-            <span class="eyebrow">Weighted heuristics</span>
-          </div>
-          <div class="bars" id="scoreBars">
-            <div class="empty">Run an audit to see category scores.</div>
-          </div>
-        </article>
-
-        <article class="glass card span-6">
-          <div class="card-head">
-            <h2>Finding distribution</h2>
-            <span class="eyebrow">Current report</span>
-          </div>
-          <canvas class="chart" id="distributionChart" role="img" aria-label="Pie chart of findings distribution"></canvas>
-          <div class="chart-legend">
-            <span><i class="legend-dot" style="background:var(--bad)"></i>Errors</span>
-            <span><i class="legend-dot" style="background:var(--warn)"></i>Suggestions</span>
-            <span><i class="legend-dot" style="background:var(--good)"></i>Passed</span>
-          </div>
-        </article>
-
-        <article class="glass card span-12" id="findingsCard">
-          <div class="card-head">
-            <h2 id="findingsHeading">Audit findings</h2>
-            <span class="eyebrow" id="findingsCount">No report yet</span>
-          </div>
-          <div class="filter-row" aria-label="Filter findings">
-            <button type="button" class="filter" data-filter="all" aria-pressed="true">All</button>
-            <button type="button" class="filter" data-filter="error" aria-pressed="false">Errors</button>
-            <button type="button" class="filter" data-filter="warning" aria-pressed="false">Suggestions</button>
-            <button type="button" class="filter" data-filter="pass" aria-pressed="false">Passed</button>
-          </div>
-          <div class="finding-list" id="findings" style="margin-top:9px">
-            <div class="empty">Paste or choose HTML and run an audit to see results.</div>
-          </div>
-          <p class="report-note" style="margin-top:10px">Performance checks inspect submitted source only; they cannot measure live network timing, Core Web Vitals, server behavior, or rendered layout.</p>
-        </article>
-
-        <article class="glass card span-12 hidden" id="exportCard">
-          <div class="card-head">
-            <h2>Export dashboard</h2>
-            <span class="eyebrow">Private local downloads</span>
-          </div>
-          <p class="report-note">Exports include findings and metrics, not the submitted HTML source.</p>
-          <div class="export-grid" style="margin-top:12px">
-            <button class="btn primary" id="jsonBtn" type="button" disabled>Export JSON</button>
-            <button class="btn" id="csvBtn" type="button" disabled>Export CSV</button>
-            <button class="btn" id="copyBtn" type="button" disabled>Copy summary</button>
-          </div>
-          <h3 class="section-title">Audit metrics</h3>
-          <div class="metric-grid" id="metricsGrid">
-            <div class="empty">Run an audit to populate metrics.</div>
-          </div>
-        </article>
-      </section>
     </main>
   </div>
-
-  <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
-
-  <script>
-  (() => {
-    'use strict';
-
-    const $ = (id) => document.getElementById(id);
-    const MAX_SIZE = 5 * 1024 * 1024;
-    const sourceEl = $('source');
-    const findingsEl = $('findings');
-    const themeSelect = $('themeSelect');
-    const navButtons = [...document.querySelectorAll('.nav button[data-view]')];
-
-    const state = {
-      report: null,
-      filter: 'all',
-      view: 'overview',
-      toastTimer: null
-    };
-
-    const sample = `<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Accessible sample page for FLUX</title>
-  <meta name="description" content="A sample page used to test HTML accessibility, SEO and static performance checks in FLUX.">
-  <link rel="canonical" href="https://example.com/sample">
-  <meta property="og:title" content="Accessible sample page">
-  <meta property="og:description" content="Example metadata for sharing previews.">
-  <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"WebPage","name":"Accessible sample page"}
-  <\/script>
-</head>
-<body>
-  <header><h1>Welcome</h1></header>
-  <main>
-    <p>Try the local HTML audit.</p>
-    <a href="#details">Read more</a>
-    <h2 id="details">Details</h2>
-    <img src="landscape.jpg" alt="A green hillside below a blue sky" width="800" height="500" loading="lazy">
-    <button type="button">Continue</button>
-  </main>
-</body>
-</html>`;
-
-    function clamp(v, min, max) {
-      return Math.min(Math.max(v, min), max);
-    }
-
-    function escapeHTML(value) {
-      return String(value).replace(/[&<>"']/g, (char) => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#39;'
-      }[char]));
-    }
-
-    function textContent(node) {
-      return (node && node.textContent || '').replace(/\s+/g, ' ').trim();
-    }
-
-    function hasAccessibleName(element, doc) {
-      const ariaLabel = (element.getAttribute('aria-label') || '').trim();
-      if (ariaLabel) return true;
-
-      const labelledBy = (element.getAttribute('aria-labelledby') || '').trim().split(/\s+/).filter(Boolean);
-      if (labelledBy.length && labelledBy.every((id) => !!textContent(doc.getElementById(id)))) {
-        return true;
-      }
-
-      if (element.tagName === 'INPUT' && ['button', 'submit', 'reset'].includes((element.type || '').toLowerCase())) {
-        return !!(element.value || '').trim();
-      }
-
-      if (element.tagName === 'IMG') {
-        return element.hasAttribute('alt') && !!element.getAttribute('alt').trim();
-      }
-
-      return !!textContent(element) || !!element.querySelector('img[alt]:not([alt=""])');
-    }
-
-    function addFinding(findings, category, severity, title, detail, fix = '') {
-      findings.push({ category, severity, title, detail, fix });
-    }
-
-    function notify(message) {
-      const toast = $('toast');
-      toast.textContent = message;
-      toast.classList.remove('hidden');
-      clearTimeout(state.toastTimer);
-      state.toastTimer = setTimeout(() => toast.classList.add('hidden'), 2600);
-    }
-
-    function setTheme(theme) {
-      document.body.dataset.theme = theme;
-      themeSelect.value = theme;
-      try {
-        localStorage.setItem('flux-theme', theme);
-      } catch (err) {
-        // Ignore storage failures.
-      }
-      requestAnimationFrame(drawChart);
-    }
-
-    function initTheme() {
-      let saved = 'system';
-      try {
-        saved = localStorage.getItem('flux-theme') || 'system';
-      } catch (err) {
-        // Ignore storage errors.
-      }
-      const allowed = ['system', 'light', 'dark', 'forest', 'midnight'];
-      setTheme(allowed.includes(saved) ? saved : 'system');
-
-      const media = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
-      if (media && media.addEventListener) {
-        media.addEventListener('change', () => {
-          if (themeSelect.value === 'system') {
-            requestAnimationFrame(drawChart);
-          }
-        });
-      }
-    }
-
-    function parseHTML(html) {
-      return new DOMParser().parseFromString(html, 'text/html');
-    }
-
-    function audit(html) {
-      const doc = parseHTML(html);
-      const findings = [];
-      const group = (category, passed, severity, title, detail, fix = '') => {
-        addFinding(findings, category, passed ? 'pass' : severity, title, passed ? `Passed: ${detail}` : detail, passed ? '' : fix);
-      };
-
-      const titleEl = doc.querySelector('title');
-      const titleText = textContent(titleEl);
-      const metaDescEl = doc.querySelector('meta[name="description" i]');
-      const metaDesc = (metaDescEl && metaDescEl.getAttribute('content') || '').trim();
-      const lang = (doc.documentElement.getAttribute('lang') || '').trim();
-      const images = [...doc.querySelectorAll('img')];
-      const links = [...doc.querySelectorAll('a[href]')];
-      const buttons = [...doc.querySelectorAll('button,input[type="button"],input[type="submit"],input[type="reset"]')];
-      const formControls = [...doc.querySelectorAll('input:not([type="hidden"]):not([type="button"]):not([type="submit"]):not([type="reset"]), select, textarea')];
-      const headings = [...doc.querySelectorAll('h1,h2,h3,h4,h5,h6')];
-      const h1s = [...doc.querySelectorAll('h1')];
-
-      // Accessibility checks
-      const badImages = images.filter((img) => !img.hasAttribute('alt'));
-      group('Accessibility', badImages.length === 0, 'error', 'Images have alt attributes', `${badImages.length} image(s) are missing alt attributes.`, 'Add meaningful alt text or alt="" for decorative imagery.');
-
-      const badLinks = links.filter((link) => !hasAccessibleName(link, doc));
-      group('Accessibility', badLinks.length === 0, 'error', 'Links have accessible names', `${badLinks.length} link(s) do not have a clear accessible name.`, 'Add descriptive link text or a valid aria-label/aria-labelledby reference.');
-
-      const badButtons = buttons.filter((button) => !hasAccessibleName(button, doc));
-      group('Accessibility', badButtons.length === 0, 'error', 'Buttons have accessible names', `${badButtons.length} button control(s) are missing a discernible name.`, 'Add visible text or a meaningful aria-label.');
-
-      const unlabeledControls = formControls.filter((field) => {
-        const id = field.id;
-        const explicitLabel = id && [...doc.querySelectorAll('label[for]')].some((label) => label.htmlFor === id && !!textContent(label));
-        return !explicitLabel && !field.closest('label') && !field.getAttribute('aria-label') && !field.getAttribute('aria-labelledby');
-      });
-      group('Accessibility', unlabeledControls.length === 0, 'error', 'Form controls are labeled', `${unlabeledControls.length} control(s) may lack a label or accessible name.`, 'Associate a visible label, use a valid aria-label, or reference an accessible name.');
-
-      const duplicateIds = [];
-      const seenIds = new Set();
-      doc.querySelectorAll('[id]').forEach((el) => {
-        const id = el.id;
-        if (id) {
-          if (seenIds.has(id)) duplicateIds.push(id);
-          seenIds.add(id);
-        }
-      });
-      group('Accessibility', duplicateIds.length === 0, 'error', 'IDs are unique', `${duplicateIds.length} duplicate ID value(s) detected.`, 'Renumber duplicate IDs and update each reference.');
-
-      const brokenAriaRefs = [];
-      doc.querySelectorAll('[aria-labelledby], [aria-describedby]').forEach((el) => {
-        ['aria-labelledby', 'aria-describedby'].forEach((attr) => {
-          const value = (el.getAttribute(attr) || '').trim();
-          if (!value) return;
-          value.split(/\s+/).filter(Boolean).forEach((id) => {
-            if (!doc.getElementById(id)) brokenAriaRefs.push(id);
-          });
-        });
-      });
-      group('Accessibility', brokenAriaRefs.length === 0, 'error', 'ARIA references resolve', `${brokenAriaRefs.length} ARIA reference(s) point to missing IDs.`, 'Update aria-labelledby/aria-describedby to match real element IDs.');
-
-      const invalidAriaValues = [];
-      ['aria-hidden', 'aria-expanded', 'aria-checked', 'aria-selected', 'aria-pressed', 'aria-required', 'aria-disabled'].forEach((attr) => {
-        doc.querySelectorAll('[' + attr + ']').forEach((el) => {
-          const value = (el.getAttribute(attr) || '').trim();
-          if (value && !/^(true|false|mixed)$/i.test(value)) {
-            invalidAriaValues.push(`${attr}=${value}`);
-          }
-        });
-      });
-      group('Accessibility', invalidAriaValues.length === 0, 'warning', 'ARIA boolean values are valid', `${invalidAriaValues.length} ARIA boolean value(s) are not valid.`, 'Use true, false, or mixed only where supported.');
-
-      group('Accessibility', !!lang, 'error', 'Document language is declared', 'The root html element is missing a valid lang attribute.', 'Set an accurate language value, such as lang="en" or lang="ur".');
-
-      // Semantics
-      group('Semantics', !!doc.querySelector('main, [role="main"]'), 'warning', 'Main landmark exists', 'No main landmark was found.', 'Wrap the primary content in a main element.');
-
-      let headingJumpCount = 0;
-      let previousLevel = 0;
-      headings.forEach((heading) => {
-        const level = Number(heading.tagName[1]);
-        if (previousLevel && level > previousLevel + 1) {
-          headingJumpCount += 1;
-        }
-        previousLevel = level;
-      });
-      group('Semantics', headingJumpCount === 0, 'warning', 'Heading hierarchy is logical', `${headingJumpCount} heading jump(s) were detected.`, 'Avoid skipping heading levels when introducing subsections.');
-
-      group('Semantics', h1s.length === 1, 'warning', 'One primary H1 is present', `Found ${h1s.length} H1 heading(s).`, 'Use one clear page-level heading unless the structure is intentionally multi-H1.');
-
-      const semanticRoles = new Set('alert alertdialog application article banner complementary contentinfo dialog document feed figure form grid gridcell group heading img list listbox listitem log main marquee math menu menubar menuitem menuitemcheckbox menuitemradio navigation none note option presentation progressbar radio radiogroup region row rowgroup search separator slider spinbutton status switch tab table tablist tabpanel textbox timer toolbar tooltip tree treegrid treeitem'.split(' '));
-      const invalidRoles = [...doc.querySelectorAll('[role]')].filter((el) => {
-        const roleValue = (el.getAttribute('role') || '').trim();
-        return roleValue && !roleValue.split(/\s+/).every((token) => semanticRoles.has(token));
-      });
-      group('Semantics', invalidRoles.length === 0, 'warning', 'ARIA roles are recognized', `${invalidRoles.length} role token(s) are not recognized.`, 'Use valid WAI-ARIA roles from the supported set.');
-
-      const tables = [...doc.querySelectorAll('table')];
-      const tablesWithoutHeaders = tables.filter((table) => !table.querySelector('th'));
-      group('Semantics', tablesWithoutHeaders.length === 0, 'warning', 'Tables include header cells', `${tablesWithoutHeaders.length} table(s) do not include header cells.`, 'Use th elements for data-table headers and add scope where appropriate.');
-
-      const brokenFragments = links.filter((link) => {
-        const href = (link.getAttribute('href') || '').trim();
-        if (!href.startsWith('#') || href === '#') return false;
-        let id = href.slice(1);
-        try { id = decodeURIComponent(id); } catch (err) {}
-        return !doc.getElementById(id);
-      });
-      group('Semantics', brokenFragments.length === 0, 'warning', 'Fragment links resolve', `${brokenFragments.length} in-page link target(s) are missing.`, 'Correct the fragment or add the matching target ID.');
-
-      // SEO checks
-      const titleLength = titleText.length;
-      const descriptionLength = metaDesc.length;
-      const canonicalLink = doc.querySelector('link[rel~="canonical" i]')?.getAttribute('href')?.trim() || '';
-      const robotsTag = (doc.querySelector('meta[name="robots" i]')?.getAttribute('content') || '').trim();
-      const jsonLdScripts = [...doc.querySelectorAll('script[type="application/ld+json" i]')];
-      let validJsonLd = 0;
-      let shapeJsonLd = 0;
-      jsonLdScripts.forEach((node) => {
-        try {
-          const value = JSON.parse(node.textContent || '');
-          validJsonLd += 1;
-          const items = Array.isArray(value) ? value : [value];
-          if (items.every((item) => item && typeof item === 'object' && ('@type' in item || '@graph' in item))) {
-            shapeJsonLd += 1;
-          }
-        } catch (err) {
-          // Invalid JSON-LD: counted as invalid below.
-        }
-      });
-
-      group('SEO', !!titleText, 'error', 'Document title exists', 'No non-empty document title was found.', 'Add an accurate, unique title in the head.');
-      group('SEO', titleLength >= 20 && titleLength <= 70, 'warning', 'Title length is in a useful range', `Title length is ${titleLength} characters.`, 'Aim for a concise title typically between 20 and 70 characters.');
-      group('SEO', !!metaDesc, 'warning', 'Meta description exists', 'The page description is missing or empty.', 'Add a brief, accurate summary to the description meta tag.');
-      group('SEO', descriptionLength >= 50 && descriptionLength <= 160, 'warning', 'Description length is reasonable', `Description length is ${descriptionLength} characters.`, 'Keep the meta description brief and informative.');
-      group('SEO', !!doc.querySelector('meta[name="viewport" i]'), 'warning', 'Viewport metadata exists', 'The responsive viewport meta tag is missing.', 'Add <meta name="viewport" content="width=device-width, initial-scale=1">.');
-      group('SEO', !!doc.querySelector('meta[property="og:title" i]') && !!doc.querySelector('meta[property="og:description" i]'), 'warning', 'Open Graph basics are present', 'One or more Open Graph basic tags are missing.', 'Add og:title and og:description with page-accurate values.');
-      group('SEO', !!canonicalLink, 'warning', 'Canonical URL is declared', 'No canonical link was detected.', 'Add a canonical URL when the page has a preferred address.');
-
-      if (canonicalLink) {
-        let canonicalValid = false;
-        try {
-          const url = new URL(canonicalLink);
-          canonicalValid = ['http:', 'https:'].includes(url.protocol);
-        } catch (err) {
-          canonicalValid = false;
-        }
-        group('SEO', canonicalValid, 'warning', 'Canonical URL is valid', 'The canonical value does not resolve to a valid absolute HTTP(S) URL.', 'Use an absolute HTTP(S) URL for the canonical tag.');
-      }
-
-      group('SEO', !/noindex|nofollow/i.test(robotsTag), 'warning', 'Robots directives do not block indexing', 'A robots meta directive appears to restrict indexing or crawling.', 'Remove noindex/nofollow directives unless intentionally required.');
-
-      group('SEO', jsonLdScripts.length === 0 || validJsonLd === jsonLdScripts.length, 'warning', 'JSON-LD syntax parses', `${jsonLdScripts.length - validJsonLd} JSON-LD script(s) are invalid JSON.`, 'Fix JSON syntax within each JSON-LD block.');
-      group('SEO', jsonLdScripts.length === 0 || shapeJsonLd === jsonLdScripts.length, 'warning', 'JSON-LD shape is recognizable', `${jsonLdScripts.length - shapeJsonLd} valid JSON-LD block(s) do not look like a schema object.`, 'Use a top-level object that includes @type or @graph.');
-
-      // Performance heuristics (static source checks only)
-      const bytes = new TextEncoder().encode(html).length;
-      const inlineCss = [...html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style\s*>/gi)].reduce((total, match) => total + match[1].length, 0);
-      const inlineJs = [...html.matchAll(/<script(?![^>]*\bsrc\s*=)[^>]*>([\s\S]*?)<\/script\s*>/gi)].reduce((total, match) => total + match[1].length, 0);
-      const externalScripts = [...doc.querySelectorAll('script[src]')];
-      const stylesheets = [...doc.querySelectorAll('link[rel~="stylesheet" i]')];
-      const parserBlockingScripts = externalScripts.filter((script) => !script.hasAttribute('defer') && !script.hasAttribute('async') && script.getAttribute('type') !== 'module').length;
-      const noDimensions = images.filter((img) => !img.hasAttribute('width') || !img.hasAttribute('height')).length;
-      const noLoading = images.filter((img) => !img.hasAttribute('loading') && !img.hasAttribute('fetchpriority')).length;
-      const dataUriImages = (html.match(/data:image\/[^;]+;base64,[A-Za-z0-9+/=]{50000,}/gi) || []).length;
-
-      group('Performance', bytes < 500000, 'warning', 'Source payload is modest', `Source size is ${(bytes / 1024).toFixed(1)} KB.`, 'Reduce unnecessary markup or embedded assets if the document is large.');
-      group('Performance', inlineCss < 20000, 'warning', 'Inline CSS stays compact', `Inline CSS is ${(inlineCss / 1024).toFixed(1)} KB.`, 'Consider minifying or moving larger style blocks out of the HTML.');
-      group('Performance', inlineJs < 30000, 'warning', 'Inline JS stays compact', `Inline JS is ${(inlineJs / 1024).toFixed(1)} KB.`, 'Consider deferring or externalizing non-critical scripts.');
-      group('Performance', parserBlockingScripts === 0, 'warning', 'External scripts avoid parser blocking', `${parserBlockingScripts} external script(s) do not use async/defer/module.`, 'Use async or defer when execution order allows it.');
-      group('Performance', externalScripts.length + stylesheets.length <= 6, 'warning', 'Dependency count is moderate', `${externalScripts.length} scripts and ${stylesheets.length} stylesheets were found.`, 'Review third-party or standalone dependencies for unnecessary weight.');
-      group('Performance', noDimensions === 0, 'warning', 'Images specify dimensions', `${noDimensions} image(s) are missing width or height.`, 'Set explicit width and height attributes to reduce layout shift.');
-      group('Performance', noLoading === 0, 'warning', 'Images provide loading hints', `${noLoading} image(s) do not declare loading or fetchpriority.`, 'Add loading="lazy" for below-the-fold images and prioritize hero imagery.');
-      group('Performance', dataUriImages === 0, 'warning', 'No large embedded data URIs were detected', `${dataUriImages} large embedded data URI image(s) were detected.`, 'Prefer optimized local image assets instead of large base64 payloads.');
-
-      const categoryScores = {};
-      const categoryWeight = { Accessibility: 0.30, Semantics: 0.20, SEO: 0.30, Performance: 0.20 };
-      ['Accessibility', 'Semantics', 'SEO', 'Performance'].forEach((cat) => {
-        const arr = findings.filter((item) => item.category === cat);
-        if (!arr.length) {
-          categoryScores[cat] = 100;
-          return;
-        }
-        const errors = arr.filter((item) => item.severity === 'error').length;
-        const warnings = arr.filter((item) => item.severity === 'warning').length;
-        const score = clamp(100 - (errors * 18) - (warnings * 8), 0, 100);
-        categoryScores[cat] = score;
-      });
-
-      const weightedTotal = Object.entries(categoryScores).reduce((sum, [cat, num]) => sum + (num * categoryWeight[cat]), 0);
-      const weightSum = Object.values(categoryWeight).reduce((sum, value) => sum + value, 0);
-      const overallScore = Math.round(weightedTotal / weightSum);
-
-      const counts = {
-        error: findings.filter((item) => item.severity === 'error').length,
-        warning: findings.filter((item) => item.severity === 'warning').length,
-        pass: findings.filter((item) => item.severity === 'pass').length
-      };
-
-      return {
-        generatedAt: new Date().toISOString(),
-        counts,
-        overallScore,
-        categoryScores,
-        findings,
-        metrics: {
-          sourceBytes: bytes,
-          titleLength,
-          descriptionLength,
-          canonicalPresent: !!canonicalLink,
-          openGraphTitle: !!doc.querySelector('meta[property="og:title" i]'),
-          openGraphDescription: !!doc.querySelector('meta[property="og:description" i]'),
-          openGraphImage: !!doc.querySelector('meta[property="og:image" i]'),
-          jsonLdBlocks: jsonLdScripts.length,
-          validJsonLdBlocks: validJsonLd,
-          recognizedJsonLdBlocks: shapeJsonLd,
-          headingCount: h1s.length,
-          imageCount: images.length,
-          missingAlt: badImages.length,
-          imagesMissingDimensions: noDimensions,
-          imagesWithoutLoadingHint: noLoading,
-          externalScripts: externalScripts.length,
-          stylesheets: stylesheets.length,
-          parserBlockingScripts,
-          largeDataUriImages: dataUriImages,
-          robotsDirective: robotsTag || 'not specified'
-        }
-      };
-    }
-
-    function renderFindings() {
-      if (!state.report) {
-        findingsEl.innerHTML = '<div class="empty">Paste or choose HTML and run an audit to see results.</div>';
-        return;
-      }
-
-      const categoryMatch = {
-        overview: () => true,
-        accessibility: (item) => item.category === 'Accessibility' || item.category === 'Semantics',
-        seo: (item) => item.category === 'SEO',
-        performance: (item) => item.category === 'Performance'
-      };
-
-      const visibleItems = state.report.findings.filter((item) => categoryMatch[state.view](item));
-      const filteredItems = visibleItems.filter((item) => state.filter === 'all' || item.severity === state.filter);
-
-      const headings = {
-        overview: 'Audit findings',
-        accessibility: 'Accessibility and semantics',
-        seo: 'SEO findings',
-        performance: 'Performance findings'
-      };
-      $('findingsHeading').textContent = headings[state.view] || 'Audit findings';
-      $('findingsCount').textContent = `${visibleItems.length} checks · ${filteredItems.length} shown`;
-
-      findingsEl.innerHTML = filteredItems.length
-        ? filteredItems.map((item) => `
-            <article class="finding ${item.severity}">
-              <div class="finding-head">
-                <h3>${escapeHTML(item.title)}</h3>
-                <span class="badge">${escapeHTML(item.category)} · ${escapeHTML(item.severity)}</span>
-              </div>
-              <p>${escapeHTML(item.detail)}</p>
-              ${item.fix ? `<p><strong>Suggested action:</strong> ${escapeHTML(item.fix)}</p>` : ''}
-            </article>
-          `).join('')
-        : '<div class="empty">No findings match this filter.</div>';
-
-      document.querySelectorAll('.filter').forEach((button) => {
-        button.setAttribute('aria-pressed', String(button.dataset.filter === state.filter));
-      });
-    }
-
-    function drawChart() {
-      const canvas = $('distributionChart');
-      if (!canvas) return;
-
-      const ctx = canvas.getContext('2d');
-      const rect = canvas.getBoundingClientRect();
-      if (!rect.width) return;
-
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = Math.round(rect.width * dpr);
-      canvas.height = Math.round(rect.height * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      const w = rect.width;
-      const h = rect.height;
-      const cx = w / 2;
-      const cy = h / 2;
-      const outer = Math.min(58, h * 0.38);
-      const inner = outer * 0.63;
-
-      ctx.clearRect(0, 0, w, h);
-
-      const vals = state.report ? [state.report.counts.error, state.report.counts.warning, state.report.counts.pass] : [0, 0, 0];
-      const total = vals.reduce((a, b) => a + b, 0);
-      const css = getComputedStyle(document.body);
-      const colors = [css.getPropertyValue('--bad').trim(), css.getPropertyValue('--warn').trim(), css.getPropertyValue('--good').trim()];
-
-      if (total === 0) {
-        ctx.beginPath();
-        ctx.arc(cx, cy, outer, 0, 2 * Math.PI);
-        ctx.strokeStyle = css.getPropertyValue('--line').trim();
-        ctx.lineWidth = outer - inner;
-        ctx.stroke();
-      } else {
-        let start = -Math.PI / 2;
-        vals.forEach((value, index) => {
-          if (!value) return;
-          const end = start + (value / total) * (Math.PI * 2);
-          ctx.beginPath();
-          ctx.arc(cx, cy, outer, start, end);
-          ctx.strokeStyle = colors[index];
-          ctx.lineWidth = outer - inner;
-          ctx.stroke();
-          start = end;
-        });
-      }
-
-      ctx.fillStyle = css.getPropertyValue('--ink').trim();
-      ctx.font = '700 19px system-ui';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(String(total), cx, cy - 4);
-      ctx.fillStyle = css.getPropertyValue('--muted').trim();
-      ctx.font = '10px system-ui';
-      ctx.fillText('checks', cx, cy + 13);
-    }
-
-    function renderSummary() {
-      if (!state.report) return;
-
-      const { counts, overallScore, categoryScores, metrics } = state.report;
-      $('errorCount').textContent = counts.error;
-      $('warningCount').textContent = counts.warning;
-      $('passCount').textContent = counts.pass;
-      $('sizeCount').textContent = metrics.sourceBytes >= 1024 ? `${(metrics.sourceBytes / 1024).toFixed(1)} KB` : `${metrics.sourceBytes} B`;
-
-      $('overallScore').textContent = overallScore;
-      $('overallRing').style.setProperty('--score', overallScore);
-      $('auditState').textContent = 'Audit complete';
-      $('scoreLabel').textContent = overallScore >= 90 ? 'Strong source signals' : overallScore >= 70 ? 'Improvements recommended' : 'Review key issues';
-      $('scoreCaption').textContent = 'Weighted static heuristic; not a certification.';
-
-      $('scoreBars').innerHTML = Object.entries(categoryScores).map(([category, score]) => `
-        <div class="bar-row">
-          <span>${escapeHTML(category)}</span>
-          <div class="bar-track"><div class="bar-fill" style="width:${score}%"></div></div>
-          <span class="bar-value">${score}</span>
-        </div>
-      `).join('');
-
-      $('metricsGrid').innerHTML = Object.entries(categoryScores).map(([category, score]) => `
-        <div class="metric"><b>${escapeHTML(category)} score</b><span>${score}/100 weighted heuristic</span></div>
-      `).join('') + `
-         <div class="metric"><b>Source</b><span>${(metrics.sourceBytes / 1024).toFixed(1)} KB</span></div>
-         <div class="metric"><b>Title</b><span>${metrics.titleLength} characters</span></div>
-         <div class="metric"><b>JSON-LD</b><span>${metrics.validJsonLdBlocks}/${metrics.jsonLdBlocks} valid</span></div>
-         <div class="metric"><b>Images</b><span>${metrics.imageCount} found</span></div>
-      `;
-
-      drawChart();
-    }
-
-    function showView(view) {
-      state.view = view;
-      navButtons.forEach((button) => button.classList.toggle('active', button.dataset.view === view));
-
-      const titles = {
-        overview: ['Audit overview', 'Inspect HTML quality, accessibility, SEO and performance signals.'],
-        accessibility: ['Accessibility audit', 'Review structural and accessibility quality indicators.'],
-        seo: ['SEO audit', 'Check metadata, canonical tags and structured data.'],
-        performance: ['Performance audit', 'Review static source hints only—no live performance timings.'],
-        export: ['Export dashboard', 'Download the latest audit as JSON or CSV.']
-      };
-
-      const info = titles[view] || titles.overview;
-      $('viewTitle').textContent = info[0];
-      $('viewSubtitle').textContent = info[1];
-
-      $('exportCard').classList.toggle('hidden', view !== 'export');
-      $('findingsCard').classList.toggle('hidden', view === 'export');
-      renderFindings();
-    }
-
-    function exportJson() {
-      if (!state.report) return;
-      download('flux-audit-report.json', JSON.stringify(state.report, null, 2), 'application/json;charset=utf-8');
-    }
-
-    function exportCsv() {
-      if (!state.report) return;
-      const rows = [
-        ['category', 'severity', 'title', 'detail', 'suggested_action'],
-        ...state.report.findings.map((item) => [item.category, item.severity, item.title, item.detail, item.fix])
-      ];
-      const csv = rows.map((row) => row.map((cell) => `"${String(cell || '').replace(/"/g, '""')}"`).join(',')).join('\r\n');
-      download('flux-audit-findings.csv', csv, 'text/csv;charset=utf-8');
-    }
-
-    async function copySummary() {
-      if (!state.report) return;
-      const summary = [
-        'FLUX audit report',
-        `Generated: ${state.report.generatedAt}`,
-        `Overall score: ${state.report.overallScore}/100 (weighted heuristic)`,
-        `Errors: ${state.report.counts.error} | Suggestions: ${state.report.counts.warning} | Passed: ${state.report.counts.pass}`,
-        `Category scores: ${Object.entries(state.report.categoryScores).map(([key, value]) => `${key}: ${value}`).join(' | ')}`,
-        'Static checks only; no real browser timing or WCAG certification.'
-      ].join('\n');
-
-      try {
-        await navigator.clipboard.writeText(summary);
-        notify('Audit summary copied.');
-      } catch (err) {
-        notify('Clipboard access is unavailable in this browser.');
-      }
-    }
-
-    function download(name, data, type) {
-      const blob = new Blob([data], { type });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = name;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1200);
-    }
-
-    function conservativeFix(html) {
-      const doc = parseHTML(html);
-      const head = doc.head || doc.querySelector('head');
-      if (head && !doc.querySelector('meta[charset]')) {
-        const meta = doc.createElement('meta');
-        meta.setAttribute('charset', 'utf-8');
-        head.prepend(meta);
-      }
-      if (head && !doc.querySelector('meta[name="viewport" i]')) {
-        const meta = doc.createElement('meta');
-        meta.setAttribute('name', 'viewport');
-        meta.setAttribute('content', 'width=device-width, initial-scale=1');
-        head.appendChild(meta);
-      }
-      return '<!doctype html>\n' + doc.documentElement.outerHTML;
-    }
-
-    async function runAudit(html = sourceEl.value) {
-      if (!html.trim()) {
-        notify('Paste HTML or select a file first.');
-        return;
-      }
-
-      $('analyzeBtn').disabled = true;
-      $('analyzeBtn').textContent = 'Analyzing…';
-      $('status').textContent = 'Analyzing locally…';
-
-      await new Promise((resolve) => setTimeout(resolve, 20));
-
-      try {
-        state.report = audit(html);
-        renderSummary();
-        renderFindings();
-        $('status').textContent = 'Audit complete. Source was processed locally and not uploaded.';
-      } catch (error) {
-        notify(`Could not analyze HTML: ${error.message}`);
-        $('status').textContent = 'Analysis failed; review the source and try again.';
-      } finally {
-        $('analyzeBtn').disabled = false;
-        $('analyzeBtn').textContent = 'Analyze HTML';
-      }
-    }
-
-    $('analyzeBtn').addEventListener('click', () => runAudit());
-
-    $('sampleBtn').addEventListener('click', () => {
-      sourceEl.value = sample;
-      runAudit();
-    });
-
-    $('clearBtn').addEventListener('click', () => {
-      sourceEl.value = '';
-      state.report = null;
-      state.filter = 'all';
-      $('findings').innerHTML = '<div class="empty">Paste or choose HTML and run an audit to see results.</div>';
-      $('scoreBars').innerHTML = '<div class="empty">Run an audit to see category scores.</div>';
-      ['errorCount', 'warningCount', 'passCount', 'sizeCount', 'overallScore'].forEach((id) => {
-        $(id).textContent = '—';
-      });
-      $('auditState').textContent = 'Awaiting source';
-      $('scoreLabel').textContent = 'Ready to audit';
-      $('scoreCaption').textContent = 'Run an audit to calculate category scores.';
-      $('metricsGrid').innerHTML = '<div class="empty">Run an audit to populate metrics.</div>';
-      $('jsonBtn').disabled = true;
-      $('csvBtn').disabled = true;
-      $('copyBtn').disabled = true;
-      $('downloadHtmlBtn').disabled = true;
-      $('fixBtn').disabled = true;
-      $('status').textContent = 'Cleared. Nothing is stored or uploaded.';
-      drawChart();
-    });
-
-    $('fileInput').addEventListener('change', async (event) => {
-      const file = event.target.files && event.target.files[0];
-      if (!file) return;
-      if (!/\.html?$/i.test(file.name)) {
-        notify('Choose an .html or .htm file.');
-        event.target.value = '';
-        return;
-      }
-      if (file.size > MAX_SIZE) {
-        notify('File is larger than 5 MB.');
-        event.target.value = '';
-        return;
-      }
-      try {
-        sourceEl.value = await file.text();
-        $('status').textContent = `Loaded ${file.name}; source remains local.`;
-        runAudit();
-      } catch (err) {
-        notify('Could not read that file.');
-      }
-    });
-
-    $('fixBtn').addEventListener('click', () => {
-      if (!sourceEl.value.trim()) return;
-      sourceEl.value = conservativeFix(sourceEl.value);
-      runAudit();
-    });
-
-    $('downloadHtmlBtn').addEventListener('click', () => {
-      if (!sourceEl.value.trim()) return;
-      download('flux-checked.html', sourceEl.value, 'text/html;charset=utf-8');
-    });
-
-    $('jsonBtn').addEventListener('click', exportJson);
-    $('csvBtn').addEventListener('click', exportCsv);
-    $('copyBtn').addEventListener('click', copySummary);
-
-    themeSelect.addEventListener('change', (event) => setTheme(event.target.value));
-    $('themeToggle').addEventListener('click', () => {
-      const current = themeSelect.value;
-      const dark = current === 'dark' || current === 'midnight' || (current === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-      setTheme(dark ? 'light' : 'dark');
-    });
-
-    $('collapseBtn').addEventListener('click', () => {
-      const sidebar = $('sidebar');
-      const collapsed = sidebar.classList.toggle('collapsed');
-      $('collapseBtn').setAttribute('aria-expanded', String(!collapsed));
-      $('collapseBtn').setAttribute('aria-label', collapsed ? 'Expand sidebar' : 'Collapse sidebar');
-      const navText = $('collapseBtn').querySelector('.nav-text');
-      if (navText) navText.textContent = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
-    });
-
-    navButtons.forEach((button) => {
-      button.addEventListener('click', () => showView(button.dataset.view));
-    });
-
-    document.querySelectorAll('.filter').forEach((button) => {
-      button.addEventListener('click', () => {
-        state.filter = button.dataset.filter;
-        renderFindings();
-      });
-    });
-
-    window.addEventListener('resize', () => requestAnimationFrame(drawChart));
-
-    initTheme();
-    drawChart();
-  })();
-  </script>
 </body>
 </html>
